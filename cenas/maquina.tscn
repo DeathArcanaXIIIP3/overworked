@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8nyals8ucpli"]
+
+[ext_resource type="Script" path="res://maquina.gd" id="1_1aisd"]
+
+[node name="Maquina" type="Node2D"]
+script = ExtResource("1_1aisd")
+
+[node name="Textura" type="Sprite2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA" from="." to="." method="_on_funcionario_começou_a_operar_maquina"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
