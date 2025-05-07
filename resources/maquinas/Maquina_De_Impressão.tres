@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MaquinaData" load_steps=2 format=3 uid="uid://5hrrcjtndksh"]
+
+[ext_resource type="Script" path="res://scripts/resources/maquinaData.gd" id="1_toatg"]
+
+[resource]
+script = ExtResource("1_toatg")
+"tempoDeExecução" = 3
+"taxaDeSegurança" = 0.9
+renda = 100
+custoInicial = 0
+isDisponivel = true
