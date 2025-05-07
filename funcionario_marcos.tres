@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FuncionarioData" load_steps=2 format=3 uid="uid://c8c0ijatvdve1"]
+
+[ext_resource type="Script" uid="uid://cblp3reullxd6" path="res://FuncionarioData.gd" id="1_met5x"]
+
+[resource]
+script = ExtResource("1_met5x")
+Taxa_de_sobrevivencia = 0.0
+Medo = 0.0
+Produtividade = 0.0
+"Preço_do_funcionario" = 0
+metadata/_custom_type_script = "uid://cblp3reullxd6"
