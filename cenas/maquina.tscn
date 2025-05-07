@@ -11,4 +11,6 @@ script = ExtResource("1_1aisd")
 one_shot = true
 
 [connection signal="FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA" from="." to="." method="_on_funcionario_começou_a_operar_maquina"]
+[connection signal="FUNCIONARIO_MORREU_NA_MAQUINA" from="." to="." method="_on_funcionario_morreu_na_maquina"]
+[connection signal="FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA" from="." to="." method="_on_funcionario_parou_de_operar_maquina"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

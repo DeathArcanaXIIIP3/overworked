@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_toatg")
 "tempoDeExecução" = 3
-"taxaDeSegurança" = 0.9
+taxaDeAcidente = 90.0
 renda = 100
 custoInicial = 0
 isDisponivel = true
