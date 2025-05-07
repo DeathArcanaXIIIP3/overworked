@@ -21,7 +21,9 @@ var isDisponivel: bool
 func _ready() -> void:
 	atributos = [tempoDeExecução,taxaDeAcidente,renda,custo, isDisponivel]
 	
-	var maqDataTemp = preload("res://resources/maquinas/Maquina_De_Impressão.tres") #PARA TESTES APENAS, APAGAR DEPOIS
+	randomize() #ATÉ LINHA 33, TUDO PARA TESTES APENAS, APAGAR DEPOIS
+	
+	var maqDataTemp = preload("res://resources/maquinas/Maquina_De_Impressão.tres") 
 	var funcDataTemp = preload("res://resources/funcionarios/Fulano.tres")
 	var funcionarioTemp = preload("res://cenas/funcionario.tscn").instantiate()
 	
@@ -59,9 +61,9 @@ func adicionarFuncionario(funcionario: Funcionario):
 	pass
 
 func tentarMatarFuncionario():
-	var taxaSucesso = funcionarioAtual.Taxa_de_sobrevivencia * taxaDeAcidente
+	var taxaFalha = funcionarioAtual.Taxa_de_sobrevivencia * taxaDeAcidente
 	var resultado = randf()
-	if resultado <= taxaSucesso:
+	if resultado <= taxaFalha:
 		print(resultado)
 		print(funcionarioAtual.Nome, " Morreu")
 		FUNCIONARIO_MORREU_NA_MAQUINA.emit()
