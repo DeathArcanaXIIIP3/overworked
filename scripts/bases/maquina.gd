@@ -22,7 +22,7 @@ func _ready() -> void:
 	atributos = [tempoDeExecução,taxaDeAcidente,renda,custo, isDisponivel]
 	pass
 #-----------Funções-----------------#
-func setup(maquinaData):
+func setup(maquinaData: MaquinaData):
 	self.tempoDeExecução = maquinaData.tempoDeExecução
 	self.taxaDeAcidente = maquinaData.taxaDeAcidente
 	self.renda = maquinaData.renda
