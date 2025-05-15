@@ -20,17 +20,6 @@ var isDisponivel: bool
 #----------------Funções do Godot------------#
 func _ready() -> void:
 	atributos = [tempoDeExecução,taxaDeAcidente,renda,custo, isDisponivel]
-	
-	randomize() #ATÉ LINHA 33, TUDO PARA TESTES APENAS, APAGAR DEPOIS
-	
-	var maqDataTemp = preload("res://resources/maquinas/Maquina_De_Impressão.tres") 
-	var funcDataTemp = preload("res://resources/funcionarios/Fulano.tres")
-	var funcionarioTemp = preload("res://cenas/funcionario.tscn").instantiate()
-	
-	setup(maqDataTemp)
-	funcionarioTemp.inicializacao(funcDataTemp)
-	
-	adicionarFuncionario(funcionarioTemp)
 	pass
 #-----------Funções-----------------#
 func setup(maquinaData):
