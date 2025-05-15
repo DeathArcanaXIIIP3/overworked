@@ -12,10 +12,12 @@ var tempoDeExecução: int
 var taxaDeAcidente: float
 var renda: int
 var custo: int
-var texture: Texture2D
+var texture: Sprite2D
 var funcionarioAtual
 
 var isDisponivel: bool
+
+@onready var nodeTextura = $Textura
 
 #----------------Funções do Godot------------#
 func _ready() -> void:
@@ -28,6 +30,7 @@ func setup(maquinaData: MaquinaData):
 	self.renda = maquinaData.renda
 	self.custo = maquinaData.custoInicial
 	self.isDisponivel = maquinaData.isDisponivel
+	self.nodeTextura.texture = maquinaData.texture
 
 func alternarDisponibilidade():
 	match isDisponivel:

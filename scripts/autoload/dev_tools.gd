@@ -16,10 +16,10 @@ func _on_button_2_pressed() -> void:
 
 func factory_funcionario(data: FuncionarioData):
 	var funcionario = preload("res://cenas/funcionario.tscn").instantiate()
-	funcionario.inicializacao(data)
 	add_child(funcionario)
+	funcionario.inicializacao(data)
 
 func factory_maquina(data: MaquinaData):
 	var maquina = preload("res://cenas/maquina.tscn").instantiate()
-	maquina.setup(data)
 	add_child(maquina)
+	maquina.setup(data)
