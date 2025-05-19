@@ -18,6 +18,29 @@ func _ready() -> void:
 	
 	pass
 
+
+func get_almas() -> int:
+	return almas
+	
+
+func set_almas(almas_value: int) -> void:
+	almas = almas_value
+	pass
+
+func get_dinheiro() -> int:
+	return dinheiro
+
+func set_dinheiro(dinheiro_value: int) -> void:
+	dinheiro = dinheiro_value
+	pass
+
+func get_fama() -> float:
+	return fama
+
+func set_fama(fama_value: float) -> void:
+	fama = fama_value
+	pass
+
 func add_dinheiro(adicionar: int) -> void:
 	dinheiro = dinheiro + adicionar
 	pass
@@ -42,18 +65,18 @@ func sub_fama(subtrair: float) -> void:
 	fama = fama - subtrair
 	pass
 
-func adicionar_inventario_funcionarios(funcionario_selecionado: Funcionario) -> void:
+func adicionar_funcionarios(funcionario_selecionado: Funcionario) -> void:
 	inventario_funcionarios.append(funcionario_selecionado)
 	pass
 
-func retirar_inventario_funcionarios(funcionario_selecionado: Funcionario) -> void:
+func retirar_funcionarios(funcionario_selecionado: Funcionario) -> void:
 	inventario_funcionarios.erase(funcionario_selecionado)
 	pass
 
-func adicionar_inventario_maquinas(maquina_selecionada: Maquina) -> void:
+func adicionar_maquinas(maquina_selecionada: Maquina) -> void:
 	inventario_maquinas.append(maquina_selecionada)
 	pass
 
-func retirar_inventario_maquinas(maquina_selecionada: Maquina) -> void:
+func retirar_maquinas(maquina_selecionada: Maquina) -> void:
 	inventario_maquinas.erase(maquina_selecionada)
 	pass
