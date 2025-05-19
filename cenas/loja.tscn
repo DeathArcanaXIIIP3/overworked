@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6ar3eay46gdr"]
+
+[ext_resource type="Script" uid="uid://5fsof2mg7n4x" path="res://cenas/loja.gd" id="1_76rrw"]
+[ext_resource type="Script" uid="uid://btpymylhwpvln" path="res://cenas/menu_loja.gd" id="2_sl1c7"]
+
+[node name="Loja" type="Node2D"]
+script = ExtResource("1_76rrw")
+
+[node name="menu_loja" type="TabContainer" parent="."]
+offset_left = -260.0
+offset_top = -61.0
+offset_right = 1004.0
+offset_bottom = 516.0
+script = ExtResource("2_sl1c7")

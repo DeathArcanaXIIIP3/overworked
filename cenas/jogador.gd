@@ -21,7 +21,6 @@ func _ready() -> void:
 
 func get_almas() -> int:
 	return almas
-	
 
 func set_almas(almas_value: int) -> void:
 	almas = almas_value
