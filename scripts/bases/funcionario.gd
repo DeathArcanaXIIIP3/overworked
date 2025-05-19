@@ -2,132 +2,207 @@ extends Node2D
 
 class_name Funcionario
 
-var Nome: String
-var Taxa_de_sobrevivencia: float
-var Medo: float
-var Produtividade: float
-var Preço_do_funcionario: int
+const MEDO_LIMITE_ALTO = 0.8
+const MEDO_LIMITE_MAXIMO = 1.0
+const INCREMENTO_MEDO_PADRAO = 0.1
+
+var nome: String
+var taxaDeSobrevivencia: float
+var medo: float
+var produtividade: float
+var precoDoFuncionario: int
 var isDisponivel: bool
-var Multiplicador_de_medo: float
-var Medo_total: int
-var Contrato: int
-var Chance_de_sobrevivencia: float
+var multiplicadorDeMedo: float
+var medoTotal: int
+var contrato: int
+var chanceDeSobrevivencia: float
 
 # Getter para o nome
-func get_nome() -> String:
-	return Nome
+func getNome() -> String:
+	return nome
 
 # Setter para o nome
-func set_nome(novo_nome: String) -> void:
-	Nome = novo_nome
-	print("Nome alterado para: ", novo_nome)
+func setNome(novoNome: String) -> void:
+	nome = novoNome
+	print("Nome alterado para: ", novoNome)
 
 # Getter para a produtividade
-func get_produtividade() -> float:
-	return Produtividade
+func getProdutividade() -> float:
+	return produtividade
+
+func isProdutividadeValida(valor: float) -> bool:
+	return valor >= 0
+
+func notificarErroProdutividade() -> void:
+	print("A produtividade não pode ser negativa.")
+
 
 # Setter para a produtividade
-func set_produtividade(nova_produtividade: float) -> void:
-	if nova_produtividade >= 0:
-		Produtividade = nova_produtividade
+func setProdutividade(novaProdutividade: float) -> void:
+	if isProdutividadeValida(novaProdutividade):
+		produtividade = novaProdutividade
 	else:
-		print("A produtividade não pode ser negativa.")
+		notificarErroProdutividade()
+
+		
+# Checa a produtividade
+func checarProdutividade(fator: float) -> float:
+	return clamp(fator, 0, 100)
 
 # Atualiza a produtividade
-func atualizar_produtividade(fator: float) -> void:
-	Produtividade += fator
-	if Produtividade < 0:
-		Produtividade = 0
-	print("Produtividade atualizada para: ", Produtividade)
+func atualizarProdutividade(fator: float) -> void:
+	produtividade += fator
+	produtividade = checarProdutividade(produtividade)
+	notificarAtualizacaoProdutividade()
+
+
+func notificarAtualizacaoProdutividade() -> void:
+	print("Produtividade atualizada para: ", produtividade)
+
 
 # Atualiza o medo para mais 10%
-func atualizar_medo() -> void:
-	if Medo < 1.0:
-		Medo += 0.1
-		if Medo > 1.0:
-			print("Medo máximo atingido\n")
-			Medo = 1.0
-	print("Medo atualizado para: ", Medo)
+func incrementarMedo(incremento: float) -> void:
+	medo += incremento
+	medo = clamp(medo, 0, 1)
+	
+func checarMedoMaximo() -> bool:
+	return medo >= MEDO_LIMITE_MAXIMO
+	
+func notificarMedoMaximo() -> void:
+	print("Medo máximo atingido\n")
+	
+func atualizarMedo() -> void:
+	incrementarMedo(INCREMENTO_MEDO_PADRAO)
+	if checarMedoMaximo():
+		notificarMedoMaximo()
+	print("Medo atualizado para: ", medo)
 
 # Getter para a taxa de sobrevivência
-func get_taxa_de_sobrevivencia() -> float:
-	return Taxa_de_sobrevivencia
+func getTaxaDeSobrevivencia() -> float:
+	return taxaDeSobrevivencia
 
 # Setter para a taxa de sobrevivência
-func set_taxa_de_sobrevivencia(nova_taxa: float) -> void:
-	if nova_taxa >= 0 and nova_taxa <= 1:
-		Taxa_de_sobrevivencia = nova_taxa
+func isTaxaValida(valor: float) -> bool:
+	return valor >= 0 and valor <= 1
+	
+func notificarTaxaInvalida() -> void:
+	print("Taxa de sobrevivência inválida. Deve ser entre 0 e 1.")
+	
+func setTaxaDeSobrevivencia(novaTaxa: float) -> void:
+	if isTaxaValida(novaTaxa):
+		taxaDeSobrevivencia = novaTaxa
 	else:
-		print("Taxa de sobrevivência inválida. Deve ser entre 0 e 1.")
+		notificarTaxaInvalida()
 
 # Getter para o preço do funcionário
-func get_preco_do_funcionario() -> int:
-	return Preço_do_funcionario
+func getPrecoDoFuncionario() -> int:
+	return precoDoFuncionario
 
 # Setter para o preço do funcionário
-func set_preco_do_funcionario(novo_preco: int) -> void:
-	if novo_preco >= 0:
-		Preço_do_funcionario = novo_preco
+func isPrecoValido(valor: int) -> bool:
+	return valor >= 0
+	
+func notificarPrecoInvalido() -> void:
+	print("O preço do funcionário não pode ser negativo.")
+	
+func setPrecoDoFuncionario(novoPreco: int) -> void:
+	if isPrecoValido(novoPreco):
+		precoDoFuncionario = novoPreco
 	else:
-		print("O preço do funcionário não pode ser negativo.")
+		notificarPrecoInvalido()
 
 # Getter para o multiplicador de medo
-func get_multiplicador_de_medo() -> float:
-	return Multiplicador_de_medo
+func getMultiplicadorDeMedo() -> float:
+	return multiplicadorDeMedo
 
 # Setter para o multiplicador de medo
-func set_multiplicador_de_medo(novo_multiplicador: float) -> void:
-	if novo_multiplicador >= 0:
-		Multiplicador_de_medo = novo_multiplicador
+func isMultiplicadorValido(valor: float) -> bool:
+	return valor >= 0
+	
+func notificarMultiplicadorInvalido() -> void:
+	print("O multiplicador de medo não pode ser negativo.")
+	
+func setMultiplicadorDeMedo(novoMultiplicador: float) -> void:
+	if isMultiplicadorValido(novoMultiplicador):
+		multiplicadorDeMedo = novoMultiplicador
 	else:
-		print("O multiplicador de medo não pode ser negativo.")
+		notificarMultiplicadorInvalido()
 
 # Getter para o medo total
-func get_medo_total() -> int:
-	return Medo_total
+func getMedoTotal() -> int:
+	return medoTotal
 
 # Setter para o medo total
-func set_medo_total(novo_medo_total: int) -> void:
-	if novo_medo_total >= 0:
-		Medo_total = novo_medo_total
+func isMedoTotalValido(valor: int) -> bool:
+	return valor >= 0
+	
+func notificarMedoTotalInvalido() -> void:
+	print("O medo total não pode ser negativo.")
+	
+func setMedoTotal(novoMedoTotal: int) -> void:
+	if isMedoTotalValido(novoMedoTotal):
+		medoTotal = novoMedoTotal
 	else:
-		print("O medo total não pode ser negativo.")
+		notificarMedoTotalInvalido()
 
 # Getter para o contrato
-func get_contrato() -> int:
-	return Contrato
+func getContrato() -> int:
+	return contrato
 
 # Setter para o contrato
-func set_contrato(novo_contrato: int) -> void:
-	if novo_contrato >= 0:
-		Contrato = novo_contrato
+func isContratoValido(valor: int) -> bool:
+	return valor >= 0
+
+func notificarContratoInvalido() -> void:
+	print("O contrato não pode ser negativo.")
+
+func setContrato(novoContrato: int) -> void:
+	if isContratoValido(novoContrato):
+		contrato = novoContrato
 	else:
-		print("O contrato não pode ser negativo.")
+		notificarContratoInvalido()
+
 
 # Getter para a chance de sobrevivência
-func get_chance_de_sobrevivencia() -> float:
-	return Chance_de_sobrevivencia
+func getChanceDeSobrevivencia() -> float:
+	return chanceDeSobrevivencia
 
 # Setter para a chance de sobrevivência
-func set_chance_de_sobrevivencia(nova_chance: float) -> void:
-	if nova_chance >= 0 and nova_chance <= 1:
-		Chance_de_sobrevivencia = nova_chance
+func isChanceValida(valor: float) -> bool:
+	return valor >= 0 and valor <= 1
+
+func notificarChanceInvalida() -> void:
+	print("Chance de sobrevivência inválida. Deve ser entre 0 e 1.")
+
+func setChanceDeSobrevivencia(novaChance: float) -> void:
+	if isChanceValida(novaChance):
+		chanceDeSobrevivencia = novaChance
 	else:
-		print("Chance de sobrevivência inválida. Deve ser entre 0 e 1.")
+		notificarChanceInvalida()
+
 
 # Atualiza a disponibilidade
-func atualizar_is_disponivel(disponivel: bool) -> void:
-	isDisponivel = disponivel
-	if isDisponivel:
-		print(Nome, "está disponível para operar a máquina.")
-	else:
-		print(Nome, "não está disponível para operar a máquina.")
+func alternarDisponibilidade():
+	match isDisponivel:
+		true:
+			isDisponivel = false
+		false:
+			isDisponivel = true
 
 # Verifica se o funcionário tem medo para operar
-func checar_medo() -> bool:
-	if Medo >= 0.8:
-		print(Nome, "está com muito medo!")
+func isMedoAlto() -> bool:
+	return medo >= MEDO_LIMITE_ALTO
+
+func notificarMedoAlto() -> void:
+	print(nome, "está com muito medo!")
+
+func notificarMedoAceitavel() -> void:
+	print(nome, "está com nível aceitável de medo para continuar operando.")
+
+func checarMedo() -> bool:
+	if isMedoAlto():
+		notificarMedoAlto()
 		return false
 	else:
-		print(Nome, "está com nível aceitável de medo para continuar operando.")
+		notificarMedoAceitavel()
 		return true
