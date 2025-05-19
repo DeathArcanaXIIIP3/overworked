@@ -3,12 +3,32 @@
 [ext_resource type="Script" uid="uid://5fsof2mg7n4x" path="res://cenas/loja.gd" id="1_76rrw"]
 [ext_resource type="Script" uid="uid://btpymylhwpvln" path="res://cenas/menu_loja.gd" id="2_sl1c7"]
 
-[node name="Loja" type="Node2D"]
+[node name="Loja" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_76rrw")
 
 [node name="menu_loja" type="TabContainer" parent="."]
-offset_left = -260.0
-offset_top = -61.0
-offset_right = 1004.0
-offset_bottom = 516.0
+offset_left = 31.0
+offset_top = 27.0
+offset_right = 1103.0
+offset_bottom = 622.0
+current_tab = 1
 script = ExtResource("2_sl1c7")
+
+[node name="Funcionarios" type="MarginContainer" parent="menu_loja"]
+visible = false
+layout_direction = 2
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="menu_loja/Funcionarios"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="menu_loja/Funcionarios/ScrollContainer"]
+layout_direction = 2
+layout_mode = 2
+
+[node name="Maquinas" type="VBoxContainer" parent="menu_loja"]
+layout_mode = 2
+metadata/_tab_index = 1
