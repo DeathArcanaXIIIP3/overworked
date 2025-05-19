@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="MaquinaData" load_steps=2 format=3 uid="uid://5hrrcjtndksh"]
 
-[ext_resource type="Script" path="res://scripts/resources/maquinaData.gd" id="1_toatg"]
+[ext_resource type="Script" uid="uid://dhsh6p1bms26b" path="res://scripts/resources/maquinaData.gd" id="1_toatg"]
 
 [resource]
 script = ExtResource("1_toatg")
