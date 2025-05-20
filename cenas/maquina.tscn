@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8nyals8ucpli"]
+[gd_scene load_steps=3 format=3 uid="uid://b8nyals8ucpli"]
 
 [ext_resource type="Script" path="res://scripts/bases/maquina.gd" id="1_1aisd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xin3u"]
+size = Vector2(128, 128)
 
 [node name="Maquina" type="Node2D"]
 script = ExtResource("1_1aisd")
@@ -9,6 +12,11 @@ script = ExtResource("1_1aisd")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_xin3u")
 
 [connection signal="FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA" from="." to="." method="_on_funcionario_começou_a_operar_maquina"]
 [connection signal="FUNCIONARIO_MORREU_NA_MAQUINA" from="." to="." method="_on_funcionario_morreu_na_maquina"]
