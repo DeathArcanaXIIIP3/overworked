@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvvu22at5kfvd"]
+
+[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="1_ul3ij"]
+
+[node name="Botao" type="TextureButton"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1024.0
+offset_bottom = -520.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_ul3ij")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 1152.0
+offset_bottom = 124.0
+text = "funcionario joao, dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento dor sofrimento v "
