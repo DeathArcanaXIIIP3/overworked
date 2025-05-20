@@ -8,22 +8,23 @@ var tempoDeExecução: int
 var taxaDeAcidente: float
 var renda: int
 var custo: int
-var texture: Texture2D
-var funcionarioAtual: Funcionario
 
 var isDisponivel: bool
+
+@onready var nodeTextura = $Textura
 
 #----------------Funções do Godot------------#
 func _ready() -> void:
 	atributos = [tempoDeExecução,taxaDeAcidente,renda,custo, isDisponivel]
 	pass
 #-----------Funções-----------------#
-func setup(maquinaData):
+func setup(maquinaData: MaquinaData):
 	self.tempoDeExecução = maquinaData.tempoDeExecução
 	self.taxaDeAcidente = maquinaData.taxaDeAcidente
 	self.renda = maquinaData.renda
 	self.custo = maquinaData.custoInicial
 	self.isDisponivel = maquinaData.isDisponivel
+	self.nodeTextura.texture = maquinaData.texture
 
 func alternarDisponibilidade():
 	match isDisponivel:

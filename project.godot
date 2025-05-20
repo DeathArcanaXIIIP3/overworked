@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 SignalBus="*res://scripts/autoload/signal_bus.gd"
 DevTools="*res://cenas/dev_tools.tscn"
 
+
 [editor]
 
 version_control/plugin_name="GitPlugin"
