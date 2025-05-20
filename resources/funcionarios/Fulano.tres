@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="FuncionarioData" load_steps=2 format=3 uid="uid://dtqdjkrxkrni2"]
 
-[ext_resource type="Script" path="res://scripts/resources/FuncionarioData.gd" id="1_ig06s"]
+[ext_resource type="Script" uid="uid://g1reysfypkg1" path="res://scripts/resources/FuncionarioData.gd" id="1_ig06s"]
 
 [resource]
 script = ExtResource("1_ig06s")

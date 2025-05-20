@@ -2,18 +2,12 @@ extends Node2D
 
 class_name Maquina
 
-signal FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA
-signal FUNCIONARIO_MORREU_NA_MAQUINA
-signal FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA
-
 var atributos = []
 
 var tempoDeExecução: int
 var taxaDeAcidente: float
 var renda: int
 var custo: int
-var texture: Sprite2D
-var funcionarioAtual
 
 var isDisponivel: bool
 
@@ -49,7 +43,7 @@ func executarMaquina():
 
 func adicionarFuncionario(funcionario: Funcionario):
 	funcionarioAtual = funcionario
-	FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
+	SignalBus.SMaquinas.on_funcionario_começou_a_operar_maquina()
 	pass
 
 func tentarMatarFuncionario():
@@ -58,11 +52,11 @@ func tentarMatarFuncionario():
 	if resultado <= taxaFalha:
 		print(resultado)
 		print(funcionarioAtual.Nome, " Morreu")
-		FUNCIONARIO_MORREU_NA_MAQUINA.emit()
+		SignalBus.SMaquinas.on_funcionario_morreu_na_maquina()
 	else:
 		print(resultado)
 		print(funcionarioAtual.Nome, " Terminou de trabalhar")
-		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit()
+		SignalBus.SMaquinas.on_funcionario_parou_de_operar_maquina()
 	pass
 
 #----------------SINAIS---------------#
