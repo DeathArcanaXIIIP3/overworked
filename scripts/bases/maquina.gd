@@ -2,10 +2,6 @@ extends Node2D
 
 class_name Maquina
 
-signal FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA
-signal FUNCIONARIO_MORREU_NA_MAQUINA
-signal FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA
-
 var atributos = []
 
 var tempoDeExecução: int
@@ -13,24 +9,13 @@ var taxaDeAcidente: float
 var renda: int
 var custo: int
 var texture: Texture2D
-var funcionarioAtual
+var funcionarioAtual: Funcionario
 
 var isDisponivel: bool
 
 #----------------Funções do Godot------------#
 func _ready() -> void:
 	atributos = [tempoDeExecução,taxaDeAcidente,renda,custo, isDisponivel]
-	
-	randomize() #ATÉ LINHA 33, TUDO PARA TESTES APENAS, APAGAR DEPOIS
-	
-	var maqDataTemp = preload("res://resources/maquinas/Maquina_De_Impressão.tres") 
-	var funcDataTemp = preload("res://resources/funcionarios/Fulano.tres")
-	var funcionarioTemp = preload("res://cenas/funcionario.tscn").instantiate()
-	
-	setup(maqDataTemp)
-	funcionarioTemp.inicializacao(funcDataTemp)
-	
-	adicionarFuncionario(funcionarioTemp)
 	pass
 #-----------Funções-----------------#
 func setup(maquinaData):
@@ -57,7 +42,7 @@ func executarMaquina():
 
 func adicionarFuncionario(funcionario: Funcionario):
 	funcionarioAtual = funcionario
-	FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
+	SignalBus.SMaquinas.on_funcionario_começou_a_operar_maquina()
 	pass
 
 func tentarMatarFuncionario():
@@ -66,11 +51,11 @@ func tentarMatarFuncionario():
 	if resultado <= taxaFalha:
 		print(resultado)
 		print(funcionarioAtual.Nome, " Morreu")
-		FUNCIONARIO_MORREU_NA_MAQUINA.emit()
+		SignalBus.SMaquinas.on_funcionario_morreu_na_maquina()
 	else:
 		print(resultado)
 		print(funcionarioAtual.Nome, " Terminou de trabalhar")
-		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit()
+		SignalBus.SMaquinas.on_funcionario_parou_de_operar_maquina()
 	pass
 
 #----------------SINAIS---------------#
