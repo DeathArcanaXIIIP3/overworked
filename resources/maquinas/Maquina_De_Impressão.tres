@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="MaquinaData" load_steps=3 format=3 uid="uid://5hrrcjtndksh"]
+[gd_resource type="Resource" script_class="MaquinaData" load_steps=2 format=3 uid="uid://df1urf20sje3n"]
+
+[ext_resource type="Script" path="res://scripts/resources/maquinaData.gd" id="1_ynnea"]
 
 [resource]
-script = ExtResource("1_toatg")
-"tempoDeExecução" = 3
-taxaDeAcidente = 0.3
-renda = 100
+script = ExtResource("1_ynnea")
+"tempoDeExecução" = 1
+taxaDeAcidente = 0.5
+renda = 10
 custoInicial = 0
-texture = ExtResource("2_8hlcq")
 isDisponivel = true

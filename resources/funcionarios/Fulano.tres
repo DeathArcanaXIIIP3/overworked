@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="FuncionarioData" load_steps=2 format=3 uid="uid://dtqdjkrxkrni2"]
 
-[ext_resource type="Script" uid="uid://g1reysfypkg1" path="res://scripts/resources/FuncionarioData.gd" id="1_ig06s"]
+[ext_resource type="Script" path="res://scripts/resources/FuncionarioData.gd" id="1_ig06s"]
 
 [resource]
 script = ExtResource("1_ig06s")
 Nome = "João"
 Taxa_de_sobrevivencia = 0.7
-Medo = 80.0
+Medo = 0.0
 Produtividade = 20.0
 "Preço_do_funcionario" = 100
+IsDisponivel = true

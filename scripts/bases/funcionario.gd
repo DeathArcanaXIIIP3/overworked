@@ -11,12 +11,21 @@ var taxaDeSobrevivencia: float
 var medo: float
 var produtividade: float
 var precoDoFuncionario: int
-var isDisponivel: bool
 var multiplicadorDeMedo: float
 var medoTotal: int
 var contrato: int
 var chanceDeSobrevivencia: float
 
+#--Booleanos pra validação de status--#
+var isDisponivel: bool
+
+func setup(data:FuncionarioData):
+	nome = data.Nome
+	taxaDeSobrevivencia = data.Taxa_de_sobrevivencia
+	medo = data.Medo
+	produtividade = data.Produtividade
+	precoDoFuncionario = data.Preço_do_funcionario
+	isDisponivel = data.IsDisponivel
 # Getter para o nome
 func getNome() -> String:
 	return nome
@@ -43,8 +52,8 @@ func setProdutividade(novaProdutividade: float) -> void:
 		produtividade = novaProdutividade
 	else:
 		notificarErroProdutividade()
-
 		
+
 # Checa a produtividade
 func checarProdutividade(fator: float) -> float:
 	return clamp(fator, 0, 100)
@@ -55,10 +64,8 @@ func atualizarProdutividade(fator: float) -> void:
 	produtividade = checarProdutividade(produtividade)
 	notificarAtualizacaoProdutividade()
 
-
 func notificarAtualizacaoProdutividade() -> void:
 	print("Produtividade atualizada para: ", produtividade)
-
 
 # Atualiza o medo para mais 10%
 func incrementarMedo(incremento: float) -> void:
@@ -179,7 +186,6 @@ func setChanceDeSobrevivencia(novaChance: float) -> void:
 		chanceDeSobrevivencia = novaChance
 	else:
 		notificarChanceInvalida()
-
 
 # Atualiza a disponibilidade
 func alternarDisponibilidade():

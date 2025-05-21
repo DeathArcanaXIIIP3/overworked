@@ -12,7 +12,6 @@ func _on_button_pressed() -> void:
 	factory_maquina(preload("res://resources/maquinas/Maquina_De_Impressão.tres"))
 	pass # Replace with function body.
 
-
 func _on_button_2_pressed() -> void:
 	factory_funcionario(preload("res://resources/funcionarios/Fulano.tres"))
 	pass # Replace with function body.
@@ -20,11 +19,15 @@ func _on_button_2_pressed() -> void:
 func factory_funcionario(data: FuncionarioData):
 	var funcionario = preload("res://cenas/funcionario.tscn").instantiate()
 	add_child(funcionario)
-	funcionario.inicializacao(data)
+	funcionario.setup(data)
 	funcionario.global_position = Vector2(screenSize[0] / 2, screenSize[1] / 2)
+	
+	funcionario.checarMedo()
+	return funcionario
 
 func factory_maquina(data: MaquinaData):
 	var maquina = preload("res://cenas/maquina.tscn").instantiate()
-	add_child(maquina)
 	maquina.setup(data)
+	add_child(maquina)
 	maquina.global_position = Vector2(screenSize[0] / 2, screenSize[1] / 2)
+	return maquina

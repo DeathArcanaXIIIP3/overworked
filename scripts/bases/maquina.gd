@@ -8,14 +8,13 @@ var tempoDeExecução: int
 var taxaDeAcidente: float
 var renda: int
 var custo: int
+var funcionarioAtual: Funcionario
 
 var isDisponivel: bool
 
-@onready var nodeTextura = $Textura
-
 #----------------Funções do Godot------------#
 func _ready() -> void:
-	atributos = [tempoDeExecução,taxaDeAcidente,renda,custo, isDisponivel]
+	atributos = [tempoDeExecução,taxaDeAcidente,renda,custo, isDisponivel, funcionarioAtual]
 	pass
 #-----------Funções-----------------#
 func setup(maquinaData: MaquinaData):
@@ -24,7 +23,6 @@ func setup(maquinaData: MaquinaData):
 	self.renda = maquinaData.renda
 	self.custo = maquinaData.custoInicial
 	self.isDisponivel = maquinaData.isDisponivel
-	self.nodeTextura.texture = maquinaData.texture
 
 func alternarDisponibilidade():
 	match isDisponivel:
@@ -47,15 +45,15 @@ func adicionarFuncionario(funcionario: Funcionario):
 	pass
 
 func tentarMatarFuncionario():
-	var taxaFalha = funcionarioAtual.Taxa_de_sobrevivencia * taxaDeAcidente
+	var taxaFalha = funcionarioAtual.taxaDeSobrevivencia * taxaDeAcidente
 	var resultado = randf()
 	if resultado <= taxaFalha:
 		print(resultado)
-		print(funcionarioAtual.Nome, " Morreu")
+		print(funcionarioAtual.nome, " Morreu")
 		SignalBus.SMaquinas.on_funcionario_morreu_na_maquina()
 	else:
 		print(resultado)
-		print(funcionarioAtual.Nome, " Terminou de trabalhar")
+		print(funcionarioAtual.nome, " Terminou de trabalhar")
 		SignalBus.SMaquinas.on_funcionario_parou_de_operar_maquina()
 	pass
 
