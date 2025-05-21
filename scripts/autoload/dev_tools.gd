@@ -22,7 +22,6 @@ func factory_funcionario(data: FuncionarioData):
 	funcionario.setup(data)
 	funcionario.global_position = Vector2(screenSize[0] / 2, screenSize[1] / 2)
 	
-	funcionario.checarMedo()
 	return funcionario
 
 func factory_maquina(data: MaquinaData):
