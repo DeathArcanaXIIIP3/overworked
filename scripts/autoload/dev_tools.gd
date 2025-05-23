@@ -13,7 +13,7 @@ func _on_button_pressed() -> void:
 	pass # Replace with function body.
 
 func _on_button_2_pressed() -> void:
-	factory_funcionario(preload("res://resources/funcionarios/Fulano.tres"))
+	factory_funcionario(preload("res://resources/funcionarios/Fulana.tres"))
 	pass # Replace with function body.
 
 func factory_funcionario(data: FuncionarioData):
@@ -21,7 +21,6 @@ func factory_funcionario(data: FuncionarioData):
 	add_child(funcionario)
 	funcionario.setup(data)
 	funcionario.global_position = Vector2(screenSize[0] / 2, screenSize[1] / 2)
-	
 	return funcionario
 
 func factory_maquina(data: MaquinaData):

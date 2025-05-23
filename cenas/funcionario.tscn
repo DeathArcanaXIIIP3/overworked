@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://btj6hqfnyou44"]
+[gd_scene load_steps=3 format=3 uid="uid://btj6hqfnyou44"]
 
 [ext_resource type="Script" uid="uid://bet8cs77upboe" path="res://scripts/bases/funcionario.gd" id="1_7qcqq"]
-[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="2_bph70"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kta8q"]
 size = Vector2(128, 128)
@@ -10,7 +9,6 @@ size = Vector2(128, 128)
 script = ExtResource("1_7qcqq")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_bph70")
 
 [node name="Area2D" type="Area2D" parent="."]
 

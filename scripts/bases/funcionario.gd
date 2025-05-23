@@ -15,6 +15,7 @@ var multiplicadorDeMedo: float
 var medoTotal: int
 var contrato: int
 var chanceDeSobrevivencia: float
+var profilePicture: Texture
 
 #--Booleanos pra validação de status--#
 var isDisponivel: bool
@@ -26,6 +27,8 @@ func setup(data:FuncionarioData):
 	produtividade = data.Produtividade
 	precoDoFuncionario = data.Preço_do_funcionario
 	isDisponivel = data.IsDisponivel
+	profilePicture = data.profilePicture
+	$Sprite.texture = data.profilePicture
 # Getter para o nome
 func getNome() -> String:
 	return nome

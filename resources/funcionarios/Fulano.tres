@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="FuncionarioData" load_steps=2 format=3 uid="uid://dtqdjkrxkrni2"]
+[gd_resource type="Resource" script_class="FuncionarioData" load_steps=3 format=3 uid="uid://dtqdjkrxkrni2"]
 
+[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="1_1uj7u"]
 [ext_resource type="Script" path="res://scripts/resources/FuncionarioData.gd" id="1_ig06s"]
 
 [resource]
@@ -10,3 +11,4 @@ Medo = 0.0
 Produtividade = 20.0
 "Preço_do_funcionario" = 100
 IsDisponivel = true
+profilePicture = ExtResource("1_1uj7u")
