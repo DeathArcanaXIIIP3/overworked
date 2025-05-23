@@ -8,3 +8,4 @@ class_name FuncionarioData
 @export var Produtividade: float 
 @export var Preço_do_funcionario: int 
 @export var IsDisponivel: bool
+@export var profilePicture: Texture
