@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdepb2r8hctfu"]
+
+[ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/jogador_gui.gd" id="1_c2o10"]
+
+[node name="Jogador GUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -856.0
+offset_bottom = -616.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c2o10")
+
+[node name="Dinheiro" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1064.0
+offset_bottom = -624.0
+text = "Dinheiro: 0"
+
+[node name="Almas" type="Label" parent="."]
+layout_mode = 0
+offset_left = 216.0
+offset_right = 304.0
+offset_bottom = 24.0
+text = "Almas: 0"
+
+[node name="Fama" type="Label" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 216.0
+offset_bottom = 24.0
+text = "Fama: 0"
+
+[node name="Inv Container Maquinas" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 448.0
+offset_right = -960.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Inv Container Funcionarios" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 256.0
+offset_top = 448.0
+offset_right = -704.0
+grow_horizontal = 2
+grow_vertical = 2
