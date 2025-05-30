@@ -8,6 +8,7 @@ signal FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA
 
 var atributos = []
 
+var nome: String
 var tempoDeExecução: int
 var taxaDeAcidente: float
 var renda: int
@@ -22,11 +23,13 @@ func _ready() -> void:
 	pass
 #-----------Funções-----------------#
 func setup(maquinaData: MaquinaData):
+	self.nome = maquinaData.nome
 	self.tempoDeExecução = maquinaData.tempoDeExecução
 	self.taxaDeAcidente = maquinaData.taxaDeAcidente
 	self.renda = maquinaData.renda
 	self.custo = maquinaData.custoInicial
 	self.isDisponivel = maquinaData.isDisponivel
+	$Sprite.texture = maquinaData.texture
 
 func alternarDisponibilidade():
 	match isDisponivel:
@@ -51,17 +54,21 @@ func adicionarFuncionario(funcionario: Funcionario):
 
 func tentarMatarFuncionario():
 	var taxaFalha = funcionarioAtual.taxaDeSobrevivencia * taxaDeAcidente
-	var resultado = randf()
+	var resultado = randf_range(0.0,1.0)
+	var rendaNova = calcular_renda()
 	if resultado <= taxaFalha:
 		print(resultado)
 		print(funcionarioAtual.nome, " Morreu")
-		FUNCIONARIO_MORREU_NA_MAQUINA.emit()
+		FUNCIONARIO_MORREU_NA_MAQUINA.emit(funcionarioAtual, rendaNova)
 	else:
 		print(resultado)
 		print(funcionarioAtual.nome, " Terminou de trabalhar")
-		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit()
+		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova)
 	pass
 
+func calcular_renda():
+	var rendatotal = funcionarioAtual.produtividade * self.renda
+	return rendatotal
 #----------------SINAIS---------------#
 func _on_timer_timeout() -> void:
 	print("A Maquina terminou")

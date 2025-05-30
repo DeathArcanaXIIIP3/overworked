@@ -12,14 +12,18 @@ offset_bottom = 648.0
 script = ExtResource("1_gjb74")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control"]
-layout_mode = 0
-offset_left = 1000.0
-offset_right = 1150.0
-offset_bottom = 648.0
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.13
+anchor_bottom = 0.21
+offset_top = 64.0
+offset_right = 0.23999
+offset_bottom = -0.0800018
 horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/ScrollContainer"]
 layout_mode = 2
+alignment = 2
 
 [node name="Button" type="Button" parent="Control/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -29,5 +33,10 @@ text = "Criar Maquina"
 layout_mode = 2
 text = "Criar Funcionario"
 
+[node name="Button3" type="Button" parent="Control/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Adicionar Funcionario ao Invetario"
+
 [connection signal="pressed" from="Control/ScrollContainer/VBoxContainer/Button" to="Control" method="_on_button_pressed"]
 [connection signal="pressed" from="Control/ScrollContainer/VBoxContainer/Button2" to="Control" method="_on_button_2_pressed"]
+[connection signal="pressed" from="Control/ScrollContainer/VBoxContainer/Button3" to="Control" method="_on_button_3_pressed"]

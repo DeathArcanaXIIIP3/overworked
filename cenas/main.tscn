@@ -1,6 +1,89 @@
-[gd_scene load_steps=2 format=3 uid="uid://dcdme1a8x75xu"]
+[gd_scene load_steps=5 format=3 uid="uid://dcdme1a8x75xu"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_1gj88"]
+[ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/jogador_gui.gd" id="3_4fhxt"]
+[ext_resource type="PackedScene" uid="uid://1wcf2rvjmush" path="res://cenas/jogador.tscn" id="3_b30p5"]
+[ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/loja.gd" id="4_b30p5"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1gj88")
+
+[node name="Jogador" parent="." instance=ExtResource("3_b30p5")]
+
+[node name="Jogador_GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+script = ExtResource("3_4fhxt")
+
+[node name="Dinheiro" type="Label" parent="Jogador_GUI"]
+layout_mode = 2
+offset_left = 192.0
+offset_right = 268.0
+offset_bottom = 49.0
+text = "Dinheiro: 
+"
+
+[node name="Almas" type="Label" parent="Jogador_GUI"]
+layout_mode = 2
+offset_left = 96.0
+offset_right = 160.0
+offset_bottom = 49.0
+text = "Almas:
+"
+
+[node name="Fama" type="Label" parent="Jogador_GUI"]
+layout_mode = 2
+offset_right = 64.0
+offset_bottom = 23.0
+text = "Fama: "
+
+[node name="Inventario" type="TabContainer" parent="Jogador_GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 448.0
+offset_top = 512.0
+offset_right = -448.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Funcionarios" type="VBoxContainer" parent="Jogador_GUI/Inventario"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Maquinas" type="VBoxContainer" parent="Jogador_GUI/Inventario"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Loja" type="TabContainer" parent="Jogador_GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1024.0
+offset_bottom = -528.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+script = ExtResource("4_b30p5")
+
+[node name="Funcionarios" type="VBoxContainer" parent="Jogador_GUI/Loja"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Maquinas" type="VBoxContainer" parent="Jogador_GUI/Loja"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[connection signal="ALMAS_ALTERADA" from="Jogador" to="Jogador_GUI" method="_on_jogador_almas_alterada"]
+[connection signal="DINHEIRO_ALTERADO" from="Jogador" to="Jogador_GUI" method="_on_jogador_dinheiro_alterado"]
+[connection signal="FUNCIONARIO_ADICIONADO_AO_INVENTARIO" from="Jogador" to="Jogador_GUI" method="_on_jogador_funcionario_adicionado_ao_inventario"]
+[connection signal="JOGADOR_PRONTO" from="Jogador" to="." method="_on_jogador_jogador_pronto"]
+[connection signal="MAQUINA_ADICIONADO_AO_INVENTARIO" from="Jogador" to="Jogador_GUI" method="_on_jogador_maquina_adicionado_ao_inventario"]
+[connection signal="BOTÃO_PRESSIONADO" from="Jogador_GUI/Loja" to="Jogador" method="_on_loja_botão_pressionado"]

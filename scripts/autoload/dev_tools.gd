@@ -3,27 +3,27 @@ extends Control
 var viewport
 var screenSize
 
-@onready var maquinaAtual
-@onready var funcionarioAtual
-@onready var jogadorAtual
-@onready var jogadorGUI
+var maquinaRef : Maquina
+var funcionarioRef : Funcionario
+var jogadorGUIRef : JogadorGUI
+var jogadorRef : Jogador
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	viewport = get_viewport_rect()
 	screenSize = viewport.size
 	
-	jogadorAtual = factory_player()
-	jogadorGUI  = factory_jogador_GUI()
+	jogadorGUIRef = factory_jogador_GUI()
+	jogadorRef = factory_player()
 	
-	jogadorAtual.connect("JOGADOR_PRONTO", Callable(jogadorGUI, "atualizar_GUI"))
-	add_child(jogadorAtual)
+	jogadorGUIRef.jogadorRef = jogadorRef
 	
-	jogadorAtual._teste()
+	add_child(jogadorGUIRef)
+	add_child(jogadorRef)
 	pass # Replace with function body.
 
 func factory_jogador_GUI():
 	var jogadorgui = preload("res://cenas/jogador_gui.tscn").instantiate()
-	add_child(jogadorgui)
 	return jogadorgui
 
 func factory_funcionario(data: FuncionarioData):
@@ -35,8 +35,8 @@ func factory_funcionario(data: FuncionarioData):
 
 func factory_maquina(data: MaquinaData):
 	var maquina = preload("res://cenas/maquina.tscn").instantiate()
-	maquina.setup(data)
 	add_child(maquina)
+	maquina.setup(data)
 	maquina.global_position = Vector2(screenSize[0] / 2, screenSize[1] / 2)
 	return maquina
 
@@ -46,17 +46,29 @@ func factory_player():
 	print(jogador.alterar_dinheiro(+200))
 	print(jogador.alterar_almas(+10))
 	print(jogador.alterar_fama(1.0))
+	jogador.connect("JOGADOR_PRONTO", jogadorGUIRef.atualizar_GUI)
+	jogador.connect("FUNCIONARIO_ADICIONADO_AO_INVENTARIO", jogadorGUIRef.atualizar_inventario_GUI)
 	return jogador
 
 func _on_button_pressed() -> void:
-	maquinaAtual = factory_maquina(preload("res://resources/maquinas/Maquina_De_Impressão.tres"))
+	if maquinaRef:
+		maquinaRef.queue_free()
+	maquinaRef = factory_maquina(preload("res://resources/maquinas/Maquina_De_Impressão.tres"))
 	pass # Replace with function body.
 
 func _on_button_2_pressed() -> void:
-	funcionarioAtual = factory_funcionario(preload("res://resources/funcionarios/Fulana.tres"))
+	if funcionarioRef:
+		funcionarioRef.queue_free()
+	funcionarioRef = factory_funcionario(preload("res://resources/funcionarios/Fulana.tres"))
 	pass # Replace with function body.
 
 
 func _on_button_3_pressed() -> void:
-	jogadorAtual = factory_player()
+	if jogadorRef:
+		if funcionarioRef:
+			jogadorRef.adicionar_funcionario_inventario(funcionarioRef)
+		else:
+			print("Não a funcionarios")
+	else:
+		print("Jogador não inicializado")
 	pass # Replace with function body.

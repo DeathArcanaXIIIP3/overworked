@@ -2,7 +2,7 @@ extends Resource
 
 class_name FuncionarioData
 
-@export var Nome: String
+@export var nome: String
 @export var Taxa_de_sobrevivencia: float 
 @export var Medo: float
 @export var Produtividade: float 

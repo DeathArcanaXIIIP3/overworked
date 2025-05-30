@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b8nyals8ucpli"]
 
 [ext_resource type="Script" path="res://scripts/bases/maquina.gd" id="1_1aisd"]
-[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="2_fybpg"]
+[ext_resource type="Texture2D" uid="uid://3dolr65geojj" path="res://sprites/maquinas/maquina.png" id="2_mhlcm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_45ubo"]
 size = Vector2(128, 128)
@@ -10,7 +10,7 @@ size = Vector2(128, 128)
 script = ExtResource("1_1aisd")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_fybpg")
+texture = ExtResource("2_mhlcm")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="FuncionarioData" load_steps=3 format=3 uid="uid://dtqdjkrxkrni2"]
 
-[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="1_1uj7u"]
+[ext_resource type="Texture2D" uid="uid://bxxh7smpth0o7" path="res://sprites/funcionarios/Fulano.png" id="1_1uj7u"]
 [ext_resource type="Script" path="res://scripts/resources/FuncionarioData.gd" id="1_ig06s"]
 
 [resource]
 script = ExtResource("1_ig06s")
-Nome = "João"
+nome = "João"
 Taxa_de_sobrevivencia = 0.7
 Medo = 0.0
 Produtividade = 20.0
-"Preço_do_funcionario" = 100
+"Preço_do_funcionario" = 50
 IsDisponivel = true
 profilePicture = ExtResource("1_1uj7u")

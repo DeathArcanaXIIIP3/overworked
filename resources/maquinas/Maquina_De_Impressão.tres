@@ -1,11 +1,16 @@
-[gd_resource type="Resource" script_class="MaquinaData" load_steps=2 format=3 uid="uid://df1urf20sje3n"]
+[gd_resource type="Resource" script_class="MaquinaData" load_steps=3 format=3 uid="uid://df1urf20sje3n"]
 
 [ext_resource type="Script" path="res://scripts/resources/maquinaData.gd" id="1_ynnea"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_82v22"]
+load_path = "res://.godot/imported/maquina.png-6bab17aa3c3b7d2128b20688b7bd889d.ctex"
+
 [resource]
 script = ExtResource("1_ynnea")
+nome = "Impressora"
 "tempoDeExecução" = 1
-taxaDeAcidente = 0.5
+taxaDeAcidente = 1.0
 renda = 10
 custoInicial = 0
+texture = SubResource("CompressedTexture2D_82v22")
 isDisponivel = true

@@ -21,7 +21,7 @@ var profilePicture: Texture
 var isDisponivel: bool
 
 func setup(data:FuncionarioData):
-	nome = data.Nome
+	nome = data.nome
 	taxaDeSobrevivencia = data.Taxa_de_sobrevivencia
 	medo = data.Medo
 	produtividade = data.Produtividade

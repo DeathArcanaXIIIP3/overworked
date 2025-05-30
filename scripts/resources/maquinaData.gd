@@ -2,6 +2,7 @@ extends Resource
 
 class_name MaquinaData
 
+@export var nome: String
 @export var tempoDeExecução: int
 @export var taxaDeAcidente: float
 @export var renda: int

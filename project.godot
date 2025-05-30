@@ -17,9 +17,12 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SignalBus="*res://scripts/autoload/signal_bus.gd"
-DevTools="*res://cenas/dev_tools.tscn"
 InputHandler="*res://scripts/autoload/input_handler.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
 
 [editor]
 
