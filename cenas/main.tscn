@@ -83,6 +83,7 @@ metadata/_tab_index = 1
 
 [connection signal="ALMAS_ALTERADA" from="Jogador" to="Jogador_GUI" method="_on_jogador_almas_alterada"]
 [connection signal="DINHEIRO_ALTERADO" from="Jogador" to="Jogador_GUI" method="_on_jogador_dinheiro_alterado"]
+[connection signal="FAMA_ALTERADA" from="Jogador" to="Jogador_GUI" method="_on_jogador_fama_alterada"]
 [connection signal="FUNCIONARIO_ADICIONADO_AO_INVENTARIO" from="Jogador" to="Jogador_GUI" method="_on_jogador_funcionario_adicionado_ao_inventario"]
 [connection signal="JOGADOR_PRONTO" from="Jogador" to="." method="_on_jogador_jogador_pronto"]
 [connection signal="MAQUINA_ADICIONADO_AO_INVENTARIO" from="Jogador" to="Jogador_GUI" method="_on_jogador_maquina_adicionado_ao_inventario"]

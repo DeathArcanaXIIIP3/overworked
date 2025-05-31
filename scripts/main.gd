@@ -17,7 +17,7 @@ func _on_jogador_jogador_pronto(jogadorNode) -> void:
 	jogadorGUIRef.jogadorRef = jogadorNode
 	jogadorRef.definir_Nome("Maritaca")
 	jogadorRef.alterar_dinheiro(+100)
-	jogadorRef.alterar_fama(0.1)
+	jogadorRef.alterar_fama(0.2)
 	
 	jogadorGUIRef.atualizar_GUI()
 	pass # Replace with function body.

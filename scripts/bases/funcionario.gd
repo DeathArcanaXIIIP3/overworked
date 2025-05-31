@@ -4,7 +4,9 @@ class_name Funcionario
 
 const MEDO_LIMITE_ALTO = 0.8
 const MEDO_LIMITE_MAXIMO = 1.0
-const INCREMENTO_MEDO_PADRAO = 0.1
+const INCREMENTO_MEDO_PADRAO = 1
+
+signal MEDO_MAXIMO_ATINGIDO
 
 var nome: String
 var taxaDeSobrevivencia: float
@@ -78,13 +80,10 @@ func incrementarMedo(incremento: float) -> void:
 func checarMedoMaximo() -> bool:
 	return medo >= MEDO_LIMITE_MAXIMO
 	
-func notificarMedoMaximo() -> void:
-	print("Medo máximo atingido\n")
-	
 func atualizarMedo() -> void:
 	incrementarMedo(INCREMENTO_MEDO_PADRAO)
 	if checarMedoMaximo():
-		notificarMedoMaximo()
+		MEDO_MAXIMO_ATINGIDO.emit(self)
 	print("Medo atualizado para: ", medo)
 
 # Getter para a taxa de sobrevivência

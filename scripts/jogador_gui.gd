@@ -45,3 +45,8 @@ func _on_jogador_dinheiro_alterado() -> void:
 func _on_jogador_almas_alterada() -> void:
 	atualizar_GUI()
 	pass # Replace with function body.
+
+
+func _on_jogador_fama_alterada() -> void:
+	atualizar_GUI()
+	pass # Replace with function body.

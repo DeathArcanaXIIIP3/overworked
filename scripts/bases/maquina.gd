@@ -63,11 +63,12 @@ func tentarMatarFuncionario():
 	else:
 		print(resultado)
 		print(funcionarioAtual.nome, " Terminou de trabalhar")
-		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova)
+		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)
 	pass
 
 func calcular_renda():
 	var rendatotal = funcionarioAtual.produtividade * self.renda
+	funcionarioAtual.produtividade = funcionarioAtual.produtividade - funcionarioAtual.produtividade * 0.1
 	return rendatotal
 #----------------SINAIS---------------#
 func _on_timer_timeout() -> void:

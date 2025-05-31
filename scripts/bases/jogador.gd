@@ -82,6 +82,9 @@ func adicionar_upgrade_inventario(upgrade):
 
 func factory_funcionario(data: FuncionarioData):
 	var funcionario = preload("res://cenas/funcionario.tscn").instantiate()
+	funcionario.MEDO_MAXIMO_ATINGIDO.connect(func (funcionario_atual):
+		atualizar_dados(funcionario_atual) #feito por lorenzo(ja sabe ne)
+		alterar_fama(-0.1))
 	add_child(funcionario)
 	funcionario.setup(data)
 	funcionario.global_position = Vector2(screenSize[0]/2, screenSize[1]/2)
@@ -92,7 +95,9 @@ func factory_maquina(data: MaquinaData):
 	maquina.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionario, renda): 
 		_deletar_funcionario(funcionario) 
 		alterar_dinheiro(renda))
-	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(self.alterar_dinheiro)
+	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (renda, funcionario):
+		alterar_dinheiro(renda)
+		funcionario.atualizarMedo())
 	add_child(maquina)
 	maquina.setup(data)
 	maquina.global_position = Vector2(screenSize[0] / 2, screenSize[1] / 2)
@@ -121,3 +126,6 @@ func deletar_funcionario(funcionario: Funcionario):
 	alterar_almas(+1)
 	funcionario.queue_free()
 	pass
+
+func atualizar_dados(funcionario: Funcionario):
+	funcionario.queue_free()
