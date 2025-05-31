@@ -1,12 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcdme1a8x75xu"]
+[gd_scene load_steps=6 format=3 uid="uid://dcdme1a8x75xu"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_1gj88"]
+[ext_resource type="PackedScene" uid="uid://br8lkmhv5llt7" path="res://cenas/1_Timer.tscn" id="2_5wwvk"]
 [ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/jogador_gui.gd" id="3_4fhxt"]
 [ext_resource type="PackedScene" uid="uid://1wcf2rvjmush" path="res://cenas/jogador.tscn" id="3_b30p5"]
 [ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/loja.gd" id="4_b30p5"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_1gj88")
+
+[node name="Timer" parent="." instance=ExtResource("2_5wwvk")]
 
 [node name="Jogador" parent="." instance=ExtResource("3_b30p5")]
 

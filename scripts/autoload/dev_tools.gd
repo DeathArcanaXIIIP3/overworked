@@ -59,16 +59,39 @@ func _on_button_pressed() -> void:
 func _on_button_2_pressed() -> void:
 	if funcionarioRef:
 		funcionarioRef.queue_free()
-	funcionarioRef = factory_funcionario(preload("res://resources/funcionarios/Fulana.tres"))
+	#funcionarioRef = criar_funcionario_aleatorio()
+	
 	pass # Replace with function body.
 
 
-func _on_button_3_pressed() -> void:
-	if jogadorRef:
-		if funcionarioRef:
-			jogadorRef.adicionar_funcionario_inventario(funcionarioRef)
-		else:
-			print("Não a funcionarios")
-	else:
-		print("Jogador não inicializado")
-	pass # Replace with function body.
+#func _on_button_3_pressed() -> void:
+	#if jogadorRef:
+		#if funcionarioRef:
+			#jogadorRef.adicionar_funcionario_inventario(funcionarioRef)
+		#else:
+			#print("Não a funcionarios")
+	#else:
+		#print("Jogador não inicializado")
+	#pass # Replace with function body.
+	
+var base_funcionario_data = preload("res://resources/funcionarios/Fulana.tres")
+
+func criar_funcionario_aleatorio():
+	# Cria uma cópia para não alterar o recurso original
+	var funcionario_data = base_funcionario_data.duplicate(true)
+	
+	# Randomiza os atributos do recurso
+	funcionario_data.nome = "Fulana_" + str(randi() % 1000)
+	funcionario_data.Taxa_de_sobrevivencia = randf()  # valor entre 0.0 e 1.0
+	funcionario_data.Medo = randf()
+	funcionario_data.Produtividade = randf() * 100  # supondo que produtividade vá até 100
+	funcionario_data.Preço_do_funcionario = randi() % 10000 + 1000  # valor entre 1000 e 10999
+	funcionario_data.IsDisponivel = true  # ou false aleatório, se quiser
+	# profilePicture, por exemplo, pode continuar o mesmo ou você pode trocar aleatoriamente
+
+	# Cria o nó Funcionario e configura com o recurso alterado
+	var funcionario_node = Funcionario.new()
+	funcionario_node.setup(funcionario_data)
+	add_child(funcionario_node)  # se fizer sentido na sua cena
+
+	return funcionario_node

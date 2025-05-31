@@ -6,9 +6,11 @@
 [resource]
 script = ExtResource("1_6kcaa")
 nome = "Maria"
-Taxa_de_sobrevivencia = 0.1
+taxaDeSobrevivencia = 0.0
 Medo = 0.0
-Produtividade = 100.0
-"Preço_do_funcionario" = 50
-IsDisponivel = true
+Produtividade = 0.0
+precoDoFuncionario = 50
+isDisponivel = false
+multiplicadorDeMedo = 0.0
 profilePicture = ExtResource("1_vmsn5")
+chanceDeSobrevivencia = 0.0

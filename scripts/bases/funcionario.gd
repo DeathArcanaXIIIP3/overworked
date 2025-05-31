@@ -22,14 +22,36 @@ var isDisponivel: bool
 
 func setup(data:FuncionarioData):
 	nome = data.nome
-	taxaDeSobrevivencia = data.Taxa_de_sobrevivencia
+	#taxaDeSobrevivencia = data.Taxa_de_sobrevivencia
+	taxaDeSobrevivencia = data.taxaDeSobrevivencia
 	medo = data.Medo
 	produtividade = data.Produtividade
-	precoDoFuncionario = data.Preço_do_funcionario
-	isDisponivel = data.IsDisponivel
-	profilePicture = data.profilePicture
+	precoDoFuncionario = data.precoDoFuncionario
+	isDisponivel = data.isDisponivel
+	#profilePicture = data.profilePicture
 	$Sprite.texture = data.profilePicture
+	randomizar_atributos()
+	
 # Getter para o nome
+func randomizar_atributos() -> void:
+	# Garante que o gerador está randomizado
+	randomize()
+	
+	# Randomiza os atributos mantendo nome e sprite, com duas casas decimais
+	taxaDeSobrevivencia = round(randf() * 100.0) / 100.0
+	medo = round(randf() * 100.0) / 100.0
+	produtividade = round(randf() * 10000.0) / 100.0  # para permitir 0–100 com duas casas
+	isDisponivel = true  
+	
+	# Log para debug
+	print("Funcionário randomizado:")
+	print("Taxa de Sobrevivência:", taxaDeSobrevivencia)
+	print("Medo:", medo)
+	print("Produtividade:", produtividade)
+	print("Preço:", precoDoFuncionario)
+	print("Disponível:", isDisponivel)
+
+
 func getNome() -> String:
 	return nome
 

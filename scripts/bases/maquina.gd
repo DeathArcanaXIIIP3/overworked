@@ -51,7 +51,8 @@ func adicionarFuncionario(funcionario: Funcionario):
 	FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
 	executarMaquina()
 	pass
-
+func _on_tempo_acabou():
+	tentarMatarFuncionario()
 func tentarMatarFuncionario():
 	var taxaFalha = funcionarioAtual.taxaDeSobrevivencia * taxaDeAcidente
 	var resultado = randf_range(0.0,1.0)
@@ -72,7 +73,7 @@ func calcular_renda():
 #----------------SINAIS---------------#
 func _on_timer_timeout() -> void:
 	print("A Maquina terminou")
-	tentarMatarFuncionario()
+	_on_tempo_acabou()
 	pass # Replace with function body.
 
 

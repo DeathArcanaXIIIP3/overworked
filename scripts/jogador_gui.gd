@@ -4,6 +4,8 @@ class_name JogadorGUI
 
 var jogadorRef: Jogador
 
+
+
 func atualizar_GUI():
 	print("Atualizado")
 	$Dinheiro.text = "Dinheiro:  " + str(jogadorRef.dinheiro) 

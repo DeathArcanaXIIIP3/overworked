@@ -30,7 +30,7 @@ func botão_factory(dados):
 	var botão = Button.new()
 	botão.pressed.connect(botão_pressionado.bind(botão, dados))
 	if dados is FuncionarioData:
-		botão.text = dados.nome + " " + str(dados.Preço_do_funcionario)
+		botão.text = dados.nome + " " + str(dados.precoDoFuncionario)
 		$Funcionarios.add_child(botão)
 	elif dados is MaquinaData:
 		botão.text = dados.nome + " " + str(dados.custoInicial)
@@ -39,7 +39,7 @@ func botão_factory(dados):
 
 func botão_pressionado(botão: Button, dados: Resource):
 	if dados is FuncionarioData:
-		if jogadorRef.dinheiro >= dados.Preço_do_funcionario:
+		if jogadorRef.dinheiro >= dados.precoDoFuncionario:
 			BOTÃO_PRESSIONADO.emit(dados)
 			botão.queue_free()
 	elif dados is MaquinaData:

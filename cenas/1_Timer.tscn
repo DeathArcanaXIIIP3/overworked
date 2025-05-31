@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://br8lkmhv5llt7"]
+
+[ext_resource type="Script" uid="uid://800s411b4sc5" path="res://scripts/GlobalTimer.gd" id="1_qjefg"]
+
+[node name="Timer" type="Node2D"]
+script = ExtResource("1_qjefg")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 568.0
+offset_right = 608.0
+offset_bottom = 23.0

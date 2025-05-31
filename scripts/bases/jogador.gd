@@ -100,7 +100,7 @@ func factory_maquina(data: MaquinaData):
 
 func _on_loja_botão_pressionado(dados) -> void:
 	if dados is FuncionarioData:
-		alterar_dinheiro(-dados.Preço_do_funcionario)
+		alterar_dinheiro(-dados.precoDoFuncionario)
 		adicionar_funcionario_inventario(dados)
 	elif dados is MaquinaData:
 		adicionar_maquina_invenatario(dados)
