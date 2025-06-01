@@ -4,7 +4,7 @@ class_name Funcionario
 
 const MEDO_LIMITE_ALTO = 0.8
 const MEDO_LIMITE_MAXIMO = 1.0
-const INCREMENTO_MEDO_PADRAO = 1
+const INCREMENTO_MEDO_PADRAO = 0.2
 
 signal MEDO_MAXIMO_ATINGIDO
 
@@ -25,7 +25,7 @@ var isDisponivel: bool
 func setup(data:FuncionarioData):
 	nome = data.nome
 	taxaDeSobrevivencia = data.Taxa_de_sobrevivencia
-	medo = data.Medo
+	multiplicadorDeMedo = data.MultiplicadordeMedo
 	produtividade = data.Produtividade
 	precoDoFuncionario = data.Preço_do_funcionario
 	isDisponivel = data.IsDisponivel
@@ -81,7 +81,7 @@ func checarMedoMaximo() -> bool:
 	return medo >= MEDO_LIMITE_MAXIMO
 	
 func atualizarMedo() -> void:
-	incrementarMedo(INCREMENTO_MEDO_PADRAO)
+	incrementarMedo(getMultiplicadorDeMedo())
 	if checarMedoMaximo():
 		MEDO_MAXIMO_ATINGIDO.emit(self)
 	print("Medo atualizado para: ", medo)

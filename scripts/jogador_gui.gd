@@ -3,12 +3,17 @@ extends Control
 class_name JogadorGUI
 
 var jogadorRef: Jogador
+var timerGlobalRef: Timer
+var horaAtual: int
+var diaAtual: int
 
 func atualizar_GUI():
 	print("Atualizado")
 	$Dinheiro.text = "Dinheiro:  " + str(jogadorRef.dinheiro) 
 	$Almas.text = "Almas:  " + str(jogadorRef.almas) 
 	$Fama.text = "Fama: " + str(jogadorRef.fama)
+	$Tempo.text = "Tempo Atual: " + str(horaAtual)
+	$Dia.text = "Dia Atual: " + str(diaAtual)
 	pass
 
 func atualizar_inventario_GUI(dados: Resource):
@@ -50,3 +55,14 @@ func _on_jogador_almas_alterada() -> void:
 func _on_jogador_fama_alterada() -> void:
 	atualizar_GUI()
 	pass # Replace with function body.
+
+func _on_timer_timeout() -> void:
+	horaAtual += 1
+	
+	if horaAtual%24 == 0:
+		horaAtual = 0
+		diaAtual += 1
+	
+	atualizar_GUI()
+	pass # Replace with function body.
+	

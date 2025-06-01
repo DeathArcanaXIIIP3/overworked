@@ -78,6 +78,8 @@ animations = [{
 size = Vector2(128, 128)
 
 [node name="Funcionario" type="Node2D"]
+light_mask = 3
+visibility_layer = 3
 script = ExtResource("1_7qcqq")
 
 [node name="Sprite" type="Sprite2D" parent="."]

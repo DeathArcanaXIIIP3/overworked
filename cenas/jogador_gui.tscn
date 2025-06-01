@@ -4,6 +4,7 @@
 
 [node name="Jogador GUI" type="Control"]
 layout_mode = 3
+anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 script = ExtResource("1_c2o10")

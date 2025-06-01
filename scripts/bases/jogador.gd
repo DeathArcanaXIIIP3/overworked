@@ -14,7 +14,6 @@ signal FAMA_ALTERADA
 signal DINHEIRO_ALTERADO
 signal NOME_ALTERADO
 
-
 var nome: String
 var almas: int
 var dinheiro: int

@@ -7,7 +7,7 @@
 script = ExtResource("1_6kcaa")
 nome = "Maria"
 Taxa_de_sobrevivencia = 0.1
-Medo = 0.0
+MultiplicadordeMedo = 0.2
 Produtividade = 100.0
 "Preço_do_funcionario" = 50
 IsDisponivel = true
