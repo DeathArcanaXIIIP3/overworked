@@ -89,5 +89,3 @@ metadata/_tab_index = 0
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
-
-[connection signal="ATUALIZAR_INVENTARIO" from="Loja" to="Loja" method="_on_atualizar_inventario"]

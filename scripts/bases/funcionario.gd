@@ -25,20 +25,12 @@ var isDisponivel: bool
 func setup(data:FuncionarioData):
 	nome = data.nome
 	taxaDeSobrevivencia = data.Taxa_de_sobrevivencia
-	multiplicadorDeMedo = data.MultiplicadordeMedo
+	multiplicadorDeMedo = data.Multiplicador_de_Medo
 	produtividade = data.Produtividade
-	precoDoFuncionario = data.Preço_do_funcionario
+	precoDoFuncionario = data.preco
 	isDisponivel = data.IsDisponivel
 	profilePicture = data.profilePicture
 	$Sprite.texture = data.profilePicture
-# Getter para o nome
-func getNome() -> String:
-	return nome
-
-# Setter para o nome
-func setNome(novoNome: String) -> void:
-	nome = novoNome
-	print("Nome alterado para: ", novoNome)
 
 # Getter para a produtividade
 func getProdutividade() -> float:

@@ -12,14 +12,13 @@ var nome: String
 var tempoDeExecução: int
 var taxaDeAcidente: float
 var renda: int
-var custo: int
+var preco: int
 var funcionarioAtual: Funcionario
 
 var isDisponivel: bool
 
 #----------------Funções do Godot------------#
 func _ready() -> void:
-	atributos = [tempoDeExecução,taxaDeAcidente,renda,custo, isDisponivel, funcionarioAtual]
 	pass
 #-----------Funções-----------------#
 func setup(maquinaData: MaquinaData):
@@ -27,7 +26,7 @@ func setup(maquinaData: MaquinaData):
 	self.tempoDeExecução = maquinaData.tempoDeExecução
 	self.taxaDeAcidente = maquinaData.taxaDeAcidente
 	self.renda = maquinaData.renda
-	self.custo = maquinaData.custoInicial
+	self.preco = maquinaData.preco
 	self.isDisponivel = maquinaData.isDisponivel
 	$Sprite.texture = maquinaData.texture
 
@@ -37,10 +36,6 @@ func alternarDisponibilidade():
 			isDisponivel = false
 		false:
 			isDisponivel = true
-
-func mostrarStatus():
-	for n in atributos.size():
-		print(atributos[n])
 
 func executarMaquina():
 	$Timer.start(tempoDeExecução)

@@ -11,6 +11,6 @@ nome = "Impressora"
 "tempoDeExecução" = 1
 taxaDeAcidente = 1.0
 renda = 10
-custoInicial = 0
+preco = 100
 texture = SubResource("CompressedTexture2D_82v22")
 isDisponivel = true

@@ -9,6 +9,6 @@ nome = "Maria"
 Taxa_de_sobrevivencia = 0.1
 MultiplicadordeMedo = 0.2
 Produtividade = 100.0
-"Preço_do_funcionario" = 50
+preco = 1000
 IsDisponivel = true
 profilePicture = ExtResource("1_vmsn5")

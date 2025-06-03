@@ -2,59 +2,62 @@ extends Control
 
 class_name JogadorGUI
 
-var jogadorRef: Jogador
+signal ITEM_SELECIONADO
+
+@onready var jogadorRef: Jogador = $"../Jogador"
 var timerGlobalRef: Timer
 var horaAtual: int
 var diaAtual: int
 
-func atualizar_GUI():
-	print("Atualizado")
+func _ready() -> void:
+	jogadorRef.ATUALIZAR_ATRIBUTOS_GUI.connect(atualizar_atributos)
+	jogadorRef.ATUALIZAR_INVENTARIOS_GUI.connect(atualizar_inventario)
+	pass
+
+func atualizar_atributos():
 	$Dinheiro.text = "Dinheiro:  " + str(jogadorRef.dinheiro) 
 	$Almas.text = "Almas:  " + str(jogadorRef.almas) 
 	$Fama.text = "Fama: " + str(jogadorRef.fama)
-	$Tempo.text = "Tempo Atual: " + str(horaAtual)
+	$Tempo.text = "Tempo Atual: " + str(horaAtual) + ":00"
 	$Dia.text = "Dia Atual: " + str(diaAtual)
 	pass
 
-func atualizar_inventario_GUI(dados: Resource):
-	var botão = Button.new()
-	botão.text = dados.nome
-	botão.pressed.connect(self.apagar_botão.bind(botão))
-	if dados is FuncionarioData:
-		botão.pressed.connect(jogadorRef.factory_funcionario.bind(dados))
-		$Inventario/Funcionarios.add_child(botão)
-	elif dados is MaquinaData:
-		botão.pressed.connect(jogadorRef.factory_maquina.bind(dados))
-		$Inventario/Maquinas.add_child(botão)
+func atualizar_inventario():
+	limpar_inventarios()
+	listar_inventarios()
 	pass
 
-func apagar_botão(botão: Button):
-	botão.queue_free()
+func factory_botao(dados: Resource):
+	var botao = Button.new()
+	botao.name = dados.nome
+	botao.text = dados.nome
+	botao.pressed.connect(func():
+		apagar_botao(botao)
+		item_do_inventario_selecionado(dados)
+		)
+	return botao
+
+func listar_inventarios():
+	var botao : Button
+	for itens in jogadorRef.inventarioFuncionarios:
+		botao = factory_botao(itens)
+		$Inventario/Funcionarios.add_child(botao)
+	for itens in jogadorRef.inventarioMaquinas:
+		botao = factory_botao(itens)
+		$Inventario/Maquinas.add_child(botao)
+
+func limpar_inventarios():
+	for filho in $Inventario/Funcionarios.get_children():
+		filho.queue_free()
+	for filho in $Inventario/Maquinas.get_children():
+		filho.queue_free()
+
+func item_do_inventario_selecionado(itemSelecionado: Resource):
+	ITEM_SELECIONADO.emit(itemSelecionado)
+
+func apagar_botao(botao: Button):
+	botao.queue_free()
 	pass
-
-func _on_jogador_funcionario_adicionado_ao_inventario(dados) -> void:
-	atualizar_inventario_GUI(dados)
-	pass # Replace with function body.
-
-
-func _on_jogador_maquina_adicionado_ao_inventario(dados) -> void:
-	atualizar_inventario_GUI(dados)
-	pass # Replace with function body.
-
-
-func _on_jogador_dinheiro_alterado() -> void:
-	atualizar_GUI()
-	pass # Replace with function body.
-
-
-func _on_jogador_almas_alterada() -> void:
-	atualizar_GUI()
-	pass # Replace with function body.
-
-
-func _on_jogador_fama_alterada() -> void:
-	atualizar_GUI()
-	pass # Replace with function body.
 
 func _on_timer_timeout() -> void:
 	horaAtual += 1
@@ -63,6 +66,5 @@ func _on_timer_timeout() -> void:
 		horaAtual = 0
 		diaAtual += 1
 	
-	atualizar_GUI()
+	atualizar_atributos()
 	pass # Replace with function body.
-	

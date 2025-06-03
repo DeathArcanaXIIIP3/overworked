@@ -2,11 +2,11 @@ extends TabContainer
 
 class_name Loja
 
-signal BOTÃO_PRESSIONADO
+signal COMPRA_SOLICITADA
+signal ATUALIZAR_INVENTARIO
 
 var listaFuncionarios : Array[FuncionarioData]
 var listaMaquinas : Array[MaquinaData]
-@onready var jogadorRef = $"../../Jogador"
 
 func _ready() -> void:
 	adicionar_funcionario_loja(load("res://resources/funcionarios/Fulana.tres"))
@@ -17,33 +17,54 @@ func _ready() -> void:
 func adicionar_funcionario_loja(funcionarioData: FuncionarioData):
 	if !funcionarioData in listaFuncionarios:
 		listaFuncionarios.append(funcionarioData)
-		botão_factory(funcionarioData)
-	pass
 
 func adicionar_maquina_loja(maquinaData: MaquinaData):
 	if !maquinaData in listaMaquinas:
 		listaMaquinas.append(maquinaData)
-		botão_factory(maquinaData)
+		ATUALIZAR_INVENTARIO.emit()
+
+func factory_botao(dados: Resource):
+	var botao = Button.new()
+	botao.name = dados.nome
+	botao.text = dados.nome
+	botao.pressed.connect(solicitar_compra.bind(dados))
+	return botao
+
+func apagar_botao(botao: Button):
+	botao.queue_free()
 	pass
 
-func botão_factory(dados):
-	var botão = Button.new()
-	botão.pressed.connect(botão_pressionado.bind(botão, dados))
-	if dados is FuncionarioData:
-		botão.text = dados.nome + " " + str(dados.Preço_do_funcionario)
-		$Funcionarios.add_child(botão)
-	elif dados is MaquinaData:
-		botão.text = dados.nome + " " + str(dados.custoInicial)
-		$Maquinas.add_child(botão)
-	pass
+func solicitar_compra(itemSolicitado):
+	COMPRA_SOLICITADA.emit(itemSolicitado)
 
-func botão_pressionado(botão: Button, dados: Resource):
-	if dados is FuncionarioData:
-		if jogadorRef.dinheiro >= dados.Preço_do_funcionario:
-			BOTÃO_PRESSIONADO.emit(dados)
-			botão.queue_free()
-	elif dados is MaquinaData:
-		if jogadorRef.dinheiro >= dados.custoInicial:
-			BOTÃO_PRESSIONADO.emit(dados)
-			botão.queue_free()
-	pass
+func remover_item_da_loja(itemComprado):
+	if itemComprado == null:
+		push_warning("Item comprado NULL")
+	elif itemComprado is FuncionarioData:
+		listaFuncionarios.erase(itemComprado)
+	elif itemComprado is MaquinaData:
+		listaMaquinas.erase(itemComprado)
+	atualizar_inventarios()
+
+func atualizar_inventarios():
+	limpar_inventarios()
+	listar_inventarios()
+
+func limpar_inventarios():
+	for filho in $Funcionarios.get_children():
+		filho.queue_free()
+	for filho in $Maquinas.get_children():
+		filho.queue_free()
+
+func listar_inventarios():
+	var botao : Button
+	for itens in listaFuncionarios:
+		botao = factory_botao(itens)
+		$Funcionarios.add_child(botao)
+	for itens in listaMaquinas:
+		botao = factory_botao(itens)
+		$Maquinas.add_child(botao)
+
+func _on_atualizar_inventario() -> void:
+	atualizar_inventarios()
+	pass # Replace with function body.
