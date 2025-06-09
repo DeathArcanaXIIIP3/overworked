@@ -2,33 +2,37 @@ extends Node2D
 
 class_name Funcionario
 
-const MEDO_LIMITE_ALTO = 0.8
-const MEDO_LIMITE_MAXIMO = 1.0
-const INCREMENTO_MEDO_PADRAO = 0.2
+const LIMITE_MAX_MEDO = 1.0
+const VALOR_MEDO_ALTO = LIMITE_MAX_MEDO - 0.2
+const INCREMENTO_MEDO_PADRAO = 0.1
 
 signal MEDO_MAXIMO_ATINGIDO
 
 var nome: String
-var taxaDeSobrevivencia: float
 var medo: float
 var produtividade: float
-var precoDoFuncionario: int
-var multiplicadorDeMedo: float
+var preco: int
+
 var medoTotal: int
 var contrato: int
 var chanceDeSobrevivencia: float
 var profilePicture: Texture
-
+#---Multiplicadores---#
+var taxaDeMedo: float
+var taxaDeAcidente: float
 #--Booleanos pra validação de status--#
 var isDisponivel: bool
 
 func setup(data:FuncionarioData):
 	nome = data.nome
-	taxaDeSobrevivencia = data.Taxa_de_sobrevivencia
-	multiplicadorDeMedo = data.Multiplicador_de_Medo
-	produtividade = data.Produtividade
-	precoDoFuncionario = data.preco
-	isDisponivel = data.IsDisponivel
+	preco = data.preco
+	produtividade = data.produtividade
+	
+	taxaDeAcidente = data.taxa_de_acidente
+	taxaDeMedo = data.taxa_de_medo
+	
+	isDisponivel = data.isDisponivel
+	
 	profilePicture = data.profilePicture
 	$Sprite.texture = data.profilePicture
 
@@ -70,7 +74,7 @@ func incrementarMedo(incremento: float) -> void:
 	medo = clamp(medo, 0, 1)
 	
 func checarMedoMaximo() -> bool:
-	return medo >= MEDO_LIMITE_MAXIMO
+	return medo >= LIMITE_MAX_MEDO
 	
 func atualizarMedo() -> void:
 	incrementarMedo(getMultiplicadorDeMedo())
@@ -80,7 +84,7 @@ func atualizarMedo() -> void:
 
 # Getter para a taxa de sobrevivência
 func getTaxaDeSobrevivencia() -> float:
-	return taxaDeSobrevivencia
+	return taxaDeAcidente
 
 # Setter para a taxa de sobrevivência
 func isTaxaValida(valor: float) -> bool:
@@ -91,13 +95,13 @@ func notificarTaxaInvalida() -> void:
 	
 func setTaxaDeSobrevivencia(novaTaxa: float) -> void:
 	if isTaxaValida(novaTaxa):
-		taxaDeSobrevivencia = novaTaxa
+		taxaDeAcidente = novaTaxa
 	else:
 		notificarTaxaInvalida()
 
 # Getter para o preço do funcionário
 func getPrecoDoFuncionario() -> int:
-	return precoDoFuncionario
+	return preco
 
 # Setter para o preço do funcionário
 func isPrecoValido(valor: int) -> bool:
@@ -108,13 +112,13 @@ func notificarPrecoInvalido() -> void:
 	
 func setPrecoDoFuncionario(novoPreco: int) -> void:
 	if isPrecoValido(novoPreco):
-		precoDoFuncionario = novoPreco
+		preco = novoPreco
 	else:
 		notificarPrecoInvalido()
 
 # Getter para o multiplicador de medo
 func getMultiplicadorDeMedo() -> float:
-	return multiplicadorDeMedo
+	return taxaDeMedo
 
 # Setter para o multiplicador de medo
 func isMultiplicadorValido(valor: float) -> bool:
@@ -125,7 +129,7 @@ func notificarMultiplicadorInvalido() -> void:
 	
 func setMultiplicadorDeMedo(novoMultiplicador: float) -> void:
 	if isMultiplicadorValido(novoMultiplicador):
-		multiplicadorDeMedo = novoMultiplicador
+		taxaDeMedo = novoMultiplicador
 	else:
 		notificarMultiplicadorInvalido()
 
@@ -191,7 +195,7 @@ func alternarDisponibilidade():
 
 # Verifica se o funcionário tem medo para operar
 func isMedoAlto() -> bool:
-	return medo >= MEDO_LIMITE_ALTO
+	return medo >= VALOR_MEDO_ALTO
 
 func notificarMedoAlto() -> void:
 	print(nome, "está com muito medo!")

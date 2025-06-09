@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="FuncionarioData" load_steps=3 format=3 uid="uid://dtqdjkrxkrni2"]
 
 [ext_resource type="Texture2D" uid="uid://bxxh7smpth0o7" path="res://sprites/funcionarios/Fulano.png" id="1_1uj7u"]
-[ext_resource type="Script" path="res://scripts/resources/FuncionarioData.gd" id="1_ig06s"]
+[ext_resource type="Script" path="res://scripts/resources/funcionarioData.gd" id="2_1uj7u"]
 
 [resource]
-script = ExtResource("1_ig06s")
+script = ExtResource("2_1uj7u")
 nome = "João"
-Taxa_de_sobrevivencia = 0.4
-MultiplicadordeMedo = 0.5
-Produtividade = 20.0
+taxa_de_acidente = 0.4
+taxa_de_medo = 0.1
+produtividade = 0.2
 preco = 100
-IsDisponivel = true
+isDisponivel = true
 profilePicture = ExtResource("1_1uj7u")

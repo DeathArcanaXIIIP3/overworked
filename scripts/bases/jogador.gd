@@ -10,7 +10,7 @@ signal COMPRA_REALIZADA
 
 var nome: String = "Maritaca"
 var almas: int = 0
-var dinheiro: int = 500
+var dinheiro: int = 2000
 var fama: float = 0.1
 var inventarioMaquinas: Array[MaquinaData]
 var inventarioFuncionarios: Array[FuncionarioData]
@@ -99,7 +99,7 @@ func factory_maquina(dados: MaquinaData):
 		alterar_dinheiro(renda)
 		funcionario.atualizarMedo())
 	add_child(maquina)
-	maquina.setup(dados)
+	maquina.inicializar(dados)
 	maquina.global_position = Vector2(screenSize[0] / 2, screenSize[1] / 2)
 	return maquina
 
