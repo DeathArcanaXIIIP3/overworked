@@ -46,6 +46,7 @@ func adicionarFuncionario(funcionario: Funcionario):
 		push_warning("isDisponivel NULL!")
 	elif isDisponivel:
 		funcionarioAtual = funcionario
+		funcionarioAtual.alternarDisponibilidade()
 		FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
 	else:
 		print("SINAL: Maquina em uso")
@@ -59,10 +60,12 @@ func tentarMatarFuncionario():
 		print(resultado)
 		print(funcionarioAtual.nome, " Morreu")
 		FUNCIONARIO_MORREU_NA_MAQUINA.emit(funcionarioAtual, rendaNova)
+		alternarDisponibilidade()
 	else:
 		print(resultado)
 		print(funcionarioAtual.nome, " Terminou de trabalhar")
-		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)#ERRO
+		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)
+		alternarDisponibilidade()
 	pass
 
 func calcular_renda():
@@ -72,5 +75,6 @@ func calcular_renda():
 #----------------SINAIS---------------#
 func _on_timer_timeout() -> void:
 	print("A Maquina terminou")
+	funcionarioAtual.alternarDisponibilidade()
 	tentarMatarFuncionario()
 	pass # Replace with function body.

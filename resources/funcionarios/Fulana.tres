@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_vmsn5")
 nome = "Maria"
-taxa_de_acidente = 0.1
+taxa_de_acidente = 0.9
 taxa_de_medo = 0.5
 produtividade = 0.5
 preco = 1000

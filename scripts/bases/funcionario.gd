@@ -187,11 +187,7 @@ func setChanceDeSobrevivencia(novaChance: float) -> void:
 
 # Atualiza a disponibilidade
 func alternarDisponibilidade():
-	match isDisponivel:
-		true:
-			isDisponivel = false
-		false:
-			isDisponivel = true
+	isDisponivel = !isDisponivel
 
 # Verifica se o funcionário tem medo para operar
 func isMedoAlto() -> bool:

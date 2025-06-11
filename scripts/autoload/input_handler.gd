@@ -17,8 +17,9 @@ func _input(event: InputEvent) -> void:
 		if event.is_pressed():
 			var objetoAlvo = raycast(1)
 			if objetoAlvo is Funcionario:
-				print("É um Funcionario")
-				objetoArrastado = objetoAlvo
+				if objetoAlvo.isDisponivel:
+					print("É um Funcionario")
+					objetoArrastado = objetoAlvo
 		if event.is_released():
 			var objetoAlvo = raycast(2)
 			if objetoAlvo is Maquina:
