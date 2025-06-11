@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="FuncionarioData" load_steps=3 format=3 uid="uid://c8c0ijatvdve1"]
 
-[ext_resource type="Script" path="res://scripts/resources/FuncionarioData.gd" id="1_6kcaa"]
 [ext_resource type="Texture2D" uid="uid://i0pcgmiucr1d" path="res://sprites/funcionarios/Fulana.png" id="1_vmsn5"]
+[ext_resource type="Script" path="res://scripts/resources/funcionarioData.gd" id="2_vmsn5"]
 
 [resource]
-script = ExtResource("1_6kcaa")
+script = ExtResource("2_vmsn5")
 nome = "Maria"
-Taxa_de_sobrevivencia = 0.1
-MultiplicadordeMedo = 0.2
-Produtividade = 100.0
-"Preço_do_funcionario" = 50
-IsDisponivel = true
+taxa_de_acidente = 0.9
+taxa_de_medo = 0.5
+produtividade = 0.5
+preco = 1000
+isDisponivel = true
 profilePicture = ExtResource("1_vmsn5")

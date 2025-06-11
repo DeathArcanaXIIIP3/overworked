@@ -6,64 +6,66 @@ signal FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA
 signal FUNCIONARIO_MORREU_NA_MAQUINA
 signal FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA
 
-var atributos = []
-
 var nome: String
+var renda: int
+var preco: int
+#---Multiplicadores---#
 var tempoDeExecução: int
 var taxaDeAcidente: float
-var renda: int
-var custo: int
+#---Resource---#
+var resource: MaquinaData
+#---Referencias de Nodes---#
 var funcionarioAtual: Funcionario
-
+#---Booleanos para checagem de status---#
 var isDisponivel: bool
 
 #----------------Funções do Godot------------#
 func _ready() -> void:
-	atributos = [tempoDeExecução,taxaDeAcidente,renda,custo, isDisponivel, funcionarioAtual]
 	pass
 #-----------Funções-----------------#
-func setup(maquinaData: MaquinaData):
-	self.nome = maquinaData.nome
-	self.tempoDeExecução = maquinaData.tempoDeExecução
-	self.taxaDeAcidente = maquinaData.taxaDeAcidente
-	self.renda = maquinaData.renda
-	self.custo = maquinaData.custoInicial
-	self.isDisponivel = maquinaData.isDisponivel
-	$Sprite.texture = maquinaData.texture
+func inicializar(dados: MaquinaData):
+	self.nome = dados.nome
+	self.renda = dados.renda
+	self.preco = dados.preco
+	self.resource = dados
+	self.tempoDeExecução = dados.tempoDeExecução
+	self.taxaDeAcidente = dados.taxaDeAcidente
+	self.isDisponivel = dados.isDisponivel
+	$Sprite.texture = dados.texture
 
 func alternarDisponibilidade():
-	match isDisponivel:
-		true:
-			isDisponivel = false
-		false:
-			isDisponivel = true
-
-func mostrarStatus():
-	for n in atributos.size():
-		print(atributos[n])
+	isDisponivel = !isDisponivel
+	print(isDisponivel)
 
 func executarMaquina():
 	$Timer.start(tempoDeExecução)
 	pass
 
 func adicionarFuncionario(funcionario: Funcionario):
-	funcionarioAtual = funcionario
-	FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
-	executarMaquina()
+	if isDisponivel == null:
+		push_warning("isDisponivel NULL!")
+	elif isDisponivel:
+		funcionarioAtual = funcionario
+		funcionarioAtual.alternarDisponibilidade()
+		FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
+	else:
+		print("SINAL: Maquina em uso")
 	pass
 
 func tentarMatarFuncionario():
-	var taxaFalha = funcionarioAtual.taxaDeSobrevivencia * taxaDeAcidente
+	var taxaDeSucesso = funcionarioAtual.taxaDeAcidente * taxaDeAcidente
 	var resultado = randf_range(0.0,1.0)
 	var rendaNova = calcular_renda()
-	if resultado <= taxaFalha:
+	if resultado <= taxaDeSucesso:
 		print(resultado)
 		print(funcionarioAtual.nome, " Morreu")
 		FUNCIONARIO_MORREU_NA_MAQUINA.emit(funcionarioAtual, rendaNova)
+		alternarDisponibilidade()
 	else:
 		print(resultado)
 		print(funcionarioAtual.nome, " Terminou de trabalhar")
 		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)
+		alternarDisponibilidade()
 	pass
 
 func calcular_renda():
@@ -73,22 +75,6 @@ func calcular_renda():
 #----------------SINAIS---------------#
 func _on_timer_timeout() -> void:
 	print("A Maquina terminou")
+	funcionarioAtual.alternarDisponibilidade()
 	tentarMatarFuncionario()
-	pass # Replace with function body.
-
-
-func _on_funcionario_começou_a_operar_maquina() -> void:
-	print("O funcionario ", funcionarioAtual.Nome, " começou a operar a maquina")
-	alternarDisponibilidade()
-	executarMaquina()
-	pass # Replace with function body.
-
-
-func _on_funcionario_morreu_na_maquina() -> void:
-	alternarDisponibilidade()
-	pass # Replace with function body.
-
-
-func _on_funcionario_parou_de_operar_maquina() -> void:
-	alternarDisponibilidade()
 	pass # Replace with function body.
