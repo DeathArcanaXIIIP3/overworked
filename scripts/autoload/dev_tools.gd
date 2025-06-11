@@ -3,6 +3,8 @@ extends Control
 var viewport
 var screenSize
 
+var temp
+
 var maquinaRef : Maquina
 var funcionarioRef : Funcionario
 var jogadorGUIRef : JogadorGUI
