@@ -16,11 +16,16 @@ var taxaDeAcidente: float
 var resource: MaquinaData
 #---Referencias de Nodes---#
 var funcionarioAtual: Funcionario
+#---Progresso do Timer em segundos---#
+var timerProgresso = 0
 #---Booleanos para checagem de status---#
 var isDisponivel: bool
 
 #----------------Funções do Godot------------#
 func _ready() -> void:
+	pass
+
+func _process(_delta: float) -> void:
 	pass
 #-----------Funções-----------------#
 func inicializar(dados: MaquinaData):
@@ -32,13 +37,16 @@ func inicializar(dados: MaquinaData):
 	self.taxaDeAcidente = dados.taxaDeAcidente
 	self.isDisponivel = dados.isDisponivel
 	$Sprite.texture = dados.texture
+	$Control/ProgressBar.value = 0
+	$Control/ProgressBar.min_value = 0
+	$Control/ProgressBar.max_value = tempoDeExecução
 
 func alternarDisponibilidade():
 	isDisponivel = !isDisponivel
 	print(isDisponivel)
 
 func executarMaquina():
-	$Timer.start(tempoDeExecução)
+	$Timer.start(1)
 	pass
 
 func adicionarFuncionario(funcionario: Funcionario):
@@ -46,6 +54,7 @@ func adicionarFuncionario(funcionario: Funcionario):
 		push_warning("isDisponivel NULL!")
 	elif isDisponivel:
 		funcionarioAtual = funcionario
+		funcionarioAtual.global_position = $Ancora.global_position
 		funcionarioAtual.alternarDisponibilidade()
 		FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
 	else:
@@ -72,9 +81,23 @@ func calcular_renda():
 	var rendatotal = funcionarioAtual.produtividade * self.renda
 	funcionarioAtual.produtividade = funcionarioAtual.produtividade - funcionarioAtual.produtividade * 0.1
 	return rendatotal
+
+func reset_timer():
+	$Timer.stop()
+	$Timer.wait_time = tempoDeExecução;
+	timerProgresso = 0
+	
+func reset_progress_bar():
+	$Control/ProgressBar.value = 0
 #----------------SINAIS---------------#
 func _on_timer_timeout() -> void:
-	print("A Maquina terminou")
-	funcionarioAtual.alternarDisponibilidade()
-	tentarMatarFuncionario()
+	if timerProgresso == tempoDeExecução:
+		reset_timer()
+		reset_progress_bar()
+		print("A Maquina terminou")
+		funcionarioAtual.alternarDisponibilidade()
+		tentarMatarFuncionario()
+	else:
+		timerProgresso += 1
+		$Control/ProgressBar.value = timerProgresso
 	pass # Replace with function body.

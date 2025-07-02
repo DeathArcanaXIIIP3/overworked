@@ -11,9 +11,9 @@ script = ExtResource("1_1aisd")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_mhlcm")
+flip_h = true
 
 [node name="Timer" type="Timer" parent="."]
-one_shot = true
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2
@@ -21,6 +21,22 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_45ubo")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ProgressBar" type="ProgressBar" parent="Control"]
+layout_mode = 0
+offset_left = -64.0
+offset_top = -112.0
+offset_right = 64.0
+offset_bottom = -80.0
+
+[node name="Ancora" type="Node2D" parent="."]
+position = Vector2(-96, 0)
 
 [connection signal="FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA" from="." to="." method="alternarDisponibilidade"]
 [connection signal="FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA" from="." to="." method="executarMaquina"]

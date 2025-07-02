@@ -8,7 +8,7 @@ load_path = "res://.godot/imported/maquina.png-6bab17aa3c3b7d2128b20688b7bd889d.
 [resource]
 script = ExtResource("1_ynnea")
 nome = "Impressora"
-"tempoDeExecução" = 1
+"tempoDeExecução" = 10
 taxaDeAcidente = 0.6
 renda = 50
 preco = 100
