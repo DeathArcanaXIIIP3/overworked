@@ -5,8 +5,10 @@ class_name Funcionario
 const LIMITE_MAX_MEDO = 1.0
 const VALOR_MEDO_ALTO = LIMITE_MAX_MEDO - 0.2
 const INCREMENTO_MEDO_PADRAO = 0.1
+const OFFSET_BOTAO = Vector2(0, -40)
 
 signal MEDO_MAXIMO_ATINGIDO
+signal PEDIR_RETORNO_PARA_INVENTARIO
 
 var nome: String
 var medo: float
@@ -23,6 +25,15 @@ var taxaDeAcidente: float
 #--Booleanos pra validação de status--#
 var isDisponivel: bool
 
+func _ready():
+	$UI/BotaoVoltar.pressed.connect(_voltar_para_inventario)
+	$UI/BotaoVoltar.position = Vector2(100, 0)
+func _voltar_para_inventario():
+	if isDisponivel:
+		PEDIR_RETORNO_PARA_INVENTARIO.emit(self)
+	else:
+		print("Funcionário está ocupado e não pode retornar ao inventário.")
+
 func setup(data:FuncionarioData):
 	nome = data.nome
 	preco = data.preco
@@ -35,7 +46,10 @@ func setup(data:FuncionarioData):
 	
 	profilePicture = data.profilePicture
 	$Sprite.texture = data.profilePicture
-
+func atualizar_posicao_do_botao():
+	var offset = Vector2(0, 0) # ajuste a posição do botão relativo ao funcionário
+	# Se o botão está dentro de UI (CanvasLayer ou Node2D filho)
+	$UI/BotaoVoltar.position = to_local(global_position + offset)
 # Getter para a produtividade
 func getProdutividade() -> float:
 	return produtividade
@@ -206,3 +220,7 @@ func checarMedo() -> bool:
 	else:
 		notificarMedoAceitavel()
 		return true
+func _process(_delta):
+	var offset = Vector2(-50, -100) # 40 pixels para cima (eixo Y negativo é pra cima)
+	$UI/BotaoVoltar.position = global_position + offset
+	#atualizar_posicao_do_botao()

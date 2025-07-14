@@ -94,3 +94,11 @@ speed_scale = 1.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_kta8q")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="BotaoVoltar" type="Button" parent="UI"]
+anchors_preset = -1
+offset_right = 101.0
+offset_bottom = 31.0
+text = "BotãoVoltar"

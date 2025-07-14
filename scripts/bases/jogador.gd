@@ -81,13 +81,32 @@ func instanciar_objetos(dados: Resource):
 func factory_funcionario(dados: FuncionarioData):
 	var funcionario = preload("res://cenas/funcionario.tscn").instantiate()
 	funcionario.name = dados.nome
-	funcionario.MEDO_MAXIMO_ATINGIDO.connect(func (funcionario_atual):
-		atualizar_dados(funcionario_atual) #feito por lorenzo(ja sabe ne)
+	
+	funcionario.MEDO_MAXIMO_ATINGIDO.connect(func(funcionario_atual):
+		atualizar_dados(funcionario_atual)
 		alterar_fama(-0.1))
+		
+	funcionario.PEDIR_RETORNO_PARA_INVENTARIO.connect(func(f):
+		retornar_funcionario_para_inventario(f))
+
 	add_child(funcionario)
 	funcionario.setup(dados)
 	funcionario.global_position = Vector2(screenSize[0]/2, screenSize[1]/2)
 	return funcionario
+	
+func retornar_funcionario_para_inventario(funcionario: Funcionario):
+	var dados = FuncionarioData.new()
+	dados.nome = funcionario.nome
+	dados.produtividade = funcionario.produtividade
+	dados.preco = funcionario.preco
+	dados.taxa_de_acidente = funcionario.taxaDeAcidente
+	dados.taxa_de_medo = funcionario.taxaDeMedo
+	dados.isDisponivel = true
+	dados.profilePicture = funcionario.profilePicture
+		
+	adicionar_ao_inventario(dados)
+	funcionario.queue_free()
+
 
 func factory_maquina(dados: MaquinaData):
 	var maquina = preload("res://cenas/maquina.tscn").instantiate()
