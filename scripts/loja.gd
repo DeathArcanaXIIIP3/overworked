@@ -11,7 +11,10 @@ var listaMaquinas : Array[MaquinaData]
 func _ready() -> void:
 	adicionar_funcionario_loja(load("res://resources/funcionarios/Fulana.tres"))
 	adicionar_funcionario_loja(load("res://resources/funcionarios/Fulano.tres"))
+	adicionar_funcionario_loja(load("res://resources/funcionarios/FulanaB.tres"))
 	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_Impressão.tres"))
+	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_Impressão2.tres"))
+	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_ImpressãoC.tres"))
 	pass
 
 func adicionar_funcionario_loja(funcionarioData: FuncionarioData):
