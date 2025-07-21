@@ -17,9 +17,14 @@ var inventarioFuncionarios: Array[FuncionarioData]
 var inventarioUpgrades = []
 
 var screenSize
+var espacamento = Vector2(80, 60) 
+var maquina_size = Vector2(120, 120) 
+var maquinas_por_linha
+var total_maquinas_criadas = 0
 
 func _ready():
-	screenSize = get_viewport().get_visible_rect().size
+	screenSize = get_viewport().size
+	maquinas_por_linha = int((screenSize.x - espacamento.x) / (maquina_size.x + espacamento.x))
 	pass
 
 func definir_Nome(novoNome: String):
@@ -111,15 +116,31 @@ func retornar_funcionario_para_inventario(funcionario: Funcionario):
 func factory_maquina(dados: MaquinaData):
 	var maquina = preload("res://cenas/maquina.tscn").instantiate()
 	maquina.name = dados.nome
+
 	maquina.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionario, renda): 
 		_deletar_funcionario(funcionario) 
 		alterar_dinheiro(renda))
+
 	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (renda, funcionario):
 		alterar_dinheiro(renda)
 		funcionario.atualizarMedo())
+
+	# Cálculo de linha e coluna
+	var coluna = total_maquinas_criadas % maquinas_por_linha
+	var linha = total_maquinas_criadas / maquinas_por_linha
+
+	# Largura total ocupada pelas máquinas em uma linha
+	var largura_total = maquinas_por_linha * (maquina_size.x + espacamento.x)
+	# Ponto de início X centralizado
+	var inicio_x = 400
+	var pos_x = inicio_x + coluna * (maquina_size.x + espacamento.x)
+	var pos_y = (screenSize.y / 2) + linha * (maquina_size.y + espacamento.y)
+
+	maquina.position = Vector2(pos_x, pos_y)
+
 	add_child(maquina)
 	maquina.inicializar(dados)
-	maquina.global_position = Vector2(screenSize[0] / 2, screenSize[1] / 2)
+	total_maquinas_criadas += 1
 	return maquina
 
 func _deletar_funcionario(funcionario: Funcionario):
