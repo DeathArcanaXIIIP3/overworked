@@ -60,11 +60,31 @@ func apagar_botao(botao: Button):
 	pass
 
 func _on_timer_timeout() -> void:
+	if jogadorRef.maquinas_totais <= 0:
+		return
 	horaAtual += 1
+	#Não é correto o dia atual atualizzar aqui, ele deveria atualizar no if de baixo, coloquei aqui só pro mes passar mais rapido
 	
-	if horaAtual%24 == 0:
+	
+	if horaAtual % 24 == 0:
 		horaAtual = 0
 		diaAtual += 1
-	
+		verificar_fim_do_mes()
+
 	atualizar_atributos()
 	pass # Replace with function body.
+
+func verificar_fim_do_mes():
+	print(diaAtual)
+	print("Entrou 1")
+	if diaAtual == 1:
+		print("Entrou 2")
+		if jogadorRef.almas < 1:
+			print("Entrou 3")
+			get_tree().change_scene_to_file("res://cenas/GameOver.tscn")
+		else:
+			print("Entrou 4")
+			print("Meta batida!")
+			diaAtual = 1 # Reseta o mês
+			jogadorRef.almas -= 1 # Paga a cota
+			jogadorRef.emit_signal("ATUALIZAR_ATRIBUTOS_GUI") # Atualiza GUI

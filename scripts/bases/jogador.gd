@@ -21,6 +21,7 @@ var espacamento = Vector2(80, 60)
 var maquina_size = Vector2(120, 120) 
 var maquinas_por_linha
 var total_maquinas_criadas = 0
+var maquinas_totais = 0
 
 func _ready():
 	screenSize = get_viewport().size
@@ -90,7 +91,6 @@ func factory_funcionario(dados: FuncionarioData):
 	funcionario.MEDO_MAXIMO_ATINGIDO.connect(func(funcionario_atual):
 		atualizar_dados(funcionario_atual)
 		alterar_fama(-0.1))
-		
 	funcionario.PEDIR_RETORNO_PARA_INVENTARIO.connect(func(f):
 		retornar_funcionario_para_inventario(f))
 
@@ -116,14 +116,22 @@ func retornar_funcionario_para_inventario(funcionario: Funcionario):
 func factory_maquina(dados: MaquinaData):
 	var maquina = preload("res://cenas/maquina.tscn").instantiate()
 	maquina.name = dados.nome
-
+	maquina.FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.connect(soma_maquinas_total)
+	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(reduz_maquinas_total)
+	
 	maquina.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionario, renda): 
-		_deletar_funcionario(funcionario) 
+		
+		reduz_maquinas_total(maquina)
+		_deletar_funcionario(funcionario)
 		alterar_dinheiro(renda))
-
+	
 	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (renda, funcionario):
+		reduz_maquinas_total(maquina)
 		alterar_dinheiro(renda)
 		funcionario.atualizarMedo())
+	if maquinas_totais < 0:
+		maquinas_totais = 0
+		
 
 	# Cálculo de linha e coluna
 	var coluna = total_maquinas_criadas % maquinas_por_linha
@@ -156,7 +164,15 @@ func _deletar_funcionario(funcionario: Funcionario):
 func deletar_funcionario(funcionario: Funcionario):
 	alterar_almas(+1)
 	funcionario.queue_free()
-
+	
+	
+func soma_maquinas_total(_dados = null):
+	maquinas_totais += 1
+	print("Máquinas em operação:", maquinas_totais)
+	
+func reduz_maquinas_total(_dados = null):
+	maquinas_totais -= 1
+	print("Máquinas em operação:", maquinas_totais)
 
 func atualizar_dados(funcionario: Funcionario):
 	funcionario.queue_free()
