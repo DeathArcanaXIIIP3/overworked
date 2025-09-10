@@ -2,16 +2,14 @@ extends Control
 
 class_name JogadorGUI
 
-signal ITEM_SELECIONADO
-
 @onready var jogadorRef: Jogador = $"../Jogador"
 var timerGlobalRef: Timer
 var horaAtual: int
 var diaAtual: int
 
 func _ready() -> void:
-	jogadorRef.ATUALIZAR_ATRIBUTOS_GUI.connect(atualizar_atributos)
-	jogadorRef.ATUALIZAR_INVENTARIOS_GUI.connect(atualizar_inventario)
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.connect(atualizar_atributos)
+	EventBus.ATUALIZAR_INVENTARIOS_GUI.connect(atualizar_inventario)
 	pass
 
 func atualizar_atributos():
@@ -53,7 +51,7 @@ func limpar_inventarios():
 		filho.queue_free()
 
 func item_do_inventario_selecionado(itemSelecionado: Resource):
-	ITEM_SELECIONADO.emit(itemSelecionado)
+	EventBus.ITEM_SELECIONADO.emit(itemSelecionado)
 
 func apagar_botao(botao: Button):
 	botao.queue_free()

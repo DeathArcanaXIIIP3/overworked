@@ -2,10 +2,6 @@ extends Node
 
 class_name Jogador
 
-signal ATUALIZAR_ATRIBUTOS_GUI
-signal ATUALIZAR_INVENTARIOS_GUI
-signal COMPRA_REALIZADA
-
 @onready var jogadorGUIRef: JogadorGUI = $"../Jogador_GUI"
 
 var nome: String = "Maritaca"
@@ -24,35 +20,38 @@ var total_maquinas_criadas = 0
 var maquinas_totais = 0
 
 func _ready():
+	#EventBus.FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.connect(Callable(self,"soma_maquinas_total"))
+	#EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(reduz_maquinas_total)
+	
 	screenSize = get_viewport().size
 	maquinas_por_linha = int((screenSize.x - espacamento.x) / (maquina_size.x + espacamento.x))
 	pass
 
 func definir_Nome(novoNome: String):
 	nome = novoNome
-	ATUALIZAR_ATRIBUTOS_GUI.emit()
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
 	return nome
 
 func alterar_dinheiro(novoValor: int):
 	dinheiro += novoValor
-	ATUALIZAR_ATRIBUTOS_GUI.emit()
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
 	return dinheiro
 
 func alterar_fama(novoValor: float):
 	fama += novoValor
-	ATUALIZAR_ATRIBUTOS_GUI.emit()
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
 	return fama
 
 func alterar_almas(novoValor: int):
 	almas += novoValor
-	ATUALIZAR_ATRIBUTOS_GUI.emit()
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
 	return almas
 
 func consultar_saldo_para_compra(itemSolicitado: Resource):
 	if itemSolicitado.preco <= dinheiro:
 		adicionar_ao_inventario(itemSolicitado)
 		alterar_dinheiro(-itemSolicitado.preco)
-		COMPRA_REALIZADA.emit(itemSolicitado)
+		EventBus.COMPRA_REALIZADA.emit(itemSolicitado)
 	else:
 		print("SALDO INSUFICIENTE")
 
@@ -63,7 +62,7 @@ func adicionar_ao_inventario(itemRecebido: Resource):
 		inventarioFuncionarios.append(itemRecebido)
 	elif MaquinaData:
 		inventarioMaquinas.append(itemRecebido)
-	ATUALIZAR_INVENTARIOS_GUI.emit()
+	EventBus.ATUALIZAR_INVENTARIOS_GUI.emit()
 
 func remover_do_inventario(itemSelecionado: Resource):
 	if itemSelecionado == null:
@@ -72,7 +71,7 @@ func remover_do_inventario(itemSelecionado: Resource):
 		inventarioFuncionarios.erase(itemSelecionado)
 	elif itemSelecionado is MaquinaData:
 		inventarioMaquinas.erase(itemSelecionado)
-	ATUALIZAR_INVENTARIOS_GUI.emit()
+	EventBus.ATUALIZAR_INVENTARIOS_GUI.emit()
 
 func instanciar_objetos(dados: Resource):
 	if dados == null:
@@ -88,10 +87,10 @@ func factory_funcionario(dados: FuncionarioData):
 	var funcionario = preload("res://cenas/funcionario.tscn").instantiate()
 	funcionario.name = dados.nome
 	
-	funcionario.MEDO_MAXIMO_ATINGIDO.connect(func(funcionario_atual):
+	EventBus.MEDO_MAXIMO_ATINGIDO.connect(func(funcionario_atual):
 		atualizar_dados(funcionario_atual)
 		alterar_fama(-0.1))
-	funcionario.PEDIR_RETORNO_PARA_INVENTARIO.connect(func(f):
+	EventBus.PEDIR_RETORNO_PARA_INVENTARIO.connect(func(f):
 		retornar_funcionario_para_inventario(f))
 
 	add_child(funcionario)
@@ -116,16 +115,14 @@ func retornar_funcionario_para_inventario(funcionario: Funcionario):
 func factory_maquina(dados: MaquinaData):
 	var maquina = preload("res://cenas/maquina.tscn").instantiate()
 	maquina.name = dados.nome
-	maquina.FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.connect(soma_maquinas_total)
-	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(reduz_maquinas_total)
 	
-	maquina.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionario, renda): 
+	EventBus.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionario, renda): 
 		
 		reduz_maquinas_total(maquina)
 		_deletar_funcionario(funcionario)
 		alterar_dinheiro(renda))
 	
-	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (renda, funcionario):
+	EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (renda, funcionario):
 		reduz_maquinas_total(maquina)
 		alterar_dinheiro(renda)
 		funcionario.atualizarMedo())
@@ -146,8 +143,9 @@ func factory_maquina(dados: MaquinaData):
 
 	maquina.position = Vector2(pos_x, pos_y)
 
-	add_child(maquina)
 	maquina.inicializar(dados)
+	add_child(maquina)
+	print(dados)
 	total_maquinas_criadas += 1
 	return maquina
 

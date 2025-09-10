@@ -7,9 +7,9 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
-	lojaRef.COMPRA_SOLICITADA.connect(jogadorRef.consultar_saldo_para_compra)
-	jogadorGUIRef.ITEM_SELECIONADO.connect(jogadorRef.instanciar_objetos)
-	jogadorRef.COMPRA_REALIZADA.connect(lojaRef.remover_item_da_loja)
+	EventBus.COMPRA_SOLICITADA.connect(jogadorRef.consultar_saldo_para_compra)
+	EventBus.ITEM_SELECIONADO.connect(jogadorRef.instanciar_objetos)
+	EventBus.COMPRA_REALIZADA.connect(lojaRef.remover_item_da_loja)
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

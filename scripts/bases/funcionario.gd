@@ -7,9 +7,6 @@ const VALOR_MEDO_ALTO = LIMITE_MAX_MEDO - 0.2
 const INCREMENTO_MEDO_PADRAO = 0.1
 const OFFSET_BOTAO = Vector2(0, -40)
 
-signal MEDO_MAXIMO_ATINGIDO
-signal PEDIR_RETORNO_PARA_INVENTARIO
-
 var nome: String
 var medo: float
 var produtividade: float
@@ -30,7 +27,7 @@ func _ready():
 	$UI/BotaoVoltar.position = Vector2(100, 0)
 func _voltar_para_inventario():
 	if isDisponivel:
-		PEDIR_RETORNO_PARA_INVENTARIO.emit(self)
+		EventBus.PEDIR_RETORNO_PARA_INVENTARIO.emit(self)
 	else:
 		print("Funcionário está ocupado e não pode retornar ao inventário.")
 
@@ -93,7 +90,7 @@ func checarMedoMaximo() -> bool:
 func atualizarMedo() -> void:
 	incrementarMedo(getMultiplicadorDeMedo())
 	if checarMedoMaximo():
-		MEDO_MAXIMO_ATINGIDO.emit(self)
+		EventBus.MEDO_MAXIMO_ATINGIDO.emit(self)
 	print("Medo atualizado para: ", medo)
 
 # Getter para a taxa de sobrevivência
