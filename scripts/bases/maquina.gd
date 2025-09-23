@@ -71,11 +71,13 @@ func tentarMatarFuncionario():
 		print(resultado)
 		print(funcionarioAtual.nome, " Morreu")
 		FUNCIONARIO_MORREU_NA_MAQUINA.emit(funcionarioAtual, rendaNova)
+		EventBus.FUNCIONARIO_MORREU_NA_MAQUINA.emit(funcionarioAtual,rendaNova)
 		alternarDisponibilidade()
 	else:
 		print(resultado)
 		print(funcionarioAtual.nome, " Terminou de trabalhar")
 		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)
+		EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)
 		self.alternarDisponibilidade()
 	pass
 

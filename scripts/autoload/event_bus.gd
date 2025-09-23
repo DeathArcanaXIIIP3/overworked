@@ -13,6 +13,8 @@ signal ATUALIZAR_ATRIBUTOS_GUI
 signal ATUALIZAR_INVENTARIOS_GUI
 @warning_ignore("unused_signal")
 signal COMPRA_REALIZADA
+@warning_ignore("unused_signal")
+signal JOGADOR_PRONTO
 
 #Sinais Maquina
 @warning_ignore("unused_signal")

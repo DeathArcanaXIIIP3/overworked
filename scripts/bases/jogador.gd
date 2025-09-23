@@ -10,7 +10,7 @@ var dinheiro: int = 2000
 var fama: float = 0.1
 var inventarioMaquinas: Array[MaquinaData]
 var inventarioFuncionarios: Array[FuncionarioData]
-var inventarioUpgrades = []
+var inventarioUpgrades: Array[UpgradeData]
 
 var screenSize
 var espacamento = Vector2(80, 60) 
@@ -22,9 +22,19 @@ var maquinas_totais = 0
 func _ready():
 	#EventBus.FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.connect(Callable(self,"soma_maquinas_total"))
 	#EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(reduz_maquinas_total)
-	
 	screenSize = get_viewport().size
 	maquinas_por_linha = int((screenSize.x - espacamento.x) / (maquina_size.x + espacamento.x))
+	pass
+
+func adicionar_upgrade(itemRecebido: Resource):
+	if itemRecebido == null:
+		push_warning("Item recebido tipo NULL")
+	elif itemRecebido is UpgradeData:
+		print("Teste")
+		inventarioUpgrades.append(itemRecebido)
+		var lojaRef : Loja = jogadorGUIRef.get_node("Loja")
+		for n in range(lojaRef.listaMaquinas.size()):
+			inventarioUpgrades[0].applyUpgrade(lojaRef.listaMaquinas[n])
 	pass
 
 func definir_Nome(novoNome: String):
@@ -123,6 +133,7 @@ func factory_maquina(dados: MaquinaData):
 		alterar_dinheiro(renda))
 	
 	EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (renda, funcionario):
+		print("FUNCIONARIO PAROU DE OPERAR")
 		reduz_maquinas_total(maquina)
 		alterar_dinheiro(renda)
 		funcionario.atualizarMedo())
@@ -135,6 +146,7 @@ func factory_maquina(dados: MaquinaData):
 	var linha = total_maquinas_criadas / maquinas_por_linha
 
 	# Largura total ocupada pelas máquinas em uma linha
+	@warning_ignore("unused_variable")
 	var largura_total = maquinas_por_linha * (maquina_size.x + espacamento.x)
 	# Ponto de início X centralizado
 	var inicio_x = 400
