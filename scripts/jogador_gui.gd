@@ -86,3 +86,9 @@ func verificar_fim_do_mes():
 			diaAtual = 1 # Reseta o mês
 			jogadorRef.almas -= 1 # Paga a cota
 			jogadorRef.emit_signal("ATUALIZAR_ATRIBUTOS_GUI") # Atualiza GUI
+
+
+func _on_button_pressed() -> void:
+	#INSIRA O UPGRADE (Resource) QUE QUER ADICIONAR AO INVENTARIO DO JOGADOR AQUI, (ENQUANTO A UI NAO TIVER PRONTA E OQ TEM PRA TESTAR)
+	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/maquina_2x_renda.tres"))
+	pass # Replace with function body.

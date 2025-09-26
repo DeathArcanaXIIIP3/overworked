@@ -30,11 +30,26 @@ func adicionar_upgrade(itemRecebido: Resource):
 	if itemRecebido == null:
 		push_warning("Item recebido tipo NULL")
 	elif itemRecebido is UpgradeData:
-		print("Teste")
 		inventarioUpgrades.append(itemRecebido)
-		var lojaRef : Loja = jogadorGUIRef.get_node("Loja")
-		for n in range(lojaRef.listaMaquinas.size()):
-			inventarioUpgrades[0].applyUpgrade(lojaRef.listaMaquinas[n])
+		ativar_upgrade(itemRecebido)
+	pass
+
+func ativar_upgrade(upgrade: maquinaUpgrade):
+	var lojaRef: Loja = jogadorGUIRef.get_node("Loja")
+	var filhosJogador: Array = self.get_children()
+	for n in inventarioMaquinas.size():
+		print("Renda: ",inventarioMaquinas[n].renda)
+		upgrade.aplicar_upgrade(inventarioMaquinas[n])
+		print("Nova Renda: ",inventarioMaquinas[n].renda)
+	for n in lojaRef.listaMaquinas.size():
+		print("Renda: ",lojaRef.listaMaquinas[n].renda)
+		upgrade.aplicar_upgrade(lojaRef.listaMaquinas[n])
+		print("Nova Renda: ",lojaRef.listaMaquinas[n].renda)
+	for n in filhosJogador.size():
+		if filhosJogador[n] is Maquina:
+			print("Renda: ",filhosJogador[n].renda)
+			upgrade.aplicar_upgrade(filhosJogador[n])
+			print("Nova Renda: ",filhosJogador[n].renda)
 	pass
 
 func definir_Nome(novoNome: String):

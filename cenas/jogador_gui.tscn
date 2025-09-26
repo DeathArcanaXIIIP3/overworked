@@ -90,4 +90,12 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_top = 48.0
+offset_right = 132.0
+offset_bottom = 79.0
+text = "Aplicar Upgrade"
+
 [connection signal="ATUALIZAR_INVENTARIO" from="Loja" to="Loja" method="_on_atualizar_inventario"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

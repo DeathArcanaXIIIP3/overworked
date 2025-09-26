@@ -10,6 +10,7 @@ func _ready() -> void:
 	EventBus.COMPRA_SOLICITADA.connect(jogadorRef.consultar_saldo_para_compra)
 	EventBus.ITEM_SELECIONADO.connect(jogadorRef.instanciar_objetos)
 	EventBus.COMPRA_REALIZADA.connect(lojaRef.remover_item_da_loja)
+	EventBus.UPGRADE_ADQUIRIDO.connect(jogadorRef.adicionar_upgrade)
 	_on_jogador_pronto()
 	pass # Replace with function body.
 
@@ -18,12 +19,10 @@ func _process(_delta: float) -> void:
 	pass
 
 func _on_jogador_pronto() -> void:
-	print("TESTE SINAL")
 	jogadorGUIRef = $Jogador_GUI
 	jogadorGUIRef.timerGlobalRef = timerRef
 	jogadorRef.definir_Nome("Maritaca")
 	jogadorRef.alterar_dinheiro(+1000)
 	jogadorRef.alterar_fama(0.2)
 	jogadorGUIRef.atualizar_atributos()
-	jogadorRef.adicionar_upgrade(load("res://resources/upgrades/UpgradeMaquinaRenda2x.tres"))
 	pass # Replace with function body.

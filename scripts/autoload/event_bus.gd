@@ -27,6 +27,8 @@ signal FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA
 #Sinais GUI
 @warning_ignore("unused_signal")
 signal ITEM_SELECIONADO
+@warning_ignore("unused_signal")
+signal UPGRADE_ADQUIRIDO
 
 #Sinais Loja
 @warning_ignore("unused_signal")
