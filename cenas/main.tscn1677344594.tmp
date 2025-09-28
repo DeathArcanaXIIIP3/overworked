@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcdme1a8x75xu"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_1gj88"]
+[ext_resource type="PackedScene" uid="uid://b3vxfcqhwtgjd" path="res://cenas/jogador_gui.tscn" id="3_4fhxt"]
+[ext_resource type="PackedScene" uid="uid://1wcf2rvjmush" path="res://cenas/jogador.tscn" id="3_b30p5"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_1gj88")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="Jogador" parent="." instance=ExtResource("3_b30p5")]
+
+[node name="Jogador_GUI" parent="." instance=ExtResource("3_4fhxt")]
+
+[connection signal="timeout" from="Timer" to="Jogador_GUI" method="_on_timer_timeout"]

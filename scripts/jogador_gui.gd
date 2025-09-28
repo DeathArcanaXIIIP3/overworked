@@ -2,16 +2,14 @@ extends Control
 
 class_name JogadorGUI
 
-signal ITEM_SELECIONADO
-
 @onready var jogadorRef: Jogador = $"../Jogador"
 var timerGlobalRef: Timer
 var horaAtual: int
 var diaAtual: int
 
 func _ready() -> void:
-	jogadorRef.ATUALIZAR_ATRIBUTOS_GUI.connect(atualizar_atributos)
-	jogadorRef.ATUALIZAR_INVENTARIOS_GUI.connect(atualizar_inventario)
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.connect(atualizar_atributos)
+	EventBus.ATUALIZAR_INVENTARIOS_GUI.connect(atualizar_inventario)
 	pass
 
 func atualizar_atributos():
@@ -53,7 +51,7 @@ func limpar_inventarios():
 		filho.queue_free()
 
 func item_do_inventario_selecionado(itemSelecionado: Resource):
-	ITEM_SELECIONADO.emit(itemSelecionado)
+	EventBus.ITEM_SELECIONADO.emit(itemSelecionado)
 
 func apagar_botao(botao: Button):
 	botao.queue_free()
@@ -88,3 +86,15 @@ func verificar_fim_do_mes():
 			diaAtual = 1 # Reseta o mês
 			jogadorRef.almas -= 1 # Paga a cota
 			jogadorRef.emit_signal("ATUALIZAR_ATRIBUTOS_GUI") # Atualiza GUI
+
+
+func _on_button_pressed() -> void:
+	#INSIRA O UPGRADE (Resource) QUE QUER ADICIONAR AO INVENTARIO DO JOGADOR AQUI, (ENQUANTO A UI NAO TIVER PRONTA E OQ TEM PRA TESTAR)
+	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/maquina_2x_renda.tres"))
+
+	pass # Replace with function body.
+
+
+func _on_funcionario_button_pressed() -> void:
+	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/funcionario_2x_produtividade.tres"))
+	pass # Replace with function body.

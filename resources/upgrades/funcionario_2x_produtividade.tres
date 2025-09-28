@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="funcionarioUpgrade" load_steps=2 format=3 uid="uid://dno8a7thtgdx6"]
+
+[ext_resource type="Script" uid="uid://ymh2xmv504b5" path="res://scripts/upgrades/funcionario_2X_produtividade.gd" id="1_ppr4y"]
+
+[resource]
+script = ExtResource("1_ppr4y")
+multiplicador = 2.0
+nome = ""

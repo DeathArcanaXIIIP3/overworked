@@ -2,7 +2,6 @@ extends TabContainer
 
 class_name Loja
 
-signal COMPRA_SOLICITADA
 signal ATUALIZAR_INVENTARIO
 
 var listaFuncionarios : Array[FuncionarioData]
@@ -38,7 +37,7 @@ func apagar_botao(botao: Button):
 	pass
 
 func solicitar_compra(itemSolicitado):
-	COMPRA_SOLICITADA.emit(itemSolicitado)
+	EventBus.COMPRA_SOLICITADA.emit(itemSolicitado)
 
 func remover_item_da_loja(itemComprado):
 	if itemComprado == null:

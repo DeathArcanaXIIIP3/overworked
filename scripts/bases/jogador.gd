@@ -2,10 +2,6 @@ extends Node
 
 class_name Jogador
 
-signal ATUALIZAR_ATRIBUTOS_GUI
-signal ATUALIZAR_INVENTARIOS_GUI
-signal COMPRA_REALIZADA
-
 @onready var jogadorGUIRef: JogadorGUI = $"../Jogador_GUI"
 
 var nome: String = "Maritaca"
@@ -14,7 +10,7 @@ var dinheiro: int = 2000
 var fama: float = 0.1
 var inventarioMaquinas: Array[MaquinaData]
 var inventarioFuncionarios: Array[FuncionarioData]
-var inventarioUpgrades = []
+var inventarioUpgrades: Array[UpgradeData]
 
 var screenSize
 var espacamento = Vector2(80, 60) 
@@ -24,35 +20,85 @@ var total_maquinas_criadas = 0
 var maquinas_totais = 0
 
 func _ready():
+	#EventBus.FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.connect(Callable(self,"soma_maquinas_total"))
+	#EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(reduz_maquinas_total)
 	screenSize = get_viewport().size
 	maquinas_por_linha = int((screenSize.x - espacamento.x) / (maquina_size.x + espacamento.x))
 	pass
 
+func adicionar_upgrade(itemRecebido: Resource):
+	if itemRecebido == null:
+		push_warning("Item recebido tipo NULL")
+	elif itemRecebido is UpgradeData:
+		inventarioUpgrades.append(itemRecebido)
+
+		# Decide qual ativar com base no tipo
+		if itemRecebido is maquinaUpgrade:
+			ativar_upgrade(itemRecebido)
+		elif itemRecebido is funcionarioUpgrade:
+			ativar_upgrade_funcionario(itemRecebido)
+
+func ativar_upgrade(upgrade: maquinaUpgrade):
+	var lojaRef: Loja = jogadorGUIRef.get_node("Loja")
+	var filhosJogador: Array = self.get_children()
+	for n in inventarioMaquinas.size():
+		print("Renda: ",inventarioMaquinas[n].renda)
+		upgrade.aplicar_upgrade(inventarioMaquinas[n])
+		print("Nova Renda: ",inventarioMaquinas[n].renda)
+	for n in lojaRef.listaMaquinas.size():
+		print("Renda: ",lojaRef.listaMaquinas[n].renda)
+		upgrade.aplicar_upgrade(lojaRef.listaMaquinas[n])
+		print("Nova Renda: ",lojaRef.listaMaquinas[n].renda)
+	for n in filhosJogador.size():
+		if filhosJogador[n] is Maquina:
+			print("Renda: ",filhosJogador[n].renda)
+			upgrade.aplicar_upgrade(filhosJogador[n])
+			print("Nova Renda: ",filhosJogador[n].renda)
+	pass
+	
+func ativar_upgrade_funcionario(upgrade: funcionarioUpgrade):
+	var lojaRef: Loja = jogadorGUIRef.get_node("Loja")
+	var filhosJogador: Array = self.get_children()
+	for n in inventarioFuncionarios.size():
+		print("Produtivdade: ",inventarioFuncionarios[n].produtividade)
+		upgrade.aplicar_upgrade(inventarioFuncionarios[n])
+		print("Nova Produtivdade: ",inventarioFuncionarios[n].produtividade)
+	for n in lojaRef.listaFuncionarios.size():
+		print("Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
+		upgrade.aplicar_upgrade(lojaRef.listaFuncionarios[n])
+		print("Nova Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
+	for n in filhosJogador.size():
+		if filhosJogador[n] is Funcionario:
+			print("Produtivdade: ",filhosJogador[n].produtividade)
+			upgrade.aplicar_upgrade(filhosJogador[n])
+			print("Nova Produtivdade: ",filhosJogador[n].produtividade)
+	pass
+
 func definir_Nome(novoNome: String):
 	nome = novoNome
-	ATUALIZAR_ATRIBUTOS_GUI.emit()
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
 	return nome
 
 func alterar_dinheiro(novoValor: int):
 	dinheiro += novoValor
-	ATUALIZAR_ATRIBUTOS_GUI.emit()
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
 	return dinheiro
 
 func alterar_fama(novoValor: float):
 	fama += novoValor
-	ATUALIZAR_ATRIBUTOS_GUI.emit()
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
 	return fama
 
 func alterar_almas(novoValor: int):
 	almas += novoValor
-	ATUALIZAR_ATRIBUTOS_GUI.emit()
+	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
 	return almas
 
 func consultar_saldo_para_compra(itemSolicitado: Resource):
 	if itemSolicitado.preco <= dinheiro:
 		adicionar_ao_inventario(itemSolicitado)
 		alterar_dinheiro(-itemSolicitado.preco)
-		COMPRA_REALIZADA.emit(itemSolicitado)
+		EventBus.COMPRA_REALIZADA.emit(itemSolicitado)
 	else:
 		print("SALDO INSUFICIENTE")
 
@@ -63,7 +109,7 @@ func adicionar_ao_inventario(itemRecebido: Resource):
 		inventarioFuncionarios.append(itemRecebido)
 	elif MaquinaData:
 		inventarioMaquinas.append(itemRecebido)
-	ATUALIZAR_INVENTARIOS_GUI.emit()
+	EventBus.ATUALIZAR_INVENTARIOS_GUI.emit()
 
 func remover_do_inventario(itemSelecionado: Resource):
 	if itemSelecionado == null:
@@ -72,7 +118,7 @@ func remover_do_inventario(itemSelecionado: Resource):
 		inventarioFuncionarios.erase(itemSelecionado)
 	elif itemSelecionado is MaquinaData:
 		inventarioMaquinas.erase(itemSelecionado)
-	ATUALIZAR_INVENTARIOS_GUI.emit()
+	EventBus.ATUALIZAR_INVENTARIOS_GUI.emit()
 
 func instanciar_objetos(dados: Resource):
 	if dados == null:
@@ -88,10 +134,10 @@ func factory_funcionario(dados: FuncionarioData):
 	var funcionario = preload("res://cenas/funcionario.tscn").instantiate()
 	funcionario.name = dados.nome
 	
-	funcionario.MEDO_MAXIMO_ATINGIDO.connect(func(funcionario_atual):
+	EventBus.MEDO_MAXIMO_ATINGIDO.connect(func(funcionario_atual):
 		atualizar_dados(funcionario_atual)
 		alterar_fama(-0.1))
-	funcionario.PEDIR_RETORNO_PARA_INVENTARIO.connect(func(f):
+	EventBus.PEDIR_RETORNO_PARA_INVENTARIO.connect(func(f):
 		retornar_funcionario_para_inventario(f))
 
 	add_child(funcionario)
@@ -116,16 +162,15 @@ func retornar_funcionario_para_inventario(funcionario: Funcionario):
 func factory_maquina(dados: MaquinaData):
 	var maquina = preload("res://cenas/maquina.tscn").instantiate()
 	maquina.name = dados.nome
-	maquina.FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.connect(soma_maquinas_total)
-	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(reduz_maquinas_total)
 	
-	maquina.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionario, renda): 
+	EventBus.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionario, renda): 
 		
 		reduz_maquinas_total(maquina)
 		_deletar_funcionario(funcionario)
 		alterar_dinheiro(renda))
 	
-	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (renda, funcionario):
+	EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (renda, funcionario):
+		print("FUNCIONARIO PAROU DE OPERAR")
 		reduz_maquinas_total(maquina)
 		alterar_dinheiro(renda)
 		funcionario.atualizarMedo())
@@ -138,6 +183,7 @@ func factory_maquina(dados: MaquinaData):
 	var linha = total_maquinas_criadas / maquinas_por_linha
 
 	# Largura total ocupada pelas máquinas em uma linha
+	@warning_ignore("unused_variable")
 	var largura_total = maquinas_por_linha * (maquina_size.x + espacamento.x)
 	# Ponto de início X centralizado
 	var inicio_x = 400
@@ -146,8 +192,9 @@ func factory_maquina(dados: MaquinaData):
 
 	maquina.position = Vector2(pos_x, pos_y)
 
-	add_child(maquina)
 	maquina.inicializar(dados)
+	add_child(maquina)
+	print(dados)
 	total_maquinas_criadas += 1
 	return maquina
 

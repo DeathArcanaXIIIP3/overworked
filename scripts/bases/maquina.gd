@@ -23,6 +23,7 @@ var isDisponivel: bool
 
 #----------------Funções do Godot------------#
 func _ready() -> void:
+	FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.connect(Callable(self,"executarMaquina"))
 	pass
 
 func _process(_delta: float) -> void:
@@ -56,6 +57,7 @@ func adicionarFuncionario(funcionario: Funcionario):
 		funcionarioAtual = funcionario
 		funcionarioAtual.global_position = $Ancora.global_position
 		funcionarioAtual.alternarDisponibilidade()
+		self.alternarDisponibilidade()
 		FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
 	else:
 		print("SINAL: Maquina em uso")
@@ -69,12 +71,14 @@ func tentarMatarFuncionario():
 		print(resultado)
 		print(funcionarioAtual.nome, " Morreu")
 		FUNCIONARIO_MORREU_NA_MAQUINA.emit(funcionarioAtual, rendaNova)
+		EventBus.FUNCIONARIO_MORREU_NA_MAQUINA.emit(funcionarioAtual,rendaNova)
 		alternarDisponibilidade()
 	else:
 		print(resultado)
 		print(funcionarioAtual.nome, " Terminou de trabalhar")
 		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)
-		alternarDisponibilidade()
+		EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)
+		self.alternarDisponibilidade()
 	pass
 
 func calcular_renda():
