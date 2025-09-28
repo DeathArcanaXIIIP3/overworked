@@ -43,6 +43,7 @@ func setup(data:FuncionarioData):
 	
 	profilePicture = data.profilePicture
 	$Sprite.texture = data.profilePicture
+	
 func atualizar_posicao_do_botao():
 	var offset = Vector2(0, 0) # ajuste a posição do botão relativo ao funcionário
 	# Se o botão está dentro de UI (CanvasLayer ou Node2D filho)

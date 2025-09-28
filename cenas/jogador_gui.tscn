@@ -97,5 +97,14 @@ offset_right = 132.0
 offset_bottom = 79.0
 text = "Aplicar Upgrade"
 
+[node name="funcionario_button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 91.0
+offset_right = 129.0
+offset_bottom = 128.0
+text = "funcionarios"
+
 [connection signal="ATUALIZAR_INVENTARIO" from="Loja" to="Loja" method="_on_atualizar_inventario"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="funcionario_button" to="." method="_on_funcionario_button_pressed"]

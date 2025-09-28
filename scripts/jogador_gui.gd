@@ -91,4 +91,10 @@ func verificar_fim_do_mes():
 func _on_button_pressed() -> void:
 	#INSIRA O UPGRADE (Resource) QUE QUER ADICIONAR AO INVENTARIO DO JOGADOR AQUI, (ENQUANTO A UI NAO TIVER PRONTA E OQ TEM PRA TESTAR)
 	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/maquina_2x_renda.tres"))
+
+	pass # Replace with function body.
+
+
+func _on_funcionario_button_pressed() -> void:
+	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/funcionario_2x_produtividade.tres"))
 	pass # Replace with function body.
