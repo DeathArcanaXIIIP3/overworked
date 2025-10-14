@@ -106,5 +106,6 @@ offset_bottom = 128.0
 text = "funcionarios"
 
 [connection signal="ATUALIZAR_INVENTARIO" from="Loja" to="Loja" method="_on_atualizar_inventario"]
+[connection signal="tab_hovered" from="Loja" to="." method="_on_loja_tab_hovered"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="funcionario_button" to="." method="_on_funcionario_button_pressed"]

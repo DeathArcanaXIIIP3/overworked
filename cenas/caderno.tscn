@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://xdpw8wcrbl1c"]
+
+[ext_resource type="Script" uid="uid://tfescw4dkdgs" path="res://scripts/bases/caderno.gd" id="1_cq1xu"]
+
+[node name="Caderno" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cq1xu")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 0
+offset_top = 688.0
+offset_right = 256.0
+offset_bottom = 816.0
+current_tab = 0
+
+[node name="Tab 1" type="VBoxContainer" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Tab 2" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Tab 3" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[connection signal="tab_clicked" from="TabContainer" to="." method="_on_tab_container_tab_clicked"]

@@ -98,3 +98,8 @@ func _on_button_pressed() -> void:
 func _on_funcionario_button_pressed() -> void:
 	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/funcionario_2x_produtividade.tres"))
 	pass # Replace with function body.
+
+
+func _on_loja_tab_hovered(tab: int) -> void:
+	print("Hovered")
+	pass # Replace with function body.
