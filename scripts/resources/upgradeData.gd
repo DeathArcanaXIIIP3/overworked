@@ -4,6 +4,7 @@ class_name UpgradeData
 
 @export var nome: String
 @export var icone: Texture
+@export var ativo: bool
 
 @warning_ignore("unused_parameter")
 func aplicar_upgrade(alvo) -> void:

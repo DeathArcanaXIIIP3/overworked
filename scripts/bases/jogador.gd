@@ -30,8 +30,12 @@ func adicionar_upgrade(itemRecebido: Resource):
 	if itemRecebido == null:
 		push_warning("Item recebido tipo NULL")
 	elif itemRecebido is UpgradeData:
-		inventarioUpgrades.append(itemRecebido)
-		ativar_upgrade(itemRecebido)
+		if itemRecebido.ativo == false:
+			itemRecebido.ativo = true
+			inventarioUpgrades.append(itemRecebido)
+			ativar_upgrade(itemRecebido)
+		else:
+			print("Upgrade já esta no inventario")
 
 func ativar_upgrade(upgrade: UpgradeData):
 	var lojaRef: Loja = jogadorGUIRef.get_node("Loja")
