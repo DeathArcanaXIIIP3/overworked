@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b3vxfcqhwtgjd"]
 
-[ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/jogador_gui.gd" id="1_48ihe"]
-[ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/loja.gd" id="2_6rma8"]
+[ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/bases/jogador_gui.gd" id="1_48ihe"]
+[ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/bases/loja.gd" id="2_6rma8"]
 
 [node name="Jogador_GUI" type="Control"]
 layout_mode = 3
