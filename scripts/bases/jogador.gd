@@ -31,48 +31,60 @@ func adicionar_upgrade(itemRecebido: Resource):
 		push_warning("Item recebido tipo NULL")
 	elif itemRecebido is UpgradeData:
 		inventarioUpgrades.append(itemRecebido)
+		ativar_upgrade(itemRecebido)
 
-		# Decide qual ativar com base no tipo
-		if itemRecebido is maquinaUpgrade:
-			ativar_upgrade(itemRecebido)
-		elif itemRecebido is funcionarioUpgrade:
-			ativar_upgrade_funcionario(itemRecebido)
-
-func ativar_upgrade(upgrade: maquinaUpgrade):
+func ativar_upgrade(upgrade: UpgradeData):
 	var lojaRef: Loja = jogadorGUIRef.get_node("Loja")
 	var filhosJogador: Array = self.get_children()
-	for n in inventarioMaquinas.size():
-		print("Renda: ",inventarioMaquinas[n].renda)
-		upgrade.aplicar_upgrade(inventarioMaquinas[n])
-		print("Nova Renda: ",inventarioMaquinas[n].renda)
-	for n in lojaRef.listaMaquinas.size():
-		print("Renda: ",lojaRef.listaMaquinas[n].renda)
-		upgrade.aplicar_upgrade(lojaRef.listaMaquinas[n])
-		print("Nova Renda: ",lojaRef.listaMaquinas[n].renda)
-	for n in filhosJogador.size():
-		if filhosJogador[n] is Maquina:
-			print("Renda: ",filhosJogador[n].renda)
-			upgrade.aplicar_upgrade(filhosJogador[n])
-			print("Nova Renda: ",filhosJogador[n].renda)
+	if upgrade == null:
+		push_warning("Upgrade recebido tipo NULL")
+	elif upgrade is maquinaUpgrade:
+		for n in inventarioMaquinas.size():
+			print("Renda: ",inventarioMaquinas[n].renda)
+			upgrade.aplicar_upgrade(inventarioMaquinas[n])
+			print("Nova Renda: ",inventarioMaquinas[n].renda)
+		for n in lojaRef.listaMaquinas.size():
+			print("Renda: ",lojaRef.listaMaquinas[n].renda)
+			upgrade.aplicar_upgrade(lojaRef.listaMaquinas[n])
+			print("Nova Renda: ",lojaRef.listaMaquinas[n].renda)
+		for n in filhosJogador.size():
+			if filhosJogador[n] is Maquina:
+				print("Renda: ",filhosJogador[n].renda)
+				upgrade.aplicar_upgrade(filhosJogador[n])
+				print("Nova Renda: ",filhosJogador[n].renda)
+	elif upgrade is funcionarioUpgrade:
+		for n in inventarioFuncionarios.size():
+			print("Produtivdade: ",inventarioFuncionarios[n].produtividade)
+			upgrade.aplicar_upgrade(inventarioFuncionarios[n])
+			print("Nova Produtivdade: ",inventarioFuncionarios[n].produtividade)
+		for n in lojaRef.listaFuncionarios.size():
+			print("Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
+			upgrade.aplicar_upgrade(lojaRef.listaFuncionarios[n])
+			print("Nova Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
+		for n in filhosJogador.size():
+			if filhosJogador[n] is Funcionario:
+				print("Produtivdade: ",filhosJogador[n].produtividade)
+				upgrade.aplicar_upgrade(filhosJogador[n])
+				print("Nova Produtivdade: ",filhosJogador[n].produtividade)
 	pass
 	
-func ativar_upgrade_funcionario(upgrade: funcionarioUpgrade):
-	var lojaRef: Loja = jogadorGUIRef.get_node("Loja")
-	var filhosJogador: Array = self.get_children()
-	for n in inventarioFuncionarios.size():
-		print("Produtivdade: ",inventarioFuncionarios[n].produtividade)
-		upgrade.aplicar_upgrade(inventarioFuncionarios[n])
-		print("Nova Produtivdade: ",inventarioFuncionarios[n].produtividade)
-	for n in lojaRef.listaFuncionarios.size():
-		print("Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
-		upgrade.aplicar_upgrade(lojaRef.listaFuncionarios[n])
-		print("Nova Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
-	for n in filhosJogador.size():
-		if filhosJogador[n] is Funcionario:
-			print("Produtivdade: ",filhosJogador[n].produtividade)
-			upgrade.aplicar_upgrade(filhosJogador[n])
-			print("Nova Produtivdade: ",filhosJogador[n].produtividade)
-	pass
+#func ativar_upgrade_funcionario(upgrade: funcionarioUpgrade):
+	#var lojaRef: Loja = jogadorGUIRef.get_node("Loja")
+	#var filhosJogador: Array = self.get_children()
+	#for n in inventarioFuncionarios.size():
+		#print("Produtivdade: ",inventarioFuncionarios[n].produtividade)
+		#upgrade.aplicar_upgrade(inventarioFuncionarios[n])
+		#print("Nova Produtivdade: ",inventarioFuncionarios[n].produtividade)
+	#for n in lojaRef.listaFuncionarios.size():
+		#print("Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
+		#upgrade.aplicar_upgrade(lojaRef.listaFuncionarios[n])
+		#print("Nova Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
+	#for n in filhosJogador.size():
+		#if filhosJogador[n] is Funcionario:
+			#print("Produtivdade: ",filhosJogador[n].produtividade)
+			#upgrade.aplicar_upgrade(filhosJogador[n])
+			#print("Nova Produtivdade: ",filhosJogador[n].produtividade)
+	#pass
 
 func definir_Nome(novoNome: String):
 	nome = novoNome
