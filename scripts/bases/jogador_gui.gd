@@ -13,12 +13,12 @@ func _ready() -> void:
 	pass
 
 func atualizar_atributos():
-	$Dinheiro.text = "Dinheiro:  " + str(jogadorRef.dinheiro) 
-	$Almas.text = "Almas:  " + str(jogadorRef.almas) 
-	$Fama.text = "Fama: " + str(jogadorRef.fama)
-	$Tempo.text = "Tempo Atual: " + str(horaAtual) + ":00"
-	$Dia.text = "Dia Atual: " + str(diaAtual)
-	pass
+	$HUD/Dinheiro.text = str(jogadorRef.dinheiro) 
+	$HUD/Almas.text = str(jogadorRef.almas) 
+	#$Fama.text = "Fama: " + str(jogadorRef.fama)
+	#$Tempo.text = "Tempo Atual: " + str(horaAtual) + ":00"
+	#$Dia.text = "Dia Atual: " + str(diaAtual)
+	#pass
 
 func atualizar_inventario():
 	limpar_inventarios()
@@ -35,19 +35,17 @@ func factory_botao(dados: Resource):
 		)
 	return botao
 
+func listar_upgrades_adquiridos():
+	pass
+
 func listar_inventarios():
 	var botao : Button
 	for itens in jogadorRef.inventarioFuncionarios:
 		botao = factory_botao(itens)
 		$Inventario/Funcionarios.add_child(botao)
-	for itens in jogadorRef.inventarioMaquinas:
-		botao = factory_botao(itens)
-		$Inventario/Maquinas.add_child(botao)
 
 func limpar_inventarios():
 	for filho in $Inventario/Funcionarios.get_children():
-		filho.queue_free()
-	for filho in $Inventario/Maquinas.get_children():
 		filho.queue_free()
 
 func item_do_inventario_selecionado(itemSelecionado: Resource):
@@ -69,7 +67,7 @@ func _on_timer_timeout() -> void:
 		diaAtual += 1
 		verificar_fim_do_mes()
 
-	atualizar_atributos()
+	#atualizar_atributos()
 	pass # Replace with function body.
 
 func verificar_fim_do_mes():
@@ -100,6 +98,19 @@ func _on_funcionario_button_pressed() -> void:
 	pass # Replace with function body.
 
 
-func _on_loja_tab_hovered(tab: int) -> void:
-	print("Hovered")
+func _on_swap_button_pressed() -> void:
+	swap_GUI_elements_position($Loja,$Upgrades)
 	pass # Replace with function body.
+
+func swap_GUI_elements_position(elementX: Control, elementY: Control):
+	var tweenElementX = create_tween()
+	var tweenElementY = create_tween()
+	var elementXOriginalPos = elementX.position
+	var elementYOriginalPos = elementY.position
+	
+	tweenElementX.set_trans(Tween.TRANS_SINE)
+	tweenElementY.set_trans(Tween.TRANS_SINE)
+	
+	tweenElementX.tween_property(elementX,"position",elementYOriginalPos, 1.0)
+	tweenElementY.tween_property(elementY,"position",elementXOriginalPos, 1.0)
+	pass

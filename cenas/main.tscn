@@ -11,8 +11,9 @@ script = ExtResource("1_1gj88")
 wait_time = 0.5
 autostart = true
 
-[node name="Jogador" parent="." instance=ExtResource("3_b30p5")]
-
 [node name="Jogador_GUI" parent="." instance=ExtResource("3_4fhxt")]
+visibility_layer = 2
+
+[node name="Jogador" parent="." instance=ExtResource("3_b30p5")]
 
 [connection signal="timeout" from="Timer" to="Jogador_GUI" method="_on_timer_timeout"]

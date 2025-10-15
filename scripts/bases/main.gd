@@ -3,7 +3,7 @@ extends Node2D
 @onready var jogadorRef: Jogador = $Jogador
 @onready var jogadorGUIRef: JogadorGUI = $Jogador_GUI
 @onready var timerRef = $Timer
-@onready var lojaRef: Loja = $Jogador_GUI.get_node("Loja")
+@onready var lojaRef: Loja = $Jogador_GUI/Loja
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
@@ -24,5 +24,5 @@ func _on_jogador_pronto() -> void:
 	jogadorRef.definir_Nome("Maritaca")
 	jogadorRef.alterar_dinheiro(+1000)
 	jogadorRef.alterar_fama(0.2)
-	jogadorGUIRef.atualizar_atributos()
+	#jogadorGUIRef.atualizar_atributos()
 	pass # Replace with function body.

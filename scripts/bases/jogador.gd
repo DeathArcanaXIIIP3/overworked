@@ -71,24 +71,6 @@ func ativar_upgrade(upgrade: UpgradeData):
 				upgrade.aplicar_upgrade(filhosJogador[n])
 				print("Nova Produtivdade: ",filhosJogador[n].produtividade)
 	pass
-	
-#func ativar_upgrade_funcionario(upgrade: funcionarioUpgrade):
-	#var lojaRef: Loja = jogadorGUIRef.get_node("Loja")
-	#var filhosJogador: Array = self.get_children()
-	#for n in inventarioFuncionarios.size():
-		#print("Produtivdade: ",inventarioFuncionarios[n].produtividade)
-		#upgrade.aplicar_upgrade(inventarioFuncionarios[n])
-		#print("Nova Produtivdade: ",inventarioFuncionarios[n].produtividade)
-	#for n in lojaRef.listaFuncionarios.size():
-		#print("Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
-		#upgrade.aplicar_upgrade(lojaRef.listaFuncionarios[n])
-		#print("Nova Produtivdade: ",lojaRef.listaFuncionarios[n].produtividade)
-	#for n in filhosJogador.size():
-		#if filhosJogador[n] is Funcionario:
-			#print("Produtivdade: ",filhosJogador[n].produtividade)
-			#upgrade.aplicar_upgrade(filhosJogador[n])
-			#print("Nova Produtivdade: ",filhosJogador[n].produtividade)
-	#pass
 
 func definir_Nome(novoNome: String):
 	nome = novoNome
@@ -123,8 +105,14 @@ func adicionar_ao_inventario(itemRecebido: Resource):
 		push_warning("Item recebido tipo NULL!")
 	elif itemRecebido is FuncionarioData:
 		inventarioFuncionarios.append(itemRecebido)
-	elif MaquinaData:
+	elif itemRecebido is MaquinaData:
 		inventarioMaquinas.append(itemRecebido)
+		factory_maquina(itemRecebido)
+	elif itemRecebido is UpgradeData:
+		if itemRecebido.ativo == false:
+			itemRecebido.ativo = true
+			inventarioUpgrades.append(itemRecebido)
+			ativar_upgrade(itemRecebido)
 	EventBus.ATUALIZAR_INVENTARIOS_GUI.emit()
 
 func remover_do_inventario(itemSelecionado: Resource):
