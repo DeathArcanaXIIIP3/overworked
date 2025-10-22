@@ -12,6 +12,10 @@ func _ready() -> void:
 	EventBus.ATUALIZAR_INVENTARIOS_GUI.connect(atualizar_inventario)
 	pass
 
+func _process(delta: float) -> void:
+	$HUD/FPS.text = "FPS: " + str(Engine.get_frames_per_second())
+	pass
+
 func atualizar_atributos():
 	$HUD/Dinheiro.text = str(jogadorRef.dinheiro) 
 	$HUD/Almas.text = str(jogadorRef.almas) 

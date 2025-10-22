@@ -4,9 +4,11 @@ extends Node2D
 @onready var jogadorGUIRef: JogadorGUI = $Jogador_GUI
 @onready var timerRef = $Timer
 @onready var lojaRef: Loja = $Jogador_GUI/Loja
+@onready var cameraRef: Camera2D = $Camera2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
+	EventBus.CAMERA_PRONTA.emit(cameraRef)
 	EventBus.COMPRA_SOLICITADA.connect(jogadorRef.consultar_saldo_para_compra)
 	EventBus.ITEM_SELECIONADO.connect(jogadorRef.instanciar_objetos)
 	EventBus.COMPRA_REALIZADA.connect(lojaRef.remover_item_da_loja)
