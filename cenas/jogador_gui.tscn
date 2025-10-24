@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/bases/jogador_gui.gd" id="1_48ihe"]
 [ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/bases/loja.gd" id="2_6rma8"]
 [ext_resource type="Texture2D" uid="uid://dp0kvq6mljk41" path="res://iconred.png" id="2_gkm73"]
-[ext_resource type="Script" uid="uid://tfescw4dkdgs" path="res://scripts/bases/inventario.gd" id="2_snhpb"]
+[ext_resource type="Script" path="res://scripts/bases/inventario.gd" id="2_snhpb"]
 [ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="5_g6qo0"]
 
 [sub_resource type="Theme" id="Theme_gkm73"]
@@ -68,30 +68,6 @@ offset_bottom = 400.0
 theme = SubResource("Theme_gkm73")
 columns = 6
 
-[node name="ColorRect" type="ColorRect" parent="Upgrades"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-
-[node name="ColorRect2" type="ColorRect" parent="Upgrades"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-
-[node name="ColorRect3" type="ColorRect" parent="Upgrades"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-
-[node name="ColorRect4" type="ColorRect" parent="Upgrades"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-
-[node name="ColorRect5" type="ColorRect" parent="Upgrades"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-
-[node name="ColorRect6" type="ColorRect" parent="Upgrades"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-
 [node name="HUD" type="HBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 8.0
@@ -101,7 +77,7 @@ offset_bottom = 145.0
 scale = Vector2(0.4, 0.4)
 theme_override_constants/separation = 50
 
-[node name="TextureRect" type="TextureRect" parent="HUD"]
+[node name="AlmasIconGUI" type="TextureRect" parent="HUD"]
 layout_mode = 2
 texture = ExtResource("5_g6qo0")
 stretch_mode = 4
@@ -111,12 +87,42 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "0"
 
-[node name="TextureRect2" type="TextureRect" parent="HUD"]
+[node name="DinheiroIconGUI" type="TextureRect" parent="HUD"]
 layout_mode = 2
 texture = ExtResource("5_g6qo0")
 stretch_mode = 4
 
 [node name="Dinheiro" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "0"
+
+[node name="TempoIconGUI" type="TextureRect" parent="HUD"]
+layout_mode = 2
+texture = ExtResource("5_g6qo0")
+stretch_mode = 4
+
+[node name="Tempo" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "00:00"
+
+[node name="DiaIconGUI" type="TextureRect" parent="HUD"]
+layout_mode = 2
+texture = ExtResource("5_g6qo0")
+stretch_mode = 4
+
+[node name="Dia" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "1"
+
+[node name="CotaIconGUI" type="TextureRect" parent="HUD"]
+layout_mode = 2
+texture = ExtResource("5_g6qo0")
+stretch_mode = 4
+
+[node name="Cota" type="Label" parent="HUD"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "0"

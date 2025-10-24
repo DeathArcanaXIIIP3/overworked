@@ -6,7 +6,6 @@ var camera
 var arrastando_Camera = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	EventBus.CAMERA_PRONTA.connect(inicializar_drag_camera)
 	pass # Replace with function body.
 
 
@@ -58,13 +57,3 @@ func arrastar_objeto():
 
 func resetar_objeto_arrastado():
 	objetoArrastado = null
-
-func inicializar_drag_camera(cameraRef: Camera2D):
-	camera = cameraRef
-	pass
-
-func arrastar_camera():
-	if arrastando_Camera:
-		var mousePos = get_global_mouse_position()
-		
-	pass
