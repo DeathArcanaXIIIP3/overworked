@@ -205,6 +205,9 @@ func factory_maquina(dados: MaquinaData):
 func _deletar_funcionario(funcionario: Funcionario):
 	var sprite : Sprite2D 
 	var animation : AnimatedSprite2D
+	var ui = funcionario.get_child(3)
+	var button = ui.get_child(0)
+	button.visible = false
 	animation = funcionario.get_child(1)
 	sprite = funcionario.get_child(0)
 	sprite.visible = false

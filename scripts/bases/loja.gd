@@ -16,6 +16,7 @@ func _ready() -> void:
 	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_Impressão2.tres"))
 	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_ImpressãoC.tres"))
 	adicionar_upgrade_loja(load("res://resources/upgrades/funcionario_2x_produtividade.tres"))
+	adicionar_upgrade_loja(load("res://resources/upgrades/maquina_2x_renda.tres"))
 	pass
 
 func adicionar_upgrade_loja(upgradeData: UpgradeData):

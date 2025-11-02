@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3vxfcqhwtgjd"]
+[gd_scene load_steps=8 format=3 uid="uid://b3vxfcqhwtgjd"]
 
 [ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/bases/jogador_gui.gd" id="1_48ihe"]
 [ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/bases/loja.gd" id="2_6rma8"]
 [ext_resource type="Texture2D" uid="uid://dp0kvq6mljk41" path="res://iconred.png" id="2_gkm73"]
 [ext_resource type="Script" path="res://scripts/bases/inventario.gd" id="2_snhpb"]
 [ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="5_g6qo0"]
+[ext_resource type="Script" uid="uid://xjcdnfxrs7on" path="res://cenas/tooltips.gd" id="6_o8asf"]
 
 [sub_resource type="Theme" id="Theme_gkm73"]
 
@@ -131,6 +132,25 @@ text = "0"
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "FPS: 0"
+
+[node name="Tooltips" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = -128.0
+mouse_filter = 2
+script = ExtResource("6_o8asf")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Tooltips"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "Teste"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="SwapButton" to="." method="_on_swap_button_pressed"]
 [connection signal="ATUALIZAR_INVENTARIO" from="Loja" to="Loja" method="_on_atualizar_inventario"]

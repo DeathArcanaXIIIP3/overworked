@@ -3,6 +3,9 @@ extends Control
 class_name JogadorGUI
 
 @onready var jogadorRef: Jogador = $"../Jogador"
+
+var globalMousePosition: Vector2
+
 var data = {
 	"Dia" : 1,
 	"Mês" : 1,
@@ -39,17 +42,20 @@ func factory_botao(dados: Resource):
 		)
 	return botao
 
-func listar_upgrades_adquiridos():
-	pass
-
 func listar_inventarios():
 	var botao : Button
 	for itens in jogadorRef.inventarioFuncionarios:
 		botao = factory_botao(itens)
 		$Inventario/Funcionarios.add_child(botao)
+	for itens in jogadorRef.inventarioUpgrades:
+		var textureRect: TextureRect
+		textureRect = factory_Text_Rect(itens)
+		$Upgrades.add_child(textureRect)
 
 func limpar_inventarios():
 	for filho in $Inventario/Funcionarios.get_children():
+		filho.queue_free()
+	for filho in $Upgrades.get_children():
 		filho.queue_free()
 
 func item_do_inventario_selecionado(itemSelecionado: Resource):
@@ -58,18 +64,6 @@ func item_do_inventario_selecionado(itemSelecionado: Resource):
 func apagar_botao(botao: Button):
 	botao.queue_free()
 	pass
-
-func _on_button_pressed() -> void:
-	#INSIRA O UPGRADE (Resource) QUE QUER ADICIONAR AO INVENTARIO DO JOGADOR AQUI, (ENQUANTO A UI NAO TIVER PRONTA E OQ TEM PRA TESTAR)
-	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/maquina_2x_renda.tres"))
-
-	pass # Replace with function body.
-
-
-func _on_funcionario_button_pressed() -> void:
-	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/funcionario_2x_produtividade.tres"))
-	pass # Replace with function body.
-
 
 func _on_swap_button_pressed() -> void:
 	disable_swap_button()
@@ -128,3 +122,15 @@ func atualizar_dia():
 func atualizar_mês():
 	data.Mês += 1
 	print(data.Mês)
+
+func factory_Text_Rect(dados: Resource):
+	var textRect = TextureRect.new()
+	textRect.texture = dados.icone
+	textRect.mouse_entered.connect(toogleTooltip.bind(dados))
+	textRect.mouse_exited.connect(toogleTooltip.bind(dados))
+	return textRect
+
+func toogleTooltip(dados: Resource):
+	$Tooltips.visible =! $Tooltips.visible
+	$Tooltips.position = globalMousePosition
+	$Tooltips/RichTextLabel.text = dados.description

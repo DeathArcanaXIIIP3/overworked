@@ -10,7 +10,6 @@ func _ready() -> void:
 	EventBus.COMPRA_SOLICITADA.connect(jogadorRef.consultar_saldo_para_compra)
 	EventBus.ITEM_SELECIONADO.connect(jogadorRef.instanciar_objetos)
 	EventBus.COMPRA_REALIZADA.connect(lojaRef.remover_item_da_loja)
-	EventBus.UPGRADE_ADQUIRIDO.connect(jogadorRef.adicionar_upgrade)
 	_on_jogador_pronto()
 	pass # Replace with function body.
 
