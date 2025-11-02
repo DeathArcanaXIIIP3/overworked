@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj3bhcodgdjs1"]
+
+[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="1_qtnx7"]
+
+[node name="Labels" type="HBoxContainer"]
+anchors_preset = -1
+anchor_right = 0.356
+anchor_bottom = 0.078
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 2442.32
+offset_bottom = 261.84
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.155, 0.155)
+theme_override_constants/separation = 300
+
+[node name="Almas_Texture" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_qtnx7")
+expand_mode = 2
+
+[node name="Almas_Qtd" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 150
+text = "0"
+
+[node name="Dinheiro_Texture" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_qtnx7")
+expand_mode = 2
+
+[node name="Dinheiro_Qtd" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 150
+text = "0"

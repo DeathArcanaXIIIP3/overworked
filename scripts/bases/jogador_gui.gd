@@ -3,22 +3,29 @@ extends Control
 class_name JogadorGUI
 
 @onready var jogadorRef: Jogador = $"../Jogador"
-var timerGlobalRef: Timer
-var horaAtual: int
-var diaAtual: int
+
+var globalMousePosition: Vector2
+
+var data = {
+	"Dia" : 1,
+	"Mês" : 1,
+	"Ano" : 2025,
+	"Hora": 0
+}
 
 func _ready() -> void:
 	EventBus.ATUALIZAR_ATRIBUTOS_GUI.connect(atualizar_atributos)
 	EventBus.ATUALIZAR_INVENTARIOS_GUI.connect(atualizar_inventario)
+	start_New_Day()
+	pass
+
+func _process(_delta: float) -> void:
+	$HUD/FPS.text = "FPS: " + str(Engine.get_frames_per_second())
 	pass
 
 func atualizar_atributos():
-	$Dinheiro.text = "Dinheiro:  " + str(jogadorRef.dinheiro) 
-	$Almas.text = "Almas:  " + str(jogadorRef.almas) 
-	$Fama.text = "Fama: " + str(jogadorRef.fama)
-	$Tempo.text = "Tempo Atual: " + str(horaAtual) + ":00"
-	$Dia.text = "Dia Atual: " + str(diaAtual)
-	pass
+	$HUD/Dinheiro.text = str(jogadorRef.dinheiro) 
+	$HUD/Almas.text = str(jogadorRef.almas) 
 
 func atualizar_inventario():
 	limpar_inventarios()
@@ -40,14 +47,15 @@ func listar_inventarios():
 	for itens in jogadorRef.inventarioFuncionarios:
 		botao = factory_botao(itens)
 		$Inventario/Funcionarios.add_child(botao)
-	for itens in jogadorRef.inventarioMaquinas:
-		botao = factory_botao(itens)
-		$Inventario/Maquinas.add_child(botao)
+	for itens in jogadorRef.inventarioUpgrades:
+		var textureRect: TextureRect
+		textureRect = factory_Text_Rect(itens)
+		$Upgrades.add_child(textureRect)
 
 func limpar_inventarios():
 	for filho in $Inventario/Funcionarios.get_children():
 		filho.queue_free()
-	for filho in $Inventario/Maquinas.get_children():
+	for filho in $Upgrades.get_children():
 		filho.queue_free()
 
 func item_do_inventario_selecionado(itemSelecionado: Resource):
@@ -57,44 +65,72 @@ func apagar_botao(botao: Button):
 	botao.queue_free()
 	pass
 
-func _on_timer_timeout() -> void:
-	if jogadorRef.maquinas_totais <= 0:
-		return
-	horaAtual += 1
-	#Não é correto o dia atual atualizzar aqui, ele deveria atualizar no if de baixo, coloquei aqui só pro mes passar mais rapido
+func _on_swap_button_pressed() -> void:
+	disable_swap_button()
+	swap_GUI_elements_position($Loja,$Upgrades)
+	pass # Replace with function body.
+
+func swap_GUI_elements_position(elementX: Control, elementY: Control):
+	var tweenElementX = create_tween()
+	var tweenElementY = create_tween()
+	var elementXOriginalPos = elementX.position
+	var elementYOriginalPos = elementY.position
 	
+	tweenElementX.set_trans(Tween.TRANS_SINE)
+	tweenElementY.set_trans(Tween.TRANS_SINE)
 	
-	if horaAtual % 24 == 0:
-		horaAtual = 0
-		diaAtual += 1
-		verificar_fim_do_mes()
+	tweenElementX.tween_property(elementX,"position",elementYOriginalPos, 1.0)
+	tweenElementY.tween_property(elementY,"position",elementXOriginalPos, 1.0)
+	
+	tweenElementX.finished.connect(self.disable_swap_button)
+	pass
 
-	atualizar_atributos()
-	pass # Replace with function body.
+func disable_swap_button():
+	$SwapButton.disabled = !$SwapButton.disabled
 
-func verificar_fim_do_mes():
-	print(diaAtual)
-	print("Entrou 1")
-	if diaAtual == 1:
-		print("Entrou 2")
-		if jogadorRef.almas < 1:
-			print("Entrou 3")
-			get_tree().change_scene_to_file("res://cenas/GameOver.tscn")
-		else:
-			print("Entrou 4")
-			print("Meta batida!")
-			diaAtual = 1 # Reseta o mês
-			jogadorRef.almas -= 1 # Paga a cota
-			jogadorRef.emit_signal("ATUALIZAR_ATRIBUTOS_GUI") # Atualiza GUI
+func calendarManager(timer: Timer):
+	if data.Hora == 24:
+		data.Hora = 0
+		timer.queue_free()
+		atualizar_dia()
+		start_New_Day()
+	elif data.Dia == 30:
+		data.Dia = 0
+		atualizar_mês()
+	elif data.Mês == 12:
+		data.Mês = 0
+	pass
 
+func start_New_Day():
+	var timer = Timer.new()
+	add_child(timer)
+	timer.one_shot = false
+	timer.start(20.0)
+	timer.timeout.emit()
+	timer.timeout.connect(self.atualizar_hora)
+	timer.timeout.connect(func(): self.calendarManager(timer))
+	pass
 
-func _on_button_pressed() -> void:
-	#INSIRA O UPGRADE (Resource) QUE QUER ADICIONAR AO INVENTARIO DO JOGADOR AQUI, (ENQUANTO A UI NAO TIVER PRONTA E OQ TEM PRA TESTAR)
-	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/maquina_2x_renda.tres"))
+func atualizar_hora():
+	data.Hora += 1
+	$HUD/Tempo.text = str(data.Hora) + (":00")
 
-	pass # Replace with function body.
+func atualizar_dia():
+	data.Dia += 1
+	$HUD/Dia.text = str(data.Dia) 
+	
+func atualizar_mês():
+	data.Mês += 1
+	print(data.Mês)
 
+func factory_Text_Rect(dados: Resource):
+	var textRect = TextureRect.new()
+	textRect.texture = dados.icone
+	textRect.mouse_entered.connect(toogleTooltip.bind(dados))
+	textRect.mouse_exited.connect(toogleTooltip.bind(dados))
+	return textRect
 
-func _on_funcionario_button_pressed() -> void:
-	EventBus.UPGRADE_ADQUIRIDO.emit(load("res://resources/upgrades/funcionario_2x_produtividade.tres"))
-	pass # Replace with function body.
+func toogleTooltip(dados: Resource):
+	$Tooltips.visible =! $Tooltips.visible
+	$Tooltips.position = globalMousePosition
+	$Tooltips/RichTextLabel.text = dados.description

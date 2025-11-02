@@ -200,7 +200,7 @@ func setChanceDeSobrevivencia(novaChance: float) -> void:
 # Atualiza a disponibilidade
 func alternarDisponibilidade():
 	isDisponivel = !isDisponivel
-
+	$UI/BotaoVoltar.visible = !$UI/BotaoVoltar.visible
 # Verifica se o funcionário tem medo para operar
 func isMedoAlto() -> bool:
 	return medo >= VALOR_MEDO_ALTO

@@ -2,6 +2,8 @@ extends Node2D
 
 var objetoArrastado
 var screenSize
+var camera
+var arrastando_Camera = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -29,6 +31,11 @@ func _input(event: InputEvent) -> void:
 					resetar_objeto_arrastado()
 			else:
 				resetar_objeto_arrastado()
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+		if event.is_pressed():
+			arrastando_Camera = true
+		elif event.is_released():
+			arrastando_Camera = false
 
 func raycast(mask_id: int):
 	var space_state = get_world_2d().direct_space_state

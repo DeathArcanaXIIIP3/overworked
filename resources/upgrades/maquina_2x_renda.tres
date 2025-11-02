@@ -1,9 +1,14 @@
-[gd_resource type="Resource" script_class="maquinaUpgrade" load_steps=2 format=3 uid="uid://bcx1ie3p4gvod"]
+[gd_resource type="Resource" script_class="maquinaUpgrade" load_steps=3 format=3 uid="uid://bcx1ie3p4gvod"]
 
 [ext_resource type="Script" uid="uid://lau6qp4frn4w" path="res://scripts/upgrades/maquina_2x_renda.gd" id="1_1nwph"]
+[ext_resource type="Texture2D" uid="uid://dp0kvq6mljk41" path="res://iconred.png" id="1_klems"]
 
 [resource]
 script = ExtResource("1_1nwph")
 multiplicador = 2.0
 nome = "Funcionario do Mês!!!"
+icone = ExtResource("1_klems")
+ativo = false
+preco = 0
+description = "Aumenta a \"Renda\" base da maquina em 2x"
 metadata/_custom_type_script = "uid://c8vi564y7apsy"

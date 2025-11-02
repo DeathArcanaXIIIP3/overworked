@@ -35,3 +35,7 @@ signal UPGRADE_ADQUIRIDO
 signal COMPRA_SOLICITADA
 @warning_ignore("unused_signal")
 signal ATUALIZAR_INVENTARIO
+
+#Sinais Main
+@warning_ignore("unused_signal")
+signal CAMERA_PRONTA

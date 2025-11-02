@@ -1,83 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3vxfcqhwtgjd"]
+[gd_scene load_steps=8 format=3 uid="uid://b3vxfcqhwtgjd"]
 
 [ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/bases/jogador_gui.gd" id="1_48ihe"]
 [ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/bases/loja.gd" id="2_6rma8"]
+[ext_resource type="Texture2D" uid="uid://dp0kvq6mljk41" path="res://iconred.png" id="2_gkm73"]
+[ext_resource type="Script" path="res://scripts/bases/inventario.gd" id="2_snhpb"]
+[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="5_g6qo0"]
+[ext_resource type="Script" uid="uid://xjcdnfxrs7on" path="res://cenas/tooltips.gd" id="6_o8asf"]
+
+[sub_resource type="Theme" id="Theme_gkm73"]
 
 [node name="Jogador_GUI" type="Control"]
+z_index = 1
 layout_mode = 3
 anchors_preset = 0
-offset_right = 1280.0
-offset_bottom = 720.0
 script = ExtResource("1_48ihe")
 
-[node name="Dinheiro" type="Label" parent="."]
-layout_mode = 2
-offset_left = 192.0
-offset_right = 268.0
-offset_bottom = 49.0
-text = "Dinheiro: 
-"
-
-[node name="Almas" type="Label" parent="."]
-layout_mode = 2
-offset_left = 96.0
-offset_right = 160.0
-offset_bottom = 49.0
-text = "Almas:
-"
-
-[node name="Fama" type="Label" parent="."]
-layout_mode = 2
-offset_right = 64.0
-offset_bottom = 23.0
-text = "Fama: "
-
-[node name="Tempo" type="Label" parent="."]
-layout_mode = 2
-offset_left = 320.0
-offset_right = 427.0
-offset_bottom = 49.0
-text = "Tempo Atual: 
-"
-
-[node name="Dia" type="Label" parent="."]
-layout_mode = 2
-offset_left = 512.0
-offset_right = 619.0
-offset_bottom = 49.0
-text = "Dia Atual: 
-"
-
-[node name="Inventario" type="TabContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 448.0
-offset_top = 512.0
-offset_right = -448.0
-grow_horizontal = 2
-grow_vertical = 2
-current_tab = 0
-
-[node name="Funcionarios" type="VBoxContainer" parent="Inventario"]
-layout_mode = 2
-metadata/_tab_index = 0
-
-[node name="Maquinas" type="VBoxContainer" parent="Inventario"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 1
+[node name="SwapButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 1840.0
+offset_top = 408.0
+offset_right = 1968.0
+offset_bottom = 536.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("2_gkm73")
 
 [node name="Loja" type="TabContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1024.0
-offset_bottom = -528.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_left = 1584.0
+offset_top = 16.0
+offset_right = 1904.0
+offset_bottom = 400.0
 current_tab = 0
 script = ExtResource("2_6rma8")
 
@@ -90,21 +42,116 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Button" type="Button" parent="."]
+[node name="Upgrades" type="VBoxContainer" parent="Loja"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Inventario" type="TabContainer" parent="."]
 layout_mode = 0
+offset_left = 64.0
+offset_top = 1048.0
+offset_right = 384.0
+offset_bottom = 1432.0
+current_tab = 0
+script = ExtResource("2_snhpb")
+
+[node name="Funcionarios" type="VBoxContainer" parent="Inventario"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Upgrades" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = 1944.0
 offset_top = 48.0
-offset_right = 132.0
-offset_bottom = 79.0
-text = "Aplicar Upgrade"
+offset_right = 2264.0
+offset_bottom = 400.0
+theme = SubResource("Theme_gkm73")
+columns = 6
 
-[node name="funcionario_button" type="Button" parent="."]
+[node name="HUD" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 91.0
-offset_right = 129.0
-offset_bottom = 128.0
-text = "funcionarios"
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 528.0
+offset_bottom = 145.0
+scale = Vector2(0.4, 0.4)
+theme_override_constants/separation = 50
 
+[node name="AlmasIconGUI" type="TextureRect" parent="HUD"]
+layout_mode = 2
+texture = ExtResource("5_g6qo0")
+stretch_mode = 4
+
+[node name="Almas" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "0"
+
+[node name="DinheiroIconGUI" type="TextureRect" parent="HUD"]
+layout_mode = 2
+texture = ExtResource("5_g6qo0")
+stretch_mode = 4
+
+[node name="Dinheiro" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "0"
+
+[node name="TempoIconGUI" type="TextureRect" parent="HUD"]
+layout_mode = 2
+texture = ExtResource("5_g6qo0")
+stretch_mode = 4
+
+[node name="Tempo" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "00:00"
+
+[node name="DiaIconGUI" type="TextureRect" parent="HUD"]
+layout_mode = 2
+texture = ExtResource("5_g6qo0")
+stretch_mode = 4
+
+[node name="Dia" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "1"
+
+[node name="CotaIconGUI" type="TextureRect" parent="HUD"]
+layout_mode = 2
+texture = ExtResource("5_g6qo0")
+stretch_mode = 4
+
+[node name="Cota" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "0"
+
+[node name="FPS" type="Label" parent="HUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "FPS: 0"
+
+[node name="Tooltips" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = -128.0
+mouse_filter = 2
+script = ExtResource("6_o8asf")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Tooltips"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "Teste"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="SwapButton" to="." method="_on_swap_button_pressed"]
 [connection signal="ATUALIZAR_INVENTARIO" from="Loja" to="Loja" method="_on_atualizar_inventario"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="funcionario_button" to="." method="_on_funcionario_button_pressed"]
+[connection signal="tab_clicked" from="Inventario" to="Inventario" method="_on_tab_clicked"]

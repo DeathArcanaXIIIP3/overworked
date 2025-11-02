@@ -6,6 +6,7 @@ signal ATUALIZAR_INVENTARIO
 
 var listaFuncionarios : Array[FuncionarioData]
 var listaMaquinas : Array[MaquinaData]
+var listaUpgrades: Array[UpgradeData]
 
 func _ready() -> void:
 	adicionar_funcionario_loja(load("res://resources/funcionarios/Fulana.tres"))
@@ -14,16 +15,24 @@ func _ready() -> void:
 	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_Impressão.tres"))
 	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_Impressão2.tres"))
 	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_ImpressãoC.tres"))
+	adicionar_upgrade_loja(load("res://resources/upgrades/funcionario_2x_produtividade.tres"))
+	adicionar_upgrade_loja(load("res://resources/upgrades/maquina_2x_renda.tres"))
 	pass
+
+func adicionar_upgrade_loja(upgradeData: UpgradeData):
+	if !upgradeData in listaUpgrades:
+		listaUpgrades.append(upgradeData)
+	ATUALIZAR_INVENTARIO.emit()
 
 func adicionar_funcionario_loja(funcionarioData: FuncionarioData):
 	if !funcionarioData in listaFuncionarios:
 		listaFuncionarios.append(funcionarioData)
+	ATUALIZAR_INVENTARIO.emit()
 
 func adicionar_maquina_loja(maquinaData: MaquinaData):
 	if !maquinaData in listaMaquinas:
 		listaMaquinas.append(maquinaData)
-		ATUALIZAR_INVENTARIO.emit()
+	ATUALIZAR_INVENTARIO.emit()
 
 func factory_botao(dados: Resource):
 	var botao = Button.new()
@@ -38,6 +47,7 @@ func apagar_botao(botao: Button):
 
 func solicitar_compra(itemSolicitado):
 	EventBus.COMPRA_SOLICITADA.emit(itemSolicitado)
+	print(itemSolicitado)
 
 func remover_item_da_loja(itemComprado):
 	if itemComprado == null:
@@ -46,6 +56,8 @@ func remover_item_da_loja(itemComprado):
 		listaFuncionarios.erase(itemComprado)
 	elif itemComprado is MaquinaData:
 		listaMaquinas.erase(itemComprado)
+	elif itemComprado is UpgradeData:
+		listaUpgrades.erase(itemComprado)
 	atualizar_inventarios()
 
 func atualizar_inventarios():
@@ -57,6 +69,8 @@ func limpar_inventarios():
 		filho.queue_free()
 	for filho in $Maquinas.get_children():
 		filho.queue_free()
+	for filho in $Upgrades.get_children():
+		filho.queue_free()
 
 func listar_inventarios():
 	var botao : Button
@@ -66,6 +80,9 @@ func listar_inventarios():
 	for itens in listaMaquinas:
 		botao = factory_botao(itens)
 		$Maquinas.add_child(botao)
+	for itens in listaUpgrades:
+		botao = factory_botao(itens)
+		$Upgrades.add_child(botao)
 
 func _on_atualizar_inventario() -> void:
 	atualizar_inventarios()
