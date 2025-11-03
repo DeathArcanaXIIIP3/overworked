@@ -9,5 +9,5 @@ multiplicador = 2.0
 nome = "Funcionario do Mês"
 icone = ExtResource("1_h787v")
 ativo = false
-preco = 100
+preco = 2
 description = "Aumenta a produtividade do funcionario em 2x."

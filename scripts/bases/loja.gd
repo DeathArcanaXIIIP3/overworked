@@ -9,9 +9,9 @@ var listaMaquinas : Array[MaquinaData]
 var listaUpgrades: Array[UpgradeData]
 
 func _ready() -> void:
+	EventBus.NOVO_FUNCIONARIO_GERADO.connect(adicionar_funcionario_loja)
 	adicionar_funcionario_loja(load("res://resources/funcionarios/Fulana.tres"))
 	adicionar_funcionario_loja(load("res://resources/funcionarios/Fulano.tres"))
-	adicionar_funcionario_loja(load("res://resources/funcionarios/FulanaB.tres"))
 	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_Impressão.tres"))
 	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_Impressão2.tres"))
 	adicionar_maquina_loja(load("res://resources/maquinas/Maquina_De_ImpressãoC.tres"))

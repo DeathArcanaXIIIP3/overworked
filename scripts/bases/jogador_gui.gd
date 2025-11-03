@@ -16,6 +16,9 @@ var data = {
 func _ready() -> void:
 	EventBus.ATUALIZAR_ATRIBUTOS_GUI.connect(atualizar_atributos)
 	EventBus.ATUALIZAR_INVENTARIOS_GUI.connect(atualizar_inventario)
+	EventBus.CHECAR_COTA.connect(atualizar_cota)
+	EventBus.COTA_ALCANCADA.connect(skip_day)
+	EventBus.ATUALIZAR_COTA_GUI.connect(atualizar_cota)
 	start_New_Day()
 	pass
 
@@ -94,23 +97,30 @@ func calendarManager(timer: Timer):
 		timer.queue_free()
 		atualizar_dia()
 		start_New_Day()
+		EventBus.FIM_DO_DIA.emit()
 	elif data.Dia == 30:
 		data.Dia = 0
 		atualizar_mês()
+		EventBus.FIM_DO_MES.emit()
 	elif data.Mês == 12:
 		data.Mês = 0
 	pass
 
+func skip_day():
+	data.Hora = 24
+	self.calendarManager($Timer_Data)
+
 func start_New_Day():
 	var timer = Timer.new()
+	timer.name = "Timer_Data"
 	add_child(timer)
 	timer.one_shot = false
-	timer.start(20.0)
+	timer.start(5.0)
 	timer.timeout.emit()
 	timer.timeout.connect(self.atualizar_hora)
 	timer.timeout.connect(func(): self.calendarManager(timer))
 	pass
-
+	
 func atualizar_hora():
 	data.Hora += 1
 	$HUD/Tempo.text = str(data.Hora) + (":00")
@@ -122,6 +132,10 @@ func atualizar_dia():
 func atualizar_mês():
 	data.Mês += 1
 	print(data.Mês)
+
+func atualizar_cota(cota:int):
+	$HUD/Cota.text = str(cota)
+
 
 func factory_Text_Rect(dados: Resource):
 	var textRect = TextureRect.new()

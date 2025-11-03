@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FuncionarioData" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://sprites/funcionarios/Fulana.png" id="1_qucsa"]
+[ext_resource type="Script" path="res://scripts/resources/funcionarioData.gd" id="2_01abl"]
+
+[resource]
+script = ExtResource("2_01abl")
+nome = "Fernanda"
+taxa_de_acidente = 0.1
+taxa_de_medo = 0.1
+produtividade = 0.9
+preco = 900
+isDisponivel = true
+profilePicture = ExtResource("1_qucsa")

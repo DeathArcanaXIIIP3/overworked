@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/bases/jogador_gui.gd" id="1_48ihe"]
 [ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/bases/loja.gd" id="2_6rma8"]
 [ext_resource type="Texture2D" uid="uid://dp0kvq6mljk41" path="res://iconred.png" id="2_gkm73"]
-[ext_resource type="Script" path="res://scripts/bases/inventario.gd" id="2_snhpb"]
+[ext_resource type="Script" uid="uid://tfescw4dkdgs" path="res://scripts/bases/inventario.gd" id="2_snhpb"]
 [ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="5_g6qo0"]
 [ext_resource type="Script" uid="uid://xjcdnfxrs7on" path="res://cenas/tooltips.gd" id="6_o8asf"]
 

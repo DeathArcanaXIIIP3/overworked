@@ -8,9 +8,11 @@ var nome: String = "Maritaca"
 var almas: int = 0
 var dinheiro: int = 2000
 var fama: float = 0.1
+var cota: int = 0
 var inventarioMaquinas: Array[MaquinaData]
 var inventarioFuncionarios: Array[FuncionarioData]
 var inventarioUpgrades: Array[UpgradeData]
+
 
 var screenSize
 var espacamento = Vector2(80, 60) 
@@ -20,6 +22,9 @@ var total_maquinas_criadas = 0
 var maquinas_totais = 0
 
 func _ready():
+	EventBus.NOVA_COTA.emit()
+	EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(alterar_cota)
+	EventBus.FIM_DO_MES.connect(checar_cota_alcancada)
 	#EventBus.FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.connect(Callable(self,"soma_maquinas_total"))
 	#EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(reduz_maquinas_total)
 	screenSize = get_viewport().size
@@ -77,6 +82,16 @@ func definir_Nome(novoNome: String):
 	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
 	return nome
 
+func alterar_cota(novoValor: int, _funcionario):
+	if cota > 0:
+		cota -= novoValor
+		if cota <= 0:
+			cota = 0
+			EventBus.ATUALIZAR_COTA_GUI.emit(cota)
+			EventBus.COTA_ALCANCADA.emit()
+		EventBus.ATUALIZAR_COTA_GUI.emit(cota)
+	pass
+
 func alterar_dinheiro(novoValor: int):
 	dinheiro += novoValor
 	EventBus.ATUALIZAR_ATRIBUTOS_GUI.emit()
@@ -93,12 +108,20 @@ func alterar_almas(novoValor: int):
 	return almas
 
 func consultar_saldo_para_compra(itemSolicitado: Resource):
-	if itemSolicitado.preco <= dinheiro:
-		adicionar_ao_inventario(itemSolicitado)
-		alterar_dinheiro(-itemSolicitado.preco)
-		EventBus.COMPRA_REALIZADA.emit(itemSolicitado)
-	else:
-		print("SALDO INSUFICIENTE")
+	if itemSolicitado is UpgradeData:
+		if itemSolicitado.preco <= almas:
+			adicionar_ao_inventario(itemSolicitado)
+			alterar_almas(-itemSolicitado.preco)
+			EventBus.COMPRA_REALIZADA.emit(itemSolicitado)
+		else:
+			print("SALDO INSUFICIENTE")
+	elif itemSolicitado is MaquinaData or FuncionarioData:
+		if itemSolicitado.preco <= dinheiro:
+			adicionar_ao_inventario(itemSolicitado)
+			alterar_dinheiro(-itemSolicitado.preco)
+			EventBus.COMPRA_REALIZADA.emit(itemSolicitado)
+		else:
+			print("SALDO INSUFICIENTE")
 
 func adicionar_ao_inventario(itemRecebido: Resource):
 	if itemRecebido == null:
@@ -150,6 +173,14 @@ func factory_funcionario(dados: FuncionarioData):
 	return funcionario
 	
 func retornar_funcionario_para_inventario(funcionario: Funcionario):
+	for dados in inventarioFuncionarios:
+		if dados.nome == funcionario.nome:
+			 # Já existe no inventário, apenas reativar
+			dados.isDisponivel = true
+			funcionario.queue_free()
+			EventBus.ATUALIZAR_INVENTARIOS_GUI.emit()
+			return
+
 	var dados = FuncionarioData.new()
 	dados.nome = funcionario.nome
 	dados.produtividade = funcionario.produtividade
@@ -158,7 +189,6 @@ func retornar_funcionario_para_inventario(funcionario: Funcionario):
 	dados.taxa_de_medo = funcionario.taxaDeMedo
 	dados.isDisponivel = true
 	dados.profilePicture = funcionario.profilePicture
-		
 	adicionar_ao_inventario(dados)
 	funcionario.queue_free()
 
@@ -219,7 +249,6 @@ func deletar_funcionario(funcionario: Funcionario):
 	alterar_almas(+1)
 	funcionario.queue_free()
 	
-	
 func soma_maquinas_total(_dados = null):
 	maquinas_totais += 1
 	print("Máquinas em operação:", maquinas_totais)
@@ -230,3 +259,9 @@ func reduz_maquinas_total(_dados = null):
 
 func atualizar_dados(funcionario: Funcionario):
 	funcionario.queue_free()
+
+func checar_cota_alcancada():
+	if cota > 0:
+		print("Game Over")
+	else:
+		print("Cota alcançada")

@@ -15,6 +15,12 @@ signal ATUALIZAR_INVENTARIOS_GUI
 signal COMPRA_REALIZADA
 @warning_ignore("unused_signal")
 signal JOGADOR_PRONTO
+@warning_ignore("unused_signal")
+signal CHECAR_COTA
+@warning_ignore("unused_signal")
+signal COTA_ALCANCADA
+@warning_ignore("unused_signal")
+signal ATUALIZAR_COTA_GUI
 
 #Sinais Maquina
 @warning_ignore("unused_signal")
@@ -29,6 +35,10 @@ signal FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA
 signal ITEM_SELECIONADO
 @warning_ignore("unused_signal")
 signal UPGRADE_ADQUIRIDO
+@warning_ignore("unused_signal")
+signal FIM_DO_MES
+@warning_ignore("unused_signal")
+signal FIM_DO_DIA
 
 #Sinais Loja
 @warning_ignore("unused_signal")
@@ -39,3 +49,11 @@ signal ATUALIZAR_INVENTARIO
 #Sinais Main
 @warning_ignore("unused_signal")
 signal CAMERA_PRONTA
+
+#Sinais Quota
+@warning_ignore("unused_signal")
+signal NOVA_COTA
+
+#Sinais GeradorDeFuncionarios
+@warning_ignore("unused_signal")
+signal NOVO_FUNCIONARIO_GERADO

@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://1wcf2rvjmush"]
+[gd_scene load_steps=4 format=3 uid="uid://1wcf2rvjmush"]
 
 [ext_resource type="Script" uid="uid://dlh11fme3skdy" path="res://scripts/bases/jogador.gd" id="1_p7t4r"]
+[ext_resource type="Script" uid="uid://ddsh61jb1om2g" path="res://scripts/bases/quota_manager.gd" id="2_06a7y"]
+[ext_resource type="Script" uid="uid://t3fguaoge0de" path="res://scripts/bases/worker_generator.gd" id="3_w41yl"]
 
 [node name="Jogador" type="Node"]
 script = ExtResource("1_p7t4r")
+
+[node name="Quota_Manager" type="Node" parent="."]
+script = ExtResource("2_06a7y")
+
+[node name="Worker_Generator" type="Node" parent="."]
+script = ExtResource("3_w41yl")
