@@ -19,6 +19,7 @@ func _ready() -> void:
 	EventBus.CHECAR_COTA.connect(atualizar_cota)
 	EventBus.COTA_ALCANCADA.connect(skip_day)
 	EventBus.ATUALIZAR_COTA_GUI.connect(atualizar_cota)
+	EventBus.FUNCIONARIO_ENTROU_NA_CENA.connect(connectWorkerToGUI)
 	start_New_Day()
 	pass
 
@@ -144,7 +145,23 @@ func factory_Text_Rect(dados: Resource):
 	textRect.mouse_exited.connect(toogleTooltip.bind(dados))
 	return textRect
 
+func connectWorkerToGUI(funcionario: Funcionario):
+	var collision = funcionario.get_node("Area2D")
+	collision.mouse_entered.connect(toogleWorkerStatus.bind(funcionario))
+	collision.mouse_exited.connect(toogleWorkerStatus.bind(funcionario))
+	EventBus.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionarioAtual, _renda):
+		toogleWorkerStatus(funcionarioAtual))
+	EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (_renda,funcionarioAtual):
+		$Workers_Status.visible = !$Workers_Status.visible
+		toogleWorkerStatus(funcionarioAtual))
+
 func toogleTooltip(dados: Resource):
 	$Tooltips.visible =! $Tooltips.visible
 	$Tooltips.position = globalMousePosition
 	$Tooltips/RichTextLabel.text = dados.description
+
+func toogleWorkerStatus(funcionario: Funcionario):
+	var mousePos2DtoControl = get_viewport().get_mouse_position()
+	$Workers_Status.visible =! $Workers_Status.visible
+	$Workers_Status.position = mousePos2DtoControl
+	$Workers_Status/RichTextLabel.text = "Medo: " + str(funcionario.medo) + "\n" + "Produtividade: " + str(funcionario.getProdutividade()) + "\n" + "Risco: " + str(funcionario.getTaxaDeSobrevivencia())

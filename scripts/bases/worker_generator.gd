@@ -28,8 +28,13 @@ func generate_Workers():
 	
 	funcionario = calcular_status(qualification,funcionario)
 	print(funcionario.nome)
-	salvar_tres(funcionario, resourceFuncionariosPath)
-	EventBus.NOVO_FUNCIONARIO_GERADO.emit(funcionario)
+	var path = resourceFuncionariosPath + funcionario.nome + ".tres"
+	if FileAccess.file_exists(path):
+		print("Arquivo ja Existe")
+		return
+	else:
+		salvar_tres(funcionario, path)
+		EventBus.NOVO_FUNCIONARIO_GERADO.emit(funcionario)
 	pass
 
 func calcular_status(qualification, funcionarioData):
@@ -58,7 +63,6 @@ func aplicar_status(score: int, funcionarioData: FuncionarioData):
 	return funcionarioData
 
 func salvar_tres(funcionario: FuncionarioData, path: String):
-	path = path + funcionario.nome + ".tres"
 	var erro = ResourceSaver.save(funcionario,path)
 	if erro == OK:
 		print("Salvo", path)

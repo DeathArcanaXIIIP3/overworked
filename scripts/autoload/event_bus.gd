@@ -21,6 +21,8 @@ signal CHECAR_COTA
 signal COTA_ALCANCADA
 @warning_ignore("unused_signal")
 signal ATUALIZAR_COTA_GUI
+@warning_ignore("unused_signal")
+signal FUNCIONARIO_ENTROU_NA_CENA
 
 #Sinais Maquina
 @warning_ignore("unused_signal")

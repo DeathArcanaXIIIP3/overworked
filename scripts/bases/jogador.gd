@@ -160,6 +160,7 @@ func instanciar_objetos(dados: Resource):
 func factory_funcionario(dados: FuncionarioData):
 	var funcionario = preload("res://cenas/funcionario.tscn").instantiate()
 	funcionario.name = dados.nome
+	EventBus.FUNCIONARIO_ENTROU_NA_CENA.emit(funcionario)
 	
 	EventBus.MEDO_MAXIMO_ATINGIDO.connect(func(funcionario_atual):
 		atualizar_dados(funcionario_atual)
