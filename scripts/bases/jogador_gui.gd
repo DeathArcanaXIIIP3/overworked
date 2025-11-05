@@ -154,6 +154,9 @@ func connectWorkerToGUI(funcionario: Funcionario):
 	EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (_renda,funcionarioAtual):
 		$Workers_Status.visible = !$Workers_Status.visible
 		toogleWorkerStatus(funcionarioAtual))
+	EventBus.MEDO_MAXIMO_ATINGIDO.connect(func (funcionarioAtual):
+		$Workers_Status.visible = !$Workers_Status.visible
+		toogleWorkerStatus(funcionarioAtual))
 
 func toogleTooltip(dados: Resource):
 	$Tooltips.visible =! $Tooltips.visible
