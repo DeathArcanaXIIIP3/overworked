@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DecoracaoData" load_steps=2 format=3 uid="uid://decoracao_07"]
+
+[ext_resource type="Script" path="res://scripts/resources/DecoracaoData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+nome = "Academia Corporativa"
+preco = 2500
+fama_bonus = 10.0
+description = "Funcionários saudáveis são mais produtivos e felizes."
+texture = null

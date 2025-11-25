@@ -59,3 +59,17 @@ signal NOVA_COTA
 #Sinais GeradorDeFuncionarios
 @warning_ignore("unused_signal")
 signal NOVO_FUNCIONARIO_GERADO
+
+#Sinais Sistema de Fama
+@warning_ignore("unused_signal")
+signal FAMA_CRITICA
+@warning_ignore("unused_signal")
+signal GAME_OVER
+@warning_ignore("unused_signal")
+signal FUNCIONARIO_FUGIU
+
+#Sinais Sistema de Atenção
+@warning_ignore("unused_signal")
+signal ATENCAO_AUMENTADA
+@warning_ignore("unused_signal")
+signal TENTATIVA_MORTE_FALHOU

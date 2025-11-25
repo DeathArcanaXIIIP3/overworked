@@ -6,8 +6,8 @@
 [resource]
 script = ExtResource("2_1uj7u")
 nome = "João"
-taxa_de_acidente = 0.0
-taxa_de_medo = 0.0
+taxa_de_acidente = 0.15
+taxa_de_medo = 0.12
 produtividade = 1.0
 preco = 100
 isDisponivel = true

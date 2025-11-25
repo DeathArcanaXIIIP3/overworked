@@ -25,11 +25,12 @@ var isDisponivel: bool
 func _ready():
 	$UI/BotaoVoltar.pressed.connect(_voltar_para_inventario)
 	$UI/BotaoVoltar.position = Vector2(100, 0)
+	criar_barra_medo()
 func _voltar_para_inventario():
 	if isDisponivel:
 		EventBus.PEDIR_RETORNO_PARA_INVENTARIO.emit(self)
 	else:
-		print("Funcionário está ocupado e não pode retornar ao inventário.")
+		print(nome, " está ocupado e não pode retornar ao inventário.")
 
 func setup(data:FuncionarioData):
 	nome = data.nome
@@ -40,6 +41,7 @@ func setup(data:FuncionarioData):
 	taxaDeMedo = data.taxa_de_medo
 	
 	isDisponivel = data.isDisponivel
+	medo = 0.0
 	
 	profilePicture = data.profilePicture
 	$Sprite.texture = data.profilePicture
@@ -90,9 +92,31 @@ func checarMedoMaximo() -> bool:
 	
 func atualizarMedo() -> void:
 	incrementarMedo(getMultiplicadorDeMedo())
+	print("Medo atualizado para: ", medo, " (", medo * 100, "%)")
+	
+	# Verifica se funcionário vai fugir baseado no medo
+	if verificar_fuga_por_medo():
+		return  # Funcionário fugiu, para execução aqui
+	
 	if checarMedoMaximo():
 		EventBus.MEDO_MAXIMO_ATINGIDO.emit(self)
-	print("Medo atualizado para: ", medo)
+
+func verificar_fuga_por_medo() -> bool:
+	# Rola um dado de 0 a 1
+	var dado = randf()
+	
+	# Chance de fuga reduzida: apenas 40% do valor do medo
+	# Exemplo: medo 50% = apenas 20% de chance real de fugir
+	var chance_fuga = medo * 0.4
+	
+	# Se o dado for menor que a chance reduzida, funcionário foge
+	if dado < chance_fuga:
+		print(nome, " está com muito medo (", medo * 100, "%) e vai fugir! (chance: ", chance_fuga * 100, "%, dado: ", dado, ")")
+		funcionario_foge()
+		return true
+	else:
+		print(nome, " continua trabalhando apesar do medo (", medo * 100, "%) (chance: ", chance_fuga * 100, "%, dado: ", dado, ")")
+		return false
 
 # Getter para a taxa de sobrevivência
 func getTaxaDeSobrevivencia() -> float:
@@ -219,6 +243,81 @@ func checarMedo() -> bool:
 		notificarMedoAceitavel()
 		return true
 func _process(_delta):
-	var offset = Vector2(-50, -100) # 40 pixels para cima (eixo Y negativo é pra cima)
+	var offset = Vector2(-50, -100)
 	$UI/BotaoVoltar.position = global_position + offset
-	#atualizar_posicao_do_botao()
+	atualizar_barra_medo()
+
+# ===== SISTEMA DE MEDO/FUGA =====
+
+func criar_barra_medo():
+	# Cria ProgressBar para mostrar nível de medo
+	var barra = ProgressBar.new()
+	barra.name = "BarraMedo"
+	barra.min_value = 0
+	barra.max_value = 1.0
+	barra.value = 0
+	barra.custom_minimum_size = Vector2(80, 8)
+	barra.position = Vector2(-40, -80)
+	barra.show_percentage = false
+	
+	# Estilo da barra
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color.YELLOW
+	barra.add_theme_stylebox_override("fill", style)
+	
+	$UI.add_child(barra)
+	barra.visible = false  # Inicialmente invisível
+
+func atualizar_barra_medo():
+	if not has_node("UI/BarraMedo"):
+		return
+		
+	var barra = $UI/BarraMedo
+	barra.value = medo
+	
+	# Mostra barra apenas se houver medo
+	barra.visible = medo > 0
+	
+	# Muda cor conforme nível de medo
+	var style = StyleBoxFlat.new()
+	if medo < 0.4:
+		style.bg_color = Color.YELLOW
+	elif medo < 0.7:
+		style.bg_color = Color.ORANGE
+	else:
+		style.bg_color = Color.RED
+	
+	barra.add_theme_stylebox_override("fill", style)
+
+func funcionario_foge():
+	print(nome, " descobriu o esquema e fugiu!")
+	mostrar_texto_fugiu()
+	EventBus.FUNCIONARIO_FUGIU.emit(self)
+	# A remoção da cena será feita pelo Jogador
+
+func mostrar_texto_fugiu():
+	var parent = get_parent()
+	if not is_instance_valid(parent):
+		return
+	
+	# Cria label flutuante com "FUGIU!"
+	var label = Label.new()
+	label.text = "FUGIU!"
+	label.add_theme_font_size_override("font_size", 48)
+	label.add_theme_color_override("font_color", Color.RED)
+	label.position = global_position + Vector2(-50, -120)
+	label.z_index = 100
+	
+	parent.add_child(label)
+	
+	# Cria tween no parent ao invés do funcionário
+	var tween = parent.create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(label, "position:y", label.position.y - 100, 2.0)
+	tween.tween_property(label, "modulate:a", 0.0, 2.0)
+	
+	# Remove label após animação
+	tween.finished.connect(func(): 
+		if is_instance_valid(label):
+			label.queue_free()
+	)

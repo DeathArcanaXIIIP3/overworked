@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DecoracaoData" load_steps=2 format=3 uid="uid://decoracao_03"]
+
+[ext_resource type="Script" path="res://scripts/resources/DecoracaoData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+nome = "Mesa de Café Premium"
+preco = 600
+fama_bonus = 4.0
+description = "Café grátis para todos! Funcionários mais felizes."
+texture = null

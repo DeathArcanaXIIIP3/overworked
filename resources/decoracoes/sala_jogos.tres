@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DecoracaoData" load_steps=2 format=3 uid="uid://decoracao_09"]
+
+[ext_resource type="Script" path="res://scripts/resources/DecoracaoData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+nome = "Sala de Jogos VIP"
+preco = 5000
+fama_bonus = 15.0
+description = "Espaço de lazer premium para desestressar."
+texture = null

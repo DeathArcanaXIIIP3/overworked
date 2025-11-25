@@ -9,7 +9,8 @@ func _ready() -> void:
 func calcular_cota():
 	print("CALCULANDO COTA")
 	var cotaRange = randi() % 1500 + 500
-	cotaAtual =+ cotaRange
+	cotaAtual += cotaRange
 	$"..".cota = cotaAtual
 	EventBus.CHECAR_COTA.emit(cotaAtual)
+	print("Nova cota: ", cotaAtual)
 	pass

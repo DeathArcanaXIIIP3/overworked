@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DecoracaoData" load_steps=2 format=3 uid="uid://decoracao_06"]
+
+[ext_resource type="Script" path="res://scripts/resources/DecoracaoData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+nome = "Ar Condicionado Central"
+preco = 1500
+fama_bonus = 8.0
+description = "Clima perfeito no escritório durante o ano todo."
+texture = null

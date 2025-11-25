@@ -53,14 +53,21 @@ func executarMaquina():
 func adicionarFuncionario(funcionario: Funcionario):
 	if isDisponivel == null:
 		push_warning("isDisponivel NULL!")
-	elif isDisponivel:
-		funcionarioAtual = funcionario
-		funcionarioAtual.global_position = $Ancora.global_position
-		funcionarioAtual.alternarDisponibilidade()
-		self.alternarDisponibilidade()
-		FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
-	else:
-		print("SINAL: Maquina em uso")
+		return
+	
+	if not isDisponivel:
+		print(nome, " já está em uso por ", funcionarioAtual.nome if funcionarioAtual else "alguém")
+		return
+	
+	if not is_instance_valid(funcionario):
+		push_warning("Funcionário inválido!")
+		return
+	
+	funcionarioAtual = funcionario
+	funcionarioAtual.global_position = $Ancora.global_position
+	funcionarioAtual.alternarDisponibilidade()
+	self.alternarDisponibilidade()
+	FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.emit()
 	pass
 
 func tentarMatarFuncionario():
@@ -83,24 +90,26 @@ func tentarMatarFuncionario():
 
 func calcular_renda():
 	var rendatotal = funcionarioAtual.produtividade * self.renda
-	funcionarioAtual.produtividade = funcionarioAtual.produtividade - funcionarioAtual.produtividade * 0.1
-	return rendatotal
+	funcionarioAtual.produtividade = max(0.1, funcionarioAtual.produtividade - funcionarioAtual.produtividade * 0.1)
+	return roundi(rendatotal)
 
 func reset_timer():
 	$Timer.stop()
-	$Timer.wait_time = tempoDeExecução;
 	timerProgresso = 0
 	
 func reset_progress_bar():
 	$Control/ProgressBar.value = 0
+	$Control/ProgressBar.max_value = tempoDeExecução
+
 #----------------SINAIS---------------#
 func _on_timer_timeout() -> void:
-	if timerProgresso == tempoDeExecução:
+	if timerProgresso >= tempoDeExecução:
 		reset_timer()
 		reset_progress_bar()
 		print("A Maquina terminou")
-		funcionarioAtual.alternarDisponibilidade()
-		tentarMatarFuncionario()
+		if is_instance_valid(funcionarioAtual):
+			funcionarioAtual.alternarDisponibilidade()
+			tentarMatarFuncionario()
 	else:
 		timerProgresso += 1
 		$Control/ProgressBar.value = timerProgresso

@@ -57,8 +57,8 @@ func aplicar_status(score: int, funcionarioData: FuncionarioData):
 	funcionarioData.isDisponivel = true
 	funcionarioData.preco = score * 100
 	funcionarioData.produtividade = (score / 10.0) + 1
-	funcionarioData.taxa_de_acidente = (10 - score) / 10.0 + 1
-	funcionarioData.taxa_de_medo =  (10 - score) / 10.0 + 1
+	funcionarioData.taxa_de_acidente = 0.06 + ((10 - score) / 10.0) * 0.14
+	funcionarioData.taxa_de_medo = 0.06 + ((10 - score) / 10.0) * 0.14
 	return funcionarioData
 
 func salvar_tres(funcionario: FuncionarioData, path: String):

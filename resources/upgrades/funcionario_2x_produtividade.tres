@@ -6,8 +6,8 @@
 [resource]
 script = ExtResource("1_ppr4y")
 multiplicador = 2.0
-nome = "Funcionario do Mês"
+nome = "Super Produtividade"
 icone = ExtResource("1_h787v")
 ativo = false
 preco = 2
-description = "Aumenta a produtividade do funcionario em 2x."
+description = "Dobra a produtividade de todos os funcionários"

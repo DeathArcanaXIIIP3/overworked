@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FuncionarioData" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://sprites/funcionarios/Fulano.png" id="1_0j0a8"]
+[ext_resource type="Script" path="res://scripts/resources/funcionarioData.gd" id="2_hijqw"]
+
+[resource]
+script = ExtResource("2_hijqw")
+nome = "Caio"
+taxa_de_acidente = 0.18600000000000003
+taxa_de_medo = 0.18600000000000003
+produtividade = 1.1
+preco = 100
+isDisponivel = true
+profilePicture = ExtResource("1_0j0a8")

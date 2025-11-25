@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="funcionarioMaisAlmasUpgrade" load_steps=3 format=3]
+
+[ext_resource type="Script" uid="uid://cgkxk7y4lellm" path="res://scripts/upgrades/funcionario_mais_almas.gd" id="1_maisalmas"]
+[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="2_icon"]
+
+
+[resource]
+script = ExtResource("1_maisalmas")
+chance_adicional = 0.25
+almas_extras = 1
+nome = "Ceifador de Almas"
+icone = ExtResource("2_icon")
+ativo = false
+preco = 5
+description = "25% de chance de ganhar +1 alma extra ao funcionário morrer"

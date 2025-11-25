@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DecoracaoData" load_steps=2 format=3 uid="uid://decoracao_08"]
+
+[ext_resource type="Script" path="res://scripts/resources/DecoracaoData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+nome = "Refeitório Gourmet"
+preco = 3500
+fama_bonus = 12.0
+description = "Comida de alta qualidade aumenta muito a satisfação."
+texture = null

@@ -3,7 +3,7 @@ class_name funcionarioUpgrade extends UpgradeData
 @export var multiplicador: float
 
 func aplicar_upgrade(alvo) -> void:
-	if not (alvo is FuncionarioData) and not (alvo is Funcionario):
+	if not (alvo is FuncionarioData or alvo is Funcionario):
 		push_error("Alvo invalido! Tipo: ", alvo.get_class())
 		return
 	

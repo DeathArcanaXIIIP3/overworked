@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="maquinaDiminuiTempoUpgrade" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/upgrades/maquina_diminui_tempo.gd" id="1_diminuitempo"]
+[ext_resource type="Texture2D" uid="uid://dp0kvq6mljk41" path="res://iconred.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_diminuitempo")
+percentual_reducao = 0.1
+nome = "Automação Avançada"
+icone = ExtResource("2_icon")
+ativo = false
+preco = 4
+description = "Reduz o tempo de execução das máquinas em 10%"

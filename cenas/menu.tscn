@@ -1,0 +1,208 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/menu/main_menu.gd" id="1_menu"]
+[ext_resource type="Script" path="res://scripts/menu/options_panel.gd" id="2_options"]
+[ext_resource type="Script" path="res://scripts/menu/credits_panel.gd" id="3_credits"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15, 0.15, 0.15, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -120.0
+offset_right = 100.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "OVERWORKED"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Jogar"
+
+[node name="OptionsButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Opções"
+
+[node name="CreditsButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Créditos"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Sair"
+
+[node name="OptionsPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_options")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="OptionsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Opções"
+horizontal_alignment = 1
+
+[node name="MasterVolume" type="VBoxContainer" parent="OptionsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="OptionsPanel/VBoxContainer/MasterVolume"]
+layout_mode = 2
+text = "Volume Geral"
+
+[node name="HSlider" type="HSlider" parent="OptionsPanel/VBoxContainer/MasterVolume"]
+layout_mode = 2
+max_value = 100.0
+value = 100.0
+
+[node name="MusicVolume" type="VBoxContainer" parent="OptionsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="OptionsPanel/VBoxContainer/MusicVolume"]
+layout_mode = 2
+text = "Volume da Música"
+
+[node name="HSlider" type="HSlider" parent="OptionsPanel/VBoxContainer/MusicVolume"]
+layout_mode = 2
+max_value = 100.0
+value = 100.0
+
+[node name="SFXVolume" type="VBoxContainer" parent="OptionsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="OptionsPanel/VBoxContainer/SFXVolume"]
+layout_mode = 2
+text = "Volume dos Efeitos"
+
+[node name="HSlider" type="HSlider" parent="OptionsPanel/VBoxContainer/SFXVolume"]
+layout_mode = 2
+max_value = 100.0
+value = 100.0
+
+[node name="FullscreenCheck" type="CheckButton" parent="OptionsPanel/VBoxContainer"]
+layout_mode = 2
+text = "Tela Cheia"
+
+[node name="VsyncCheck" type="CheckButton" parent="OptionsPanel/VBoxContainer"]
+layout_mode = 2
+text = "VSync"
+
+[node name="BackButton" type="Button" parent="OptionsPanel/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Voltar"
+
+[node name="CreditsPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_credits")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreditsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="CreditsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Créditos"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CreditsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CreditsText" type="RichTextLabel" parent="CreditsPanel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center][b]OVERWORKED[/b]
+
+[b]Desenvolvido por:[/b]
+Leonardo
+Caio
+Lorenzo
+
+[b]Feito com[/b]
+Godot Engine 4.x
+
+Obrigado por jogar![/center]"
+fit_content = true
+
+[node name="BackButton" type="Button" parent="CreditsPanel/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Voltar"
