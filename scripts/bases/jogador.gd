@@ -15,6 +15,7 @@ var inventarioUpgrades: Array[UpgradeData]
 var inventarioDecoracoes: Array[DecoracaoData]
 
 var decoracoes_colocadas: int = 0  # Contador de decorações no jogo
+var placed_decoracoes: Array = [] # Nós das decorações colocadas (para fama diária)
 
 var screenSize
 var espacamento = Vector2(100, 80) 
@@ -30,6 +31,9 @@ func _ready():
 	EventBus.NOVA_COTA.emit()
 	EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(alterar_cota)
 	EventBus.FIM_DO_MES.connect(checar_cota_alcancada)
+	# Conecta para receber o fim do dia (gerar fama proveniente das decorações)
+	if EventBus.has_signal("FIM_DO_DIA"):
+		EventBus.FIM_DO_DIA.connect(_on_fim_do_dia)
 	EventBus.FUNCIONARIO_MORREU_NA_MAQUINA.connect(_on_funcionario_morreu)
 	EventBus.FUNCIONARIO_FUGIU.connect(_on_funcionario_fugiu)
 	#EventBus.FUNCIONARIO_COMEÇOU_A_OPERAR_MAQUINA.connect(Callable(self,"soma_maquinas_total"))
@@ -227,45 +231,52 @@ func factory_funcionario(dados: FuncionarioData):
 	return funcionario
 	
 func factory_decoracao(dados: DecoracaoData):
-	# Aumenta fama ao colocar decoração no jogo
-	alterar_fama(dados.fama_bonus)
-	print("Decoração ", dados.nome, " colocada! +", dados.fama_bonus, " Fama")
-	
-	# Cria decoração diretamente por código
-	var decoracao = Node2D.new()
-	decoracao.name = dados.nome
-	
-	# Adiciona sprite com a textura da decoração
-	var sprite = Sprite2D.new()
-	# Usa a textura do DecoracaoData se existir, senão usa o ícone padrão
-	if dados.texture != null:
-		sprite.texture = dados.texture
-	else:
-		sprite.texture = load("res://icon.svg")
-	sprite.scale = Vector2(0.5, 0.5)
-	sprite.modulate = Color(1, 1, 1, 0.9)
-	decoracao.add_child(sprite)
-	
-	# Adiciona label com nome
-	var label = Label.new()
-	label.text = dados.nome
-	label.position = Vector2(-50, -70)
-	label.size = Vector2(100, 20)
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 12)
-	decoracao.add_child(label)
-	
+	# Instancia a cena de decoração, que já possui Area2D para arrastar
+	var decoracao_scene = load("res://cenas/decoracao.tscn").instantiate()
+	decoracao_scene.name = dados.nome
+
+	# Ajusta sprite interno se existir
+	if decoracao_scene.has_node("Sprite2D"):
+		var sprite = decoracao_scene.get_node("Sprite2D")
+		if dados.texture != null:
+			sprite.texture = dados.texture
+		else:
+			sprite.texture = load("res://icon.svg")
+		sprite.scale = Vector2(0.5, 0.5)
+		decoracao_scene.set_meta("sprite_ref", sprite)
+
+	# Ajusta label
+	if decoracao_scene.has_node("Label"):
+		var label = decoracao_scene.get_node("Label")
+		label.text = dados.nome
+
 	# Posiciona na parte inferior da tela com espaçamento
 	var espacamento_decoracao = 100  # Espaçamento entre decorações
 	var pos_x = 600 + (decoracoes_colocadas * espacamento_decoracao)  # Começa mais à direita
 	var pos_y = screenSize.y - 200  # Mais acima (200 pixels da borda inferior)
-	decoracao.global_position = Vector2(pos_x, pos_y)
-	
+	decoracao_scene.global_position = Vector2(pos_x, pos_y)
+
+	# Guarda metadados úteis para processamento diário
+	decoracao_scene.set_meta("fama_bonus", dados.fama_bonus)
+	decoracao_scene.set_meta("dados_decoracao", dados)
+
+	# Adiciona à lista de decorações colocadas (receberão fama diariamente)
+	placed_decoracoes.append(decoracao_scene)
+
 	decoracoes_colocadas += 1
-	
-	add_child(decoracao)
-	print("Decoração ", dados.nome, " adicionada ao jogo!")
-	return decoracao
+	add_child(decoracao_scene)
+	print("Decoração ", dados.nome, " adicionada ao jogo! (registrada para fama diária)")
+	return decoracao_scene
+
+func _on_fim_do_dia() -> void:
+	# Soma a fama de todas as decorações colocadas e aplica ao jogador no fim do dia
+	var total_fama: float = 0.0
+	for d in placed_decoracoes:
+		if is_instance_valid(d) and d.has_meta("fama_bonus"):
+			total_fama += float(d.get_meta("fama_bonus"))
+	if total_fama > 0.0:
+		alterar_fama(total_fama)
+		print("Fama diária gerada por decorações: ", total_fama)
 
 func retornar_funcionario_para_inventario(funcionario: Funcionario):
 	for dados in inventarioFuncionarios:

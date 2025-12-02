@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("2_fqyya")
 nome = "Jonas"
-taxa_de_acidente = 0.17200000000000001
-taxa_de_medo = 0.17200000000000001
-produtividade = 1.2
-preco = 200
+taxa_de_acidente = 0.116
+taxa_de_medo = 0.116
+produtividade = 1.6
+preco = 600
 isDisponivel = true
 profilePicture = ExtResource("1_o7k0v")

@@ -1,9 +1,7 @@
 [gd_resource type="Resource" script_class="MaquinaData" load_steps=3 format=3 uid="uid://6ffluaujcpme"]
 
 [ext_resource type="Script" path="res://scripts/resources/maquinaData.gd" id="1_0wu1b"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_82v22"]
-load_path = "res://.godot/imported/maquina.png-6bab17aa3c3b7d2128b20688b7bd889d.ctex"
+[ext_resource type="Texture2D" uid="uid://p36lnwcrjuom" path="res://sprites/Sprites_Lorenzo/maquina1editada100.png" id="2_brac2"]
 
 [resource]
 script = ExtResource("1_0wu1b")
@@ -12,5 +10,5 @@ nome = "Impressora"
 taxaDeAcidente = 0.6
 renda = 50
 preco = 100
-texture = SubResource("CompressedTexture2D_82v22")
+texture = ExtResource("2_brac2")
 isDisponivel = true

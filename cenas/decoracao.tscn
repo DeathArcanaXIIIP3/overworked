@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://decoracao_scene"]
+[gd_scene load_steps=4 format=3 uid="uid://decoracao_scene"]
 
 [ext_resource type="Script" path="res://scripts/bases/decoracao.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://dkmtbag00wx5s" path="res://icon.svg" id="2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_decor"]
+size = Vector2(64, 64)
 
 [node name="Decoracao" type="Node2D"]
 script = ExtResource("1")
@@ -15,7 +18,7 @@ centered = true
 input_pickable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = RectangleShape2D
+shape = SubResource("RectangleShape2D_decor")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -50.0
