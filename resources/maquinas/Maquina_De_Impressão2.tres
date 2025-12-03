@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_0wu1b")
-nome = "Impressora"
+nome = "Guilhotina de papel"
 "tempoDeExecução" = 10
 taxaDeAcidente = 0.6
 renda = 50

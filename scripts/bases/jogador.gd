@@ -228,6 +228,10 @@ func factory_funcionario(dados: FuncionarioData):
 	add_child(funcionario)
 	funcionario.setup(dados)
 	funcionario.global_position = Vector2(screenSize[0]/2, screenSize[1]/2)
+	
+	# Define z_index alto para aparecer na frente do TileMap
+	funcionario.z_index = 10
+	
 	return funcionario
 	
 func factory_decoracao(dados: DecoracaoData):
@@ -259,6 +263,9 @@ func factory_decoracao(dados: DecoracaoData):
 	# Guarda metadados úteis para processamento diário
 	decoracao_scene.set_meta("fama_bonus", dados.fama_bonus)
 	decoracao_scene.set_meta("dados_decoracao", dados)
+
+	# Define z_index alto para aparecer na frente do TileMap e outros elementos
+	decoracao_scene.z_index = 10
 
 	# Adiciona à lista de decorações colocadas (receberão fama diariamente)
 	placed_decoracoes.append(decoracao_scene)
@@ -344,6 +351,9 @@ func factory_maquina(dados: MaquinaData):
 	var pos_y = margem_y + linha * (maquina_size.y + espacamento_y_ajustado)
 
 	maquina.position = Vector2(pos_x, pos_y)
+	
+	# Define z_index alto para aparecer na frente do TileMap
+	maquina.z_index = 10
 
 	maquina.inicializar(dados)
 	add_child(maquina)

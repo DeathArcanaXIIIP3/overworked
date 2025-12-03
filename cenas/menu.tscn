@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://suwy0ho7vn0w"]
 
-[ext_resource type="Script" path="res://scripts/menu/main_menu.gd" id="1_menu"]
-[ext_resource type="Script" path="res://scripts/menu/options_panel.gd" id="2_options"]
-[ext_resource type="Script" path="res://scripts/menu/credits_panel.gd" id="3_credits"]
+[ext_resource type="Script" uid="uid://cl4f3fjmiot1j" path="res://scripts/menu/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" uid="uid://b5hpmk08ehr06" path="res://sprites/tilemap/manu.png.jpg" id="2_mmoso"]
+[ext_resource type="Script" uid="uid://bx5tafm71hoc" path="res://scripts/menu/options_panel.gd" id="2_options"]
+[ext_resource type="Script" uid="uid://crk4jhv8rll10" path="res://scripts/menu/credits_panel.gd" id="3_credits"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -21,6 +22,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.15, 0.15, 0.15, 1)
+
+[node name="Manu_png" type="Sprite2D" parent="."]
+position = Vector2(959.5, 538.75)
+scale = Vector2(1.196875, 1.2759237)
+texture = ExtResource("2_mmoso")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -107,7 +113,6 @@ text = "Volume Geral"
 
 [node name="HSlider" type="HSlider" parent="OptionsPanel/VBoxContainer/MasterVolume"]
 layout_mode = 2
-max_value = 100.0
 value = 100.0
 
 [node name="MusicVolume" type="VBoxContainer" parent="OptionsPanel/VBoxContainer"]
@@ -119,7 +124,6 @@ text = "Volume da Música"
 
 [node name="HSlider" type="HSlider" parent="OptionsPanel/VBoxContainer/MusicVolume"]
 layout_mode = 2
-max_value = 100.0
 value = 100.0
 
 [node name="SFXVolume" type="VBoxContainer" parent="OptionsPanel/VBoxContainer"]
@@ -131,7 +135,6 @@ text = "Volume dos Efeitos"
 
 [node name="HSlider" type="HSlider" parent="OptionsPanel/VBoxContainer/SFXVolume"]
 layout_mode = 2
-max_value = 100.0
 value = 100.0
 
 [node name="FullscreenCheck" type="CheckButton" parent="OptionsPanel/VBoxContainer"]
@@ -194,6 +197,10 @@ text = "[center][b]OVERWORKED[/b]
 Leonardo
 Caio
 Lorenzo
+
+[b]Música:[/b]
+Dawn Of The Doors
+Doors Soundtrack
 
 [b]Feito com[/b]
 Godot Engine 4.x

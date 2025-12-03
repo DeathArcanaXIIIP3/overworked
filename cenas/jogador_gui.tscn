@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b3vxfcqhwtgjd"]
+[gd_scene load_steps=24 format=3 uid="uid://b3vxfcqhwtgjd"]
 
 [ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/bases/jogador_gui.gd" id="1_48ihe"]
 [ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/bases/loja.gd" id="2_6rma8"]
@@ -10,12 +10,14 @@
 [ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="5_g6qo0"]
 [ext_resource type="Script" uid="uid://xjcdnfxrs7on" path="res://cenas/tooltips.gd" id="6_o8asf"]
 [ext_resource type="Script" uid="uid://dfqnfj45fj4tv" path="res://scripts/bases/workers_status.gd" id="7_f1mmu"]
-[ext_resource type="Texture2D" uid="uid://c2o5csvngqq6b" path="res://sprites/Inventario_loja/Testando.png" id="8_5xhth"]
 [ext_resource type="Texture2D" uid="uid://cdwtywkb5ep2l" path="res://sprites/Sprites_Lorenzo/coineditada.png" id="8_coin"]
 [ext_resource type="Texture2D" uid="uid://bg86smos7nwhw" path="res://sprites/Sprites_Lorenzo/fantasma_editada.png" id="9_fantasma"]
+[ext_resource type="Texture2D" uid="uid://cy7gdkl6y7ksk" path="res://sprites/Inventario_loja/Versãofinal_inventario2.png" id="9_u3mq5"]
 [ext_resource type="Texture2D" uid="uid://dbu3qxrpscfgj" path="res://sprites/Sprites_Lorenzo/funcionario_editada.png" id="10_funcionario"]
 [ext_resource type="Texture2D" uid="uid://hdmpg54gaeue" path="res://sprites/Sprites_Lorenzo/relogio_editada.png" id="11_relogio"]
 [ext_resource type="Texture2D" uid="uid://81oihyrlwcb" path="res://sprites/Sprites_Lorenzo/calendario_editada.png" id="12_calendario"]
+[ext_resource type="Texture2D" uid="uid://bcsqwuwgdqfff" path="res://sprites/Inventario_loja/Versãofinal_inventario.png" id="16_5xhth"]
+[ext_resource type="Texture2D" uid="uid://co01mqskq1t2e" path="res://sprites/tilemap/lojateste1.png" id="18_vq5ut"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5xhth"]
 texture = ExtResource("2_gbqnq")
@@ -3171,10 +3173,10 @@ layer_0/tile_data = PackedInt32Array(3997696, 4, 0, 4063232, 4, 1, 4128768, 4, 2
 
 [node name="SwapButton" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 1840.0
-offset_top = 408.0
-offset_right = 1968.0
-offset_bottom = 536.0
+offset_left = 1842.0
+offset_top = 988.0
+offset_right = 1970.0
+offset_bottom = 1116.0
 scale = Vector2(0.5, 0.5)
 texture_normal = ExtResource("2_gkm73")
 
@@ -3186,6 +3188,11 @@ offset_right = 1904.0
 offset_bottom = 400.0
 current_tab = 3
 script = ExtResource("2_6rma8")
+
+[node name="Lojateste1" type="Sprite2D" parent="Loja"]
+position = Vector2(189.49962, 328.99997)
+scale = Vector2(2.7899966, 3.0266666)
+texture = ExtResource("18_vq5ut")
 
 [node name="Funcionarios" type="VBoxContainer" parent="Loja"]
 visible = false
@@ -3215,10 +3222,16 @@ offset_bottom = 1432.0
 current_tab = 0
 script = ExtResource("2_snhpb")
 
-[node name="Testando" type="Sprite2D" parent="Inventario"]
-position = Vector2(98, 113)
-scale = Vector2(1.6795481, 1.4646362)
-texture = ExtResource("8_5xhth")
+[node name="inventario1" type="Sprite2D" parent="Inventario"]
+position = Vector2(123, 160)
+scale = Vector2(2.1579776, 2.0743608)
+texture = ExtResource("16_5xhth")
+
+[node name="inventario2" type="Sprite2D" parent="Inventario"]
+visible = false
+position = Vector2(127, 179)
+scale = Vector2(2.158, 2.074)
+texture = ExtResource("9_u3mq5")
 
 [node name="Funcionarios" type="VBoxContainer" parent="Inventario"]
 layout_mode = 2

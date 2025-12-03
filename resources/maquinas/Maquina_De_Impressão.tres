@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_ynnea")
-nome = "MaquinaB"
+nome = "Impressora"
 "tempoDeExecução" = 10
 taxaDeAcidente = 0.6
 renda = 50

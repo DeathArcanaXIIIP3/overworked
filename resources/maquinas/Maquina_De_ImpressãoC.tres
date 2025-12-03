@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_cq70u")
-nome = "MaquinaC"
+nome = "Scanner 3D"
 "tempoDeExecução" = 10
 taxaDeAcidente = 0.6
 renda = 50
