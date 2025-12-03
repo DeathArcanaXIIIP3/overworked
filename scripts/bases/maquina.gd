@@ -71,24 +71,38 @@ func adicionarFuncionario(funcionario: Funcionario):
 	pass
 
 func tentarMatarFuncionario():
+	# Valida se o funcionário ainda existe antes de processar
+	if not is_instance_valid(funcionarioAtual):
+		push_warning("Funcionário foi removido antes do fim da execução da máquina")
+		alternarDisponibilidade()
+		funcionarioAtual = null
+		return
+	
 	var taxaDeSucesso = funcionarioAtual.taxaDeAcidente * taxaDeAcidente
 	var resultado = randf_range(0.0,1.0)
 	var rendaNova = calcular_renda()
+	
 	if resultado <= taxaDeSucesso:
 		print(resultado)
 		print(funcionarioAtual.nome, " Morreu")
 		FUNCIONARIO_MORREU_NA_MAQUINA.emit(funcionarioAtual, rendaNova)
 		EventBus.FUNCIONARIO_MORREU_NA_MAQUINA.emit(funcionarioAtual,rendaNova)
 		alternarDisponibilidade()
+		funcionarioAtual = null
 	else:
 		print(resultado)
 		print(funcionarioAtual.nome, " Terminou de trabalhar")
 		FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)
 		EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.emit(rendaNova,funcionarioAtual)
 		self.alternarDisponibilidade()
-	pass
+		funcionarioAtual = null
 
 func calcular_renda():
+	# Valida se o funcionário ainda existe
+	if not is_instance_valid(funcionarioAtual):
+		push_warning("Funcionário foi removido durante cálculo de renda")
+		return 0
+	
 	var rendatotal = funcionarioAtual.produtividade * self.renda
 	funcionarioAtual.produtividade = max(0.1, funcionarioAtual.produtividade - funcionarioAtual.produtividade * 0.1)
 	return roundi(rendatotal)
@@ -103,6 +117,16 @@ func reset_progress_bar():
 
 #----------------SINAIS---------------#
 func _on_timer_timeout() -> void:
+	# Se funcionário foi removido durante execução, para o timer
+	if not is_instance_valid(funcionarioAtual):
+		push_warning("Funcionário removido durante execução da máquina. Parando timer.")
+		reset_timer()
+		reset_progress_bar()
+		if not isDisponivel:
+			alternarDisponibilidade()
+		funcionarioAtual = null
+		return
+	
 	if timerProgresso >= tempoDeExecução:
 		reset_timer()
 		reset_progress_bar()
@@ -113,4 +137,3 @@ func _on_timer_timeout() -> void:
 	else:
 		timerProgresso += 1
 		$Control/ProgressBar.value = timerProgresso
-	pass # Replace with function body.

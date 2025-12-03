@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="funcionarioUpgrade" load_steps=3 format=3 uid="uid://dno8a7thtgdx6"]
 
-[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="1_h787v"]
+[ext_resource type="Texture2D" uid="uid://hdpb5v7s6kgh" path="res://sprites/upgrades/Upgrade2_editado.png" id="1_h787v"]
 [ext_resource type="Script" uid="uid://ymh2xmv504b5" path="res://scripts/upgrades/funcionario_2X_produtividade.gd" id="1_ppr4y"]
 
 [resource]
@@ -8,6 +8,5 @@ script = ExtResource("1_ppr4y")
 multiplicador = 2.0
 nome = "Super Produtividade"
 icone = ExtResource("1_h787v")
-ativo = false
 preco = 2
 description = "Dobra a produtividade de todos os funcionários"

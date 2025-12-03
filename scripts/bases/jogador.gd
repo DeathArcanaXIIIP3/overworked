@@ -72,13 +72,16 @@ func ativar_upgrade(upgrade: UpgradeData):
 		for n in lojaRef.listaMaquinas.size():
 			upgrade.aplicar_upgrade(lojaRef.listaMaquinas[n])
 		for n in filhosJogador.size():
-			if filhosJogador[n] is Maquina and is_instance_valid(filhosJogador[n]):
+			if is_instance_valid(filhosJogador[n]) and filhosJogador[n] is Maquina:
 				upgrade.aplicar_upgrade(filhosJogador[n])
 				# Efeito visual na máquina (vermelho)
 				var VisualEffects = preload("res://scripts/visual_effects.gd")
+				# Flash e pulse juntos
 				VisualEffects.flash_node(filhosJogador[n], Color.RED, 0.5)
-				VisualEffects.pulse_node(filhosJogador[n], 1.2, 0.4)
-				if is_instance_valid(filhosJogador[n].get_parent()):
+				await get_tree().create_timer(0.05).timeout  # Pequeno delay para não sobrepor
+				if is_instance_valid(filhosJogador[n]):
+					VisualEffects.pulse_node(filhosJogador[n], 1.2, 0.4)
+				if is_instance_valid(filhosJogador[n]) and is_instance_valid(filhosJogador[n].get_parent()):
 					VisualEffects.create_upgrade_particles(filhosJogador[n].get_parent(), filhosJogador[n].global_position, Color.RED)
 	elif upgrade is funcionarioUpgrade or upgrade is funcionarioDiminuiMedoUpgrade or upgrade is funcionarioMaisAlmasUpgrade:
 		for n in inventarioFuncionarios.size():
@@ -88,14 +91,17 @@ func ativar_upgrade(upgrade: UpgradeData):
 		for n in lojaRef.listaFuncionarios.size():
 			upgrade.aplicar_upgrade(lojaRef.listaFuncionarios[n])
 		for n in filhosJogador.size():
-			if filhosJogador[n] is Funcionario and is_instance_valid(filhosJogador[n]):
-				upgrade.aplicar_upgrade(filhosJogador[n])
-				# Efeito visual no funcionário (dourado)
-				var VisualEffects = preload("res://scripts/visual_effects.gd")
-				VisualEffects.flash_node(filhosJogador[n], Color.GOLD, 0.5)
-				VisualEffects.pulse_node(filhosJogador[n], 1.2, 0.4)
-				if is_instance_valid(filhosJogador[n].get_parent()):
-					VisualEffects.create_upgrade_particles(filhosJogador[n].get_parent(), filhosJogador[n].global_position, Color.GOLD)
+				if is_instance_valid(filhosJogador[n]) and filhosJogador[n] is Funcionario:
+					upgrade.aplicar_upgrade(filhosJogador[n])
+					# Efeito visual no funcionário (dourado)
+					var VisualEffects = preload("res://scripts/visual_effects.gd")
+					# Flash e pulse juntos
+					VisualEffects.flash_node(filhosJogador[n], Color.GOLD, 0.5)
+					await get_tree().create_timer(0.05).timeout  # Pequeno delay para não sobrepor
+					if is_instance_valid(filhosJogador[n]):
+						VisualEffects.pulse_node(filhosJogador[n], 1.2, 0.4)
+					if is_instance_valid(filhosJogador[n]) and is_instance_valid(filhosJogador[n].get_parent()):
+						VisualEffects.create_upgrade_particles(filhosJogador[n].get_parent(), filhosJogador[n].global_position, Color.GOLD)
 	pass
 
 func definir_Nome(novoNome: String):
@@ -220,10 +226,12 @@ func factory_funcionario(dados: FuncionarioData):
 	EventBus.FUNCIONARIO_ENTROU_NA_CENA.emit(funcionario)
 	
 	EventBus.MEDO_MAXIMO_ATINGIDO.connect(func(funcionario_atual):
-		atualizar_dados(funcionario_atual)
-		alterar_fama(-0.1))
+		if is_instance_valid(funcionario_atual):
+			atualizar_dados(funcionario_atual)
+			alterar_fama(-0.1))
 	EventBus.PEDIR_RETORNO_PARA_INVENTARIO.connect(func(f):
-		retornar_funcionario_para_inventario(f))
+		if is_instance_valid(f):
+			retornar_funcionario_para_inventario(f))
 
 	add_child(funcionario)
 	funcionario.setup(dados)
@@ -310,14 +318,17 @@ func factory_maquina(dados: MaquinaData):
 	var maquina = preload("res://cenas/maquina.tscn").instantiate()
 	maquina.name = dados.nome
 	
-	maquina.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionario, renda): 
-		reduz_maquinas_total(maquina)
-		_deletar_funcionario(funcionario)
+	maquina.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionario, renda):
+		if is_instance_valid(maquina):
+			reduz_maquinas_total(maquina)
+		if is_instance_valid(funcionario):
+			_deletar_funcionario(funcionario)
 		alterar_dinheiro(renda))
 	
 	maquina.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (renda, funcionario):
 		print("FUNCIONARIO PAROU DE OPERAR")
-		reduz_maquinas_total(maquina)
+		if is_instance_valid(maquina):
+			reduz_maquinas_total(maquina)
 		alterar_dinheiro(renda)
 		if is_instance_valid(funcionario):
 			funcionario.atualizarMedo())
@@ -365,14 +376,28 @@ func _deletar_funcionario(funcionario: Funcionario):
 	if not is_instance_valid(funcionario):
 		return
 	
-	var area = funcionario.get_node("Area2D")
-	area.set_deferred("input_pickable", false)
-	area.set_deferred("monitorable", false)
-	area.set_deferred("monitoring", false)
+	# Valida Area2D antes de desabilitar
+	if funcionario.has_node("Area2D"):
+		var area = funcionario.get_node("Area2D")
+		area.set_deferred("input_pickable", false)
+		area.set_deferred("monitorable", false)
+		area.set_deferred("monitoring", false)
+	
+	# Valida se os nós filhos existem antes de acessá-los
+	if funcionario.get_child_count() < 4:
+		push_warning("Funcionário não possui estrutura esperada de nós filhos")
+		deletar_funcionario(funcionario)
+		return
 	
 	var sprite : Sprite2D = funcionario.get_child(0)
 	var animation : AnimatedSprite2D = funcionario.get_child(1)
 	var ui = funcionario.get_child(3)
+	
+	if not ui.get_child_count() > 0:
+		push_warning("UI não possui botão filho")
+		deletar_funcionario(funcionario)
+		return
+		
 	var button = ui.get_child(0)
 	
 	button.visible = false
@@ -383,8 +408,11 @@ func _deletar_funcionario(funcionario: Funcionario):
 	animation.play("morte")
 	
 	var on_animation_finished = func():
-		print(funcionario.nome, " - animação de morte concluída")
-		deletar_funcionario(funcionario)
+		if is_instance_valid(funcionario):
+			print(funcionario.nome, " - animação de morte concluída")
+			deletar_funcionario(funcionario)
+		else:
+			push_warning("Funcionário foi liberado antes da animação terminar")
 	
 	if not animation.animation_finished.is_connected(on_animation_finished):
 		animation.animation_finished.connect(on_animation_finished, CONNECT_ONE_SHOT)

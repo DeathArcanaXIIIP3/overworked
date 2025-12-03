@@ -3,11 +3,10 @@
 [ext_resource type="Script" uid="uid://6px6di2rh7kx" path="res://scripts/bases/jogador_gui.gd" id="1_48ihe"]
 [ext_resource type="Script" uid="uid://cn8ceskvibu71" path="res://scripts/bases/loja.gd" id="2_6rma8"]
 [ext_resource type="Texture2D" uid="uid://bvaf3xipxaynw" path="res://sprites/tilemap/chão.png" id="2_gbqnq"]
-[ext_resource type="Texture2D" uid="uid://dp0kvq6mljk41" path="res://iconred.png" id="2_gkm73"]
 [ext_resource type="Script" uid="uid://tfescw4dkdgs" path="res://scripts/bases/inventario.gd" id="2_snhpb"]
 [ext_resource type="Texture2D" uid="uid://3e51yv4ebmp5" path="res://sprites/tilemap/chão160.png" id="3_cgvsn"]
 [ext_resource type="Texture2D" uid="uid://bfkk0kfl71f0i" path="res://sprites/tilemap/chão160paia.png" id="4_cgvsn"]
-[ext_resource type="Texture2D" uid="uid://dno807oehesut" path="res://icon.svg" id="5_g6qo0"]
+[ext_resource type="Texture2D" uid="uid://pcbox5l5d2wg" path="res://sprites/upgrades/icone_upgrades.png" id="5_vq5ut"]
 [ext_resource type="Script" uid="uid://xjcdnfxrs7on" path="res://cenas/tooltips.gd" id="6_o8asf"]
 [ext_resource type="Script" uid="uid://dfqnfj45fj4tv" path="res://scripts/bases/workers_status.gd" id="7_f1mmu"]
 [ext_resource type="Texture2D" uid="uid://cdwtywkb5ep2l" path="res://sprites/Sprites_Lorenzo/coineditada.png" id="8_coin"]
@@ -17,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://hdmpg54gaeue" path="res://sprites/Sprites_Lorenzo/relogio_editada.png" id="11_relogio"]
 [ext_resource type="Texture2D" uid="uid://81oihyrlwcb" path="res://sprites/Sprites_Lorenzo/calendario_editada.png" id="12_calendario"]
 [ext_resource type="Texture2D" uid="uid://bcsqwuwgdqfff" path="res://sprites/Inventario_loja/Versãofinal_inventario.png" id="16_5xhth"]
+[ext_resource type="Texture2D" uid="uid://bh7ino5wu6clm" path="res://sprites/upgrades/icone_meta_editado.png" id="16_vq5ut"]
 [ext_resource type="Texture2D" uid="uid://co01mqskq1t2e" path="res://sprites/tilemap/lojateste1.png" id="18_vq5ut"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5xhth"]
@@ -3173,12 +3173,12 @@ layer_0/tile_data = PackedInt32Array(3997696, 4, 0, 4063232, 4, 1, 4128768, 4, 2
 
 [node name="SwapButton" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 1842.0
-offset_top = 988.0
-offset_right = 1970.0
-offset_bottom = 1116.0
-scale = Vector2(0.5, 0.5)
-texture_normal = ExtResource("2_gkm73")
+offset_left = 1825.9999
+offset_top = 914.99994
+offset_right = 2436.0
+offset_bottom = 1526.0
+scale = Vector2(0.13491657, 0.13491657)
+texture_normal = ExtResource("5_vq5ut")
 
 [node name="Loja" type="TabContainer" parent="."]
 layout_mode = 0
@@ -3324,7 +3324,7 @@ text = "1"
 
 [node name="CotaIconGUI" type="TextureRect" parent="HUD"]
 layout_mode = 2
-texture = ExtResource("5_g6qo0")
+texture = ExtResource("16_vq5ut")
 stretch_mode = 4
 
 [node name="Cota" type="Label" parent="HUD"]

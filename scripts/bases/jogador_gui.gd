@@ -183,7 +183,11 @@ func disable_swap_button():
 func calendarManager(timer: Timer):
 	if data.Hora >= 24:
 		data.Hora = 0
-		timer.queue_free()
+		
+		# Valida se timer ainda existe antes de liberar
+		if is_instance_valid(timer):
+			timer.queue_free()
+		
 		EventBus.FIM_DO_DIA.emit()
 		atualizar_dia()
 		
@@ -211,7 +215,9 @@ func start_New_Day():
 	timer.start(5.0)
 	timer.timeout.emit()
 	timer.timeout.connect(self.atualizar_hora)
-	timer.timeout.connect(func(): self.calendarManager(timer))
+	timer.timeout.connect(func():
+		if is_instance_valid(timer):
+			self.calendarManager(timer))
 	pass
 	
 func atualizar_hora():
@@ -251,22 +257,31 @@ func animate_upgrade_icon(icon: TextureRect, delay: float = 0.0):
 	tween.set_parallel(true)
 	
 	# Escala pop
-	icon.scale = Vector2(0.5, 0.5)
+	#icon.scale = Vector2(0.5, 0.5)
 	tween.tween_property(icon, "scale", Vector2(1.2, 1.2), 0.3)
 	
 	# Rotação leve
 	tween.tween_property(icon, "rotation", deg_to_rad(360), 0.5)
 	
 	# Brilho
-	tween.tween_property(icon, "modulate", Color(1.5, 1.5, 1.5, 1.0), 0.2)
+	#tween.tween_property(icon, "modulate", Color(1.5, 1.5, 1.5, 1.0), 0.2)
 	
 	# Volta ao normal
 	tween.chain()
 	tween.set_parallel(true)
-	tween.tween_property(icon, "scale", Vector2(1.0, 1.0), 0.2)
-	tween.tween_property(icon, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.2)
+	#tween.tween_property(icon, "scale", Vector2(1.0, 1.0), 0.2)
+	#tween.tween_property(icon, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.2)
 
 func connectWorkerToGUI(funcionario: Funcionario):
+	# Valida se funcionário existe antes de conectar sinais
+	if not is_instance_valid(funcionario):
+		push_warning("Tentativa de conectar GUI a funcionário inválido")
+		return
+	
+	if not funcionario.has_node("Area2D"):
+		push_warning("Funcionário não possui Area2D")
+		return
+		
 	var collision = funcionario.get_node("Area2D")
 	
 	var on_mouse_entered = func():
@@ -281,15 +296,15 @@ func connectWorkerToGUI(funcionario: Funcionario):
 	collision.mouse_exited.connect(on_mouse_exited)
 	
 	EventBus.FUNCIONARIO_MORREU_NA_MAQUINA.connect(func (funcionarioAtual, _renda):
-		if funcionarioAtual == funcionario:
+		if is_instance_valid(funcionario) and funcionarioAtual == funcionario:
 			$Workers_Status.visible = false)
 	
 	EventBus.FUNCIONARIO_PAROU_DE_OPERAR_MAQUINA.connect(func (_renda,funcionarioAtual):
-		if funcionarioAtual == funcionario:
+		if is_instance_valid(funcionario) and funcionarioAtual == funcionario:
 			$Workers_Status.visible = false)
 	
 	EventBus.MEDO_MAXIMO_ATINGIDO.connect(func (funcionarioAtual):
-		if funcionarioAtual == funcionario:
+		if is_instance_valid(funcionario) and funcionarioAtual == funcionario:
 			$Workers_Status.visible = false)
 
 func toogleTooltip(dados: Resource):
@@ -326,6 +341,11 @@ func toogleTooltip(dados: Resource):
 
 func toogleWorkerStatus(funcionario: Funcionario):
 	if not is_instance_valid(funcionario):
+		$Workers_Status.visible = false
+		return
+	
+	# Valida que funcionário ainda tem as propriedades necessárias
+	if not funcionario.has_method("getProdutividade") or not funcionario.has_method("getTaxaDeSobrevivencia"):
 		$Workers_Status.visible = false
 		return
 	
@@ -373,7 +393,7 @@ func animate_upgrade_purchase():
 	
 	# Pulso de cor dourada
 	var original_modulate = upgrades_container.modulate
-	tween.tween_property(upgrades_container, "modulate", Color(1.5, 1.3, 0.5, 1.0), 0.15)
+	#tween.tween_property(upgrades_container, "modulate", Color(1.5, 1.3, 0.5, 1.0), 0.15)
 	tween.tween_property(upgrades_container, "modulate", original_modulate, 0.3)
 	
 	# Anima cada upgrade individualmente com delay

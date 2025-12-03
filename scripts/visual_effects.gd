@@ -2,6 +2,11 @@ extends Node
 
 # Cria um efeito de partículas temporário em uma posição
 static func create_upgrade_particles(parent: Node, position: Vector2, color: Color = Color.GOLD):
+	# Valida se o parent existe antes de criar partículas
+	if not is_instance_valid(parent):
+		push_warning("Parent inválido para criar partículas")
+		return
+	
 	var particles = CPUParticles2D.new()
 	particles.position = position
 	particles.emitting = true
@@ -44,10 +49,13 @@ static func create_color_gradient(base_color: Color) -> Gradient:
 
 # Efeito de flash em um nó
 static func flash_node(node: Node, color: Color = Color.WHITE, duration: float = 0.3):
-	if not node is CanvasItem:
+	if not is_instance_valid(node) or not node is CanvasItem:
 		return
 	
-	var original_modulate = node.modulate
+	# Força modulate para branco antes de começar (cor padrão)
+	var original_modulate = Color.WHITE
+	node.modulate = original_modulate
+	
 	var tween = node.create_tween()
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.set_ease(Tween.EASE_IN_OUT)
@@ -57,6 +65,9 @@ static func flash_node(node: Node, color: Color = Color.WHITE, duration: float =
 
 # Efeito de pulso em um nó
 static func pulse_node(node: Node, scale_multiplier: float = 1.3, duration: float = 0.4):
+	if not is_instance_valid(node):
+		return
+		
 	if not node is Node2D and not node is Control:
 		return
 	
